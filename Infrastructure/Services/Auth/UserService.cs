@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using System;
 using Application.Interfaces.Features.Auth;
-using Domain.Constants;
 using Domain.Entities;
 using Domain.Exceptions;
 using Domain.Models.Auth;
