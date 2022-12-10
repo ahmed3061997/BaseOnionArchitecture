@@ -2,7 +2,7 @@
 using AutoMapper;
 using System.Reflection;
 
-namespace Domain.Configurations.Mapping
+namespace Application.Configurations.Mapping
 {
     public class AutoMapperProfile : Profile
     {

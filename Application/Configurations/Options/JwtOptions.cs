@@ -1,4 +1,4 @@
-﻿namespace Domain.Configurations.Options
+﻿namespace Application.Configurations.Options
 {
     public class JwtOptions
     {

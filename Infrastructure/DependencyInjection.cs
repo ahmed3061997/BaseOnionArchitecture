@@ -5,7 +5,7 @@ using System.Text;
 using Application.Interfaces.Persistence;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
-using Domain.Configurations.Options;
+using Application.Configurations.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Infrastructure.Authentication;
