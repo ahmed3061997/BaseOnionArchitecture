@@ -1,0 +1,20 @@
+<VSTemplate xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Version="2.0.0" Type="ProjectGroup">
+    <TemplateData>
+        <Name>Clean Architecture</Name>
+        <Description>A template solution using clean architecture layers.</Description>
+        <Icon>Icon.ico</Icon>
+        <ProjectType>CSharp</ProjectType>
+    </TemplateData>
+<TemplateContent>
+    <ProjectCollection>
+        <SolutionFolder Name="src">
+            <ProjectTemplateLink ProjectName="$projectname$.Domain" CopyParameters="true">Domain\MyTemplate.vstemplate</ProjectTemplateLink>
+            <ProjectTemplateLink ProjectName="$projectname$.Application" CopyParameters="true">Application\MyTemplate.vstemplate</ProjectTemplateLink>
+            <ProjectTemplateLink ProjectName="$projectname$.Infrastructure" CopyParameters="true">Infrastructure\MyTemplate.vstemplate</ProjectTemplateLink>
+            <ProjectTemplateLink ProjectName="$projectname$.API" CopyParameters="true">API\MyTemplate.vstemplate</ProjectTemplateLink>
+        </SolutionFolder>
+        <SolutionFolder Name="tests">
+        </SolutionFolder>
+        </ProjectCollection>
+    </TemplateContent>
+</VSTemplate>
