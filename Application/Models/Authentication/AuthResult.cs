@@ -1,4 +1,4 @@
-﻿namespace Domain.Models.Auth
+﻿namespace Application.Models.Authentication
 {
     public class AuthResult
     {

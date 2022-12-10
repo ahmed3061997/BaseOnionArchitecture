@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 using Application.Interfaces.Persistence;
 using Infrastructure.Persistence;
-using Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Domain.Configurations.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Infrastructure.Authentication;
 
 namespace Infrastructure
 {
@@ -24,7 +24,7 @@ namespace Infrastructure
             services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
 
             // Identity
-            services.AddIdentity<User, IdentityRole>(opt =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
             {
                 opt.Password.RequiredLength = 7;
                 opt.Password.RequireDigit = false;

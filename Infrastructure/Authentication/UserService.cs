@@ -1,22 +1,20 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Application.Interfaces.Features.Auth;
-using Domain.Entities;
-using Domain.Exceptions;
-using Domain.Models.Auth;
-using Domain.Models;
+using Application.Models.Authentication;
+using Application.Interfaces.Authentication;
+using Application.Exceptions;
 
-namespace Infrastructure.Services.Auth
+namespace Infrastructure.Authentication
 {
     public class UserService : IUserService
     {
-        private UserManager<User> userManager;
-        private SignInManager<User> signInManager;
+        private UserManager<ApplicationUser> userManager;
+        private SignInManager<ApplicationUser> signInManager;
         private readonly ITokenService tokenService;
         private readonly IMapper mapper;
 
-        public UserService(UserManager<User> userManager,
-            SignInManager<User> signInManager,
+        public UserService(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ITokenService tokenService,
             IMapper mapper)
         {
@@ -28,7 +26,7 @@ namespace Infrastructure.Services.Auth
 
         public async Task<JwtToken> CreateUser(UserDto user, string password)
         {
-            var dbUser = mapper.Map<User>(user);
+            var dbUser = mapper.Map<ApplicationUser>(user);
             var result = await userManager.CreateAsync(dbUser, password);
             if (result.Succeeded) throw new CreateUserException(result.Errors.Select(x => x.Description));
             return await tokenService.GenerateToken(dbUser);

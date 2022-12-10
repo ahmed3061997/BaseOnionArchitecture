@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Domain.Exceptions
+namespace Application.Exceptions
 {
     public class AuthenticationException : Exception
     {

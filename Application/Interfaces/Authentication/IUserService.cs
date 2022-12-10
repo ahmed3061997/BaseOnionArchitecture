@@ -1,7 +1,6 @@
-﻿using Domain.Models;
-using Domain.Models.Auth;
+﻿using Application.Models.Authentication;
 
-namespace Application.Interfaces.Features.Auth
+namespace Application.Interfaces.Authentication
 {
     public interface IUserService
     {

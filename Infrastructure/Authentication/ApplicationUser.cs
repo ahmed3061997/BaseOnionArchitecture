@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Domain.Entities
+namespace Infrastructure.Authentication
 {
-    public class User : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Username { get; set; }
         public virtual List<RefreshToken> RefreshTokens { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Domain.Constants
+﻿namespace Application.Constants
 {
     public static class Cookies
     {

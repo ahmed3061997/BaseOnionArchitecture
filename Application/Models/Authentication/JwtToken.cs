@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Domain.Models.Auth
+namespace Application.Models.Authentication
 {
     public class JwtToken
     {

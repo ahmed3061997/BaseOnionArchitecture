@@ -6,26 +6,24 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Application.Interfaces.Features.Auth;
 using Domain.Configurations.Options;
-using Domain.Constants;
-using Domain.Entities;
-using Domain.Models.Auth;
+using Application.Constants;
+using Application.Models.Authentication;
 
-namespace Infrastructure.Services.Auth
+namespace Infrastructure.Authentication
 {
     public class JwtTokenService : ITokenService
     {
-        private readonly UserManager<User> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
         private readonly JwtOptions jwt;
 
-        public JwtTokenService(UserManager<User> userManager, IOptions<JwtOptions> jwt)
+        public JwtTokenService(UserManager<ApplicationUser> userManager, IOptions<JwtOptions> jwt)
         {
             this.userManager = userManager;
             this.jwt = jwt.Value;
         }
 
-        public async Task<JwtToken> GenerateToken(User user)
+        public async Task<JwtToken> GenerateToken(ApplicationUser user)
         {
             var userClaims = await userManager.GetClaimsAsync(user);
             var roles = await userManager.GetRolesAsync(user);

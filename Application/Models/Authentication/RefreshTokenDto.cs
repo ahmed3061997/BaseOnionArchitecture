@@ -1,16 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Domain.Entities
+﻿namespace Application.Models.Authentication
 {
-    [Owned]
-    public class RefreshToken
+    public class RefreshTokenDto
     {
         public Guid Id { get; set; }
         public string Token { get; set; }
         public DateTime ExpiresOn { get; set; }
-        public bool IsExpired => DateTime.UtcNow >= ExpiresOn;
+        public bool IsExpired { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? RevokedOn { get; set; }
-        public bool IsActive => RevokedOn == null && !IsExpired;
+        public bool IsActive { get; set; }
     }
 }
