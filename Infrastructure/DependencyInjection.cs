@@ -1,40 +1,45 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text;
-using Application.Interfaces.Persistence;
-using Infrastructure.Persistence;
-using Microsoft.AspNetCore.Identity;
-using Application.Configurations.Options;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Infrastructure.Authentication;
+using System.Text;
+using Application.Interfaces.Culture;
+using Application.Interfaces.Emails;
+using Application.Interfaces.Persistence;
+using Application.Interfaces.Users;
+using Domain.Entities.Users;
+using Infrastructure.Features.Culture;
+using Infrastructure.Features.Emails;
+using Infrastructure.Features.Users;
+using Infrastructure.Persistence;
 
 namespace Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            // ApplicationDbContext
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                    builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+            AddDbContext(services, configuration);
+            AddIdentity(services);
+            AddJwt(services, configuration);
+            AddServices(services);
+            return services;
+        }
 
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        private static void AddServices(IServiceCollection services)
+        {
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITokenService, JwtTokenService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<ICurrentCultureService, CurrentCultureService>();
+            services.AddScoped<IEmailSender, EmailSender>();
+        }
 
-            // Identity
-            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
-            {
-                opt.Password.RequiredLength = 7;
-                opt.Password.RequireDigit = false;
-                opt.Password.RequireUppercase = false;
-                opt.User.RequireUniqueEmail = true;
-            })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            // Jwt Authentication
-            services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
+        private static void AddJwt(IServiceCollection services, IConfiguration configuration)
+        {
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -56,8 +61,29 @@ namespace Infrastructure
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+        }
 
-            return services;
+        private static void AddIdentity(IServiceCollection services)
+        {
+            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+            {
+                opt.Password.RequiredLength = 7;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequireUppercase = false;
+                opt.User.RequireUniqueEmail = true;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+        }
+
+        private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+                            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                                builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+
+            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+            services.AddScoped<ApplicationDbContextInitializer>();
         }
     }
 }

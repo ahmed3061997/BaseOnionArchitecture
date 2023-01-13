@@ -1,19 +1,22 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using MediatR;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Application.Interfaces.Persistence;
-using Infrastructure.Authentication;
+using Domain.Entities.Users;
+using Infrastructure.Common;
 
 namespace Infrastructure.Persistence
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationUserRole, string>, IApplicationDbContext
     {
-        public ApplicationDbContext()
-        {
-        }
+        private readonly IMediator mediator;
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationDbContext(
+            IMediator mediator,
+            DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            this.mediator = mediator;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -21,9 +24,10 @@ namespace Infrastructure.Persistence
             base.OnModelCreating(builder);
         }
 
-        public async Task<int> SaveChangesAsync()
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            return await base.SaveChangesAsync();
+            await mediator.DispatchDomainEvents(this);
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }
