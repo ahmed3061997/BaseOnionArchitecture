@@ -1,0 +1,32 @@
+﻿{
+  "ar": {
+    "arabic": "عربي",
+    "english": "إنجليزي",
+    "not_found": "الصفحة غير موجودة :(",
+    "not_found_msg": "نعتذر! 😖 لم يتم العثور على عنوان URL المطلوب على هذا الخادم.",
+    "search": "بحث",
+    "My_Profile": "الملف الشخصي",
+    "Settings": "الاعدادات",
+    "Logout": "تسجيل الخروج",
+    "Actions": "أجراءات",
+    "Yes": "نعم",
+    "No": "لا",
+    "On": "مفعل",
+    "Off": "معطل"
+  },
+  "en": {
+    "arabic": "Arabic",
+    "english": "English",
+    "not_found": "Page Not Found :(",
+    "not_found_msg": "Oops! 😖 The requested URL was not found on this server.",
+    "search": "Search",
+    "My_Profile": "My Profile",
+    "Settings": "Settings",
+    "Logout": "Log Out",
+    "Actions": "Actions",
+    "Yes": "Yes",
+    "No": "No",
+    "On": "On",
+    "Off": "Off"
+  }
+}

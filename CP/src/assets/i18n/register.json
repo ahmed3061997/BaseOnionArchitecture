@@ -1,0 +1,20 @@
+﻿{
+  "ar": {
+    "register_title": "التسجيل للحصول على حساب صاحب متجر",
+    "register_subtitle": "إنشاء وإدارة متاجرك",
+    "register": "تسجيل الحساب",
+    "have_account": "هل لديك حساب؟",
+    "login_instead": "قم بتسجيل الدخول بدلاً من ذلك",
+    "enter_username": "ادخل اسم المستخدم",
+    "enter_email": "ادخل البريد الالكتروني"
+  },
+  "en": {
+    "register_title": "Register for a Shop Owner account",
+    "register_subtitle": "Create and manage your shops",
+    "register": "Register Account",
+    "have_account": "Already have an account?",
+    "login_instead": "Log in instead",
+    "enter_username": "Enter your username",
+    "enter_email": "Enter your email"
+  }
+}

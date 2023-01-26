@@ -1,0 +1,32 @@
+﻿{
+  "ar": {
+    "login": "تسجيل الدخول",
+    "username": "اسم المستخدم",
+    "email": "البريد الالكتروني",
+    "password": "كلمة المرور",
+    "confirm_password": "تاكيد كلمة المرور",
+    "create_account": "انشاء حساب",
+    "login_title": "مرحبًا بكم في {0}! 👋",
+    "login_subtitle": "يرجى تسجيل الدخول إلى حسابك والبدء في إدارة متاجرك",
+    "email_username": "البريد الالكتروني او اسم المستخدم",
+    "enter_username_email": "أدخل بريدك الإلكتروني أو اسم المستخدم",
+    "forget_password": "هل نسيت كلمة السر؟",
+    "remember_me": "تذكرنى",
+    "new_to_our_platform": "جديد على منصتنا؟"
+  },
+  "en": {
+    "login": "Log In",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirm_password": "Confirm Password",
+    "create_account": "Create an account",
+    "login_title": "Welcome to {0}! 👋",
+    "login_subtitle": "Please sign-in to your account and start the manage your shops",
+    "email_username": "Email or Username",
+    "enter_username_email": "Enter your email or username",
+    "forget_password": "Forgot Password?",
+    "remember_me": "Remember Me",
+    "new_to_our_platform": "New on our platform?"
+  }
+}

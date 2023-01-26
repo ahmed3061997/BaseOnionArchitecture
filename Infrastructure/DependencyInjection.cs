@@ -65,7 +65,7 @@ namespace Infrastructure
 
         private static void AddIdentity(IServiceCollection services)
         {
-            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+            services.AddIdentity<ApplicationUser, ApplicationUserRole>(opt =>
             {
                 opt.Password.RequiredLength = 7;
                 opt.Password.RequireDigit = false;

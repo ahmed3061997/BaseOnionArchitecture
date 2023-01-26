@@ -1,0 +1,12 @@
+﻿{
+  "ar": {
+    "Verified": "تم التحقق",
+    "Blocked": "محظور",
+    "Online": "متصل"
+  },
+  "en": {
+    "Verified": "Verified",
+    "Blocked": "Blocked",
+    "Online": "Online"
+  }
+}

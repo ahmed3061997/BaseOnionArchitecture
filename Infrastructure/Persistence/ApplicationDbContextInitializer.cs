@@ -16,9 +16,9 @@ namespace Infrastructure.Persistence
         private readonly ILogger<ApplicationDbContextInitializer> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<ApplicationUserRole> _roleManager;
 
-        public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationUserRole> roleManager)
         {
             _logger = logger;
             _context = context;
@@ -58,7 +58,7 @@ namespace Infrastructure.Persistence
             // Default roles
             foreach (var role in Roles.GetRoles())
                 if (!_roleManager.Roles.Any(r => r.Name == role))
-                    await _roleManager.CreateAsync(new IdentityRole(role));
+                    await _roleManager.CreateAsync(new ApplicationUserRole(role));
         }
     }
 }
