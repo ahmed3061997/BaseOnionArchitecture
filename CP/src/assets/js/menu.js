@@ -72,6 +72,8 @@ class Menu {
                 if (toggleLink.getAttribute('data-hover') !== 'true') {
                     this.toggle(toggleLink)
                 }
+            } else {
+                window.Helpers.setCollapsed(true, true);
             }
         }
         if (window.Helpers.isMobileDevice) this._el.addEventListener('click', this._evntElClick)
