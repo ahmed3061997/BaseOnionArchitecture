@@ -19,6 +19,17 @@
   text-transform: lowercase;
 }
 
+.menu-language-selector {
+    position: absolute;
+    right: 0;
+    z-index: 100000;
+}
+
+[dir=rtl] .menu-language-selector {
+    right: unset;
+    left: 0;
+}
+
 /* ! For .layout-navbar-fixed added fix padding top tpo .layout-page */
 /* Detached navbar */
 .layout-navbar-fixed .layout-wrapper:not(.layout-horizontal):not(.layout-without-menu) .layout-page {

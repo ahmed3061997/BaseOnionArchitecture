@@ -7,62 +7,37 @@
             <i class="bx bx-chevron-left bx-sm align-middle"></i>
         </a>
     </div>
-
+    <div class="menu-language-selector mt-2 me-2 p-3">
+        <app-language-selector></app-language-selector>
+    </div>
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-        <li class="menu-item active">
-            <a href="/Settings/Dashboard/Index" class="menu-link">
+        <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+            true}">
+            <a [routerLink]="['/']" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
                 <div i18n>Dashboard</div>
             </a>
         </li>
 
-        <li class="menu-item">
-            <a href="#" class="menu-link menu-toggle">
+        <li class="menu-item" [routerLinkActive]="['active', 'open']">
+            <a href="#" [routerLink]="['/users']" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div i18n>Manage Users</div>
             </a>
 
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="/Settings/Users/Index" class="menu-link">
+                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <a [routerLink]="['/users']" class="menu-link">
                         <div i18n>Users</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="/Settings/Roles/Index" class="menu-link">
+                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <a [routerLink]="['/users/roles']" class="menu-link">
                         <div i18n>Roles</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        <li class="menu-item">
-            <a href="#" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-store"></i>
-                <div i18n>Market</div>
-            </a>
-
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="/Settings/Shops/Index" class="menu-link">
-                        <div i18n>Shops</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="/Settings/Branches/Index" class="menu-link">
-                        <div i18n>Branches</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="/Settings/Products/Index" class="menu-link">
-                        <div i18n>Products</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="/Settings/Specifications/Index" class="menu-link">
-                        <div i18n>Specifications</div>
                     </a>
                 </li>
             </ul>

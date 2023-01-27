@@ -36,6 +36,7 @@
               "src/assets/js/helpers.js",
               "src/assets/js/menu.js",
               "src/assets/js/main.js",
+              "./node_modules/perfect-scrollbar/dist/perfect-scrollbar.min.js",
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/@popperjs/core/dist/umd/popper.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.min.js"

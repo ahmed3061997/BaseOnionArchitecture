@@ -5,9 +5,9 @@ import { FooterComponent } from './footer/footer.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { LayoutComponent } from './layout/layout.component';
-import { PlaceholderModule } from '@coreui/angular';
 import { SharedRoutingModule } from './shared-routing.module';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { LanguageSelectorComponent } from './language-selector/language-selector.component';
 
 
 
@@ -17,12 +17,12 @@ import { NotFoundComponent } from './not-found/not-found.component';
     SideMenuComponent,
     SearchBarComponent,
     LayoutComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    LanguageSelectorComponent
   ],
   imports: [
     SharedRoutingModule,
     CommonModule,
-    PlaceholderModule,
   ],
   exports: [
     LayoutComponent

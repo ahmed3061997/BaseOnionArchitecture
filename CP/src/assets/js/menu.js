@@ -142,11 +142,11 @@ class Menu {
     static _findParent(el, cls, throwError = true) {
         if (el.tagName.toUpperCase() === 'BODY') return null
         el = el.parentNode
-        while (el.tagName.toUpperCase() !== 'BODY' && !el.classList.contains(cls)) {
+        while (el != null && el.tagName.toUpperCase() !== 'BODY' && !el.classList.contains(cls)) {
             el = el.parentNode
         }
 
-        el = el.tagName.toUpperCase() !== 'BODY' ? el : null
+        el = el?.tagName.toUpperCase() !== 'BODY' ? el : null
 
         if (!el && throwError) throw new Error(`Cannot find \`.${cls}\` parent element`)
 

@@ -17,7 +17,7 @@ function requiredParam(name) {
 
 const Helpers = {
     // Root Element
-    ROOT_EL: typeof window !== 'undefined' ? document.documentElement : null,
+    ROOT_EL: typeof window !== 'undefined' ? document.body : null,
 
     // Large screens breakpoint
     LAYOUT_BREAKPOINT: 1200,

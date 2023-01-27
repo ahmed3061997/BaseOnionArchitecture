@@ -6133,6 +6133,7 @@
     .placeholder-glow .placeholder {
         -webkit-animation: placeholder-glow 2s ease-in-out infinite;
         animation: placeholder-glow 2s ease-in-out infinite;
+        border-radius: 15px;
     }
 
     @-webkit-keyframes placeholder-glow {

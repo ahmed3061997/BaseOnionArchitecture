@@ -4,11 +4,10 @@
 @import "/src/assets/css/theme-default.rtl.scss";
 @import "/src/assets/css/demo.css";
 @import "/src/assets/fonts/boxicons.css";
-@import '~@coreui/coreui/dist/css/coreui.min.css';
-@import '../node_modules/animate.css/animate.css';
+@import "/src/assets/libs/perfect-scrollbar/perfect-scrollbar.css";
+@import '/node_modules/animate.css/animate.css';
 @import '/src/assets/css/pages/page-auth.css';
 @import '/src/assets/css/pages/page-misc.css';
-
-.placeholder-glow .placeholder {
-    border-radius: 15px;
-}
+@import "/node_modules/flag-icons/css/flag-icons.min.css";
+@import "/node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "/node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
