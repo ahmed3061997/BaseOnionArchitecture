@@ -1,9 +1,4 @@
 ﻿using MimeKit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.Models.Common
 {
@@ -12,7 +7,7 @@ namespace Application.Models.Common
         public List<MailboxAddress> To { get; set; }
         public string Subject { get; set; }
         public string Content { get; set; }
-        public bool IsHtml { get; set; }  
+        public bool IsHtml { get; set; }
 
         public EmailMessage(IDictionary<string, string> to, string subject, string content, bool isHtml = true)
         {

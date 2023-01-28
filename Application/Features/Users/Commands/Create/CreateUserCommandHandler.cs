@@ -1,18 +1,11 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Application.Common.Responses;
-using Application.Common.Constants;
 using Application.Interfaces.Users;
 using Application.Models.Users;
 using Domain.Events;
 
-namespace Application.Features.Users.Commands.CreateUser
+namespace Application.Features.Users.Commands.Create
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, IResultResponse<AuthResult>>
     {
@@ -34,7 +27,7 @@ namespace Application.Features.Users.Commands.CreateUser
         {
             var user = mapper.Map<UserDto>(request);
             var result = await userService.Create(user, request.Password);
-            await publisher.Publish(new UserCreatedEvent(user.Id, user.Email, request.Role, request.ConfirmEmailUrl));
+            await publisher.Publish(new UserCreatedEvent(result.User.Id, result.User.Email, request.Role, request.ConfirmEmailUrl));
             return new ResultResponse<AuthResult>() { Result = true, Value = result };
         }
     }

@@ -1,12 +1,10 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Options;
 using System.Net;
 using System.Text.Json;
 using Application.Common.Responses;
-using Application.Exceptions;
 using Localization;
+using Application.Common.Exceptions;
 
 namespace API.Middlewares
 {

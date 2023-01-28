@@ -1,8 +1,4 @@
-﻿using System.Runtime.Serialization;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace Application.Common.Responses
+﻿namespace Application.Common.Responses
 {
     public class Response : IResponse
     {

@@ -1,7 +1,5 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Options;
 using System.Web;
 using Application.Common.Responses;
 using Application.Interfaces.Emails;

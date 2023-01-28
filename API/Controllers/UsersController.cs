@@ -1,13 +1,7 @@
-﻿using Azure.Core;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Application.Common.Responses;
-using Application.Common.Constants;
-using Application.Features.Users.Commands.CreateUser;
-using Application.Features.Users.Commands.Login;
-using Application.Features.Users.Commands.RefreshToken;
 using API.Common;
 using Application.Features.Users.Queries.GetCurrentUser;
 

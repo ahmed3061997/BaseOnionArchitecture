@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Application.Features.Users.Commands.CreateUser;
 using Application.Models.Users;
 using Domain.Entities.Users;
+using Application.Features.Users.Commands.Create;
 
 namespace Application.Common.Configurations.Mapping
 {

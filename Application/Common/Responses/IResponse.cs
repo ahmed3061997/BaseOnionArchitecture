@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Application.Common.Responses
+﻿namespace Application.Common.Responses
 {
     public interface IResponse
     {

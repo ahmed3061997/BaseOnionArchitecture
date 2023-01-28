@@ -1,16 +1,10 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+using Application.Common.Constants;
 using Application.Common.Extensions;
 using Application.Interfaces.Users;
 using Application.Models.Users;
 using Domain.Entities.Users;
-using Application.Common.Constants;
+using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Features.Users
 {

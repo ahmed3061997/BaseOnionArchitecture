@@ -117,8 +117,77 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="A user with this login already exists." xml:space="preserve">
+    <value>يوجد بالفعل مستخدم مع تسجيل الدخول هذا.</value>
+  </data>
+  <data name="An unknown failure has occurred." xml:space="preserve">
+    <value>حدث فشل غير معروف.</value>
+  </data>
+  <data name="Can not delete a used entity." xml:space="preserve">
+    <value>لا يمكن حذف كائن مستخدم.</value>
+  </data>
+  <data name="Code used before." xml:space="preserve">
+    <value>الرمز مستخدم من قبل.</value>
+  </data>
+  <data name="Email '{0}' is already taken." xml:space="preserve">
+    <value>البريد الإلكتروني "{0}" مستخدم بالفعل.</value>
+  </data>
+  <data name="Email '{0}' is invalid." xml:space="preserve">
+    <value>البريد الإلكتروني "{0}" غير صالح.</value>
+  </data>
+  <data name="Incorrect password." xml:space="preserve">
+    <value>كلمة سر خاطئة.</value>
+  </data>
+  <data name="Invalid token." xml:space="preserve">
+    <value>رمز غير صالح.</value>
+  </data>
   <data name="Invalid Username or Password" xml:space="preserve">
     <value>خطأ في اسم المستخدم أو كلمة مرور</value>
+  </data>
+  <data name="Lockout is not enabled for this user." xml:space="preserve">
+    <value>لم يتم تمكين القفل لهذا المستخدم.</value>
+  </data>
+  <data name="Name used before." xml:space="preserve">
+    <value>الاسم مستخدم من قبل.</value>
+  </data>
+  <data name="Optimistic concurrency failure, object has been modified." xml:space="preserve">
+    <value>فشل التزامن المتفائل ، تم تعديل الكائن.</value>
+  </data>
+  <data name="Passwords must be at least {0} characters." xml:space="preserve">
+    <value>يجب أن تتكون كلمات المرور من {0} حرف على الأقل.</value>
+  </data>
+  <data name="Passwords must have at least one digit ('0'-'9')." xml:space="preserve">
+    <value>يجب أن تحتوي كلمات المرور على رقم واحد على الأقل ("0" - "9").</value>
+  </data>
+  <data name="Passwords must have at least one lowercase ('a'-'z')." xml:space="preserve">
+    <value>يجب أن تحتوي كلمات المرور على حرف صغير واحد على الأقل ("a" - "z").</value>
+  </data>
+  <data name="Passwords must have at least one non alphanumeric character." xml:space="preserve">
+    <value>يجب أن تحتوي كلمات المرور على حرف واحد على الأقل ليس أبجديًا رقميًا.</value>
+  </data>
+  <data name="Passwords must have at least one uppercase ('A'-'Z')." xml:space="preserve">
+    <value>يجب أن تحتوي كلمات المرور على حرف كبير واحد على الأقل ("A" - "Z").</value>
+  </data>
+  <data name="Role name '{0}' is already taken." xml:space="preserve">
+    <value>اسم الدور "{0}" مستخدم بالفعل.</value>
+  </data>
+  <data name="Role name '{0}' is invalid." xml:space="preserve">
+    <value>اسم الدور "{0}" غير صالح.</value>
+  </data>
+  <data name="User already has a password set." xml:space="preserve">
+    <value>تم تعيين كلمة مرور للمستخدم بالفعل.</value>
+  </data>
+  <data name="User already in role '{0}'." xml:space="preserve">
+    <value>المستخدم بالفعل في الدور "{0}".</value>
+  </data>
+  <data name="User is not in role '{0}'." xml:space="preserve">
+    <value>المستخدم ليس في الدور "{0}".</value>
+  </data>
+  <data name="User Name '{0}' is already taken." xml:space="preserve">
+    <value>اسم المستخدم "{0}" مستخدم بالفعل.</value>
+  </data>
+  <data name="User name '{0}' is invalid, can only contain letters or digits." xml:space="preserve">
+    <value>اسم المستخدم "{0}" غير صالح ، يمكن أن يحتوي فقط على أحرف أو أرقام.</value>
   </data>
   <data name="Your account is blocked" xml:space="preserve">
     <value>تم حظر حسابك</value>

@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Application.Common.Extensions;
-using Application.Exceptions;
 using Application.Interfaces.Users;
 using Application.Models.Users;
 using Domain.Entities.Users;
+using Microsoft.AspNetCore.Identity;
 
 namespace Infrastructure.Features.Users
 {
@@ -34,7 +32,7 @@ namespace Infrastructure.Features.Users
         {
             var user = await userManager.FindByEmailAsync(username) ?? await userManager.FindByNameAsync(username);
             var result = await signInManager.CheckPasswordSignInAsync(user, password, false);
-            if (!result.Succeeded) throw new AuthenticationException(result);
+            result.ThrowIfFailed();
             await SetUserStatus(user, true);
             return new AuthResult() { User = mapper.Map<UserDto>(user), Jwt = await tokenService.GenerateToken(user) };
         }

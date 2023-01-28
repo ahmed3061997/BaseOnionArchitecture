@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Application.Common.Configurations.Options;
+using Application.Common.Constants;
+using Application.Interfaces.Users;
+using Application.Models.Users;
+using Domain.Entities.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -6,11 +11,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Application.Interfaces.Users;
-using Application.Models.Users;
-using Domain.Entities.Users;
-using Application.Common.Constants;
-using Application.Common.Configurations.Options;
 
 namespace Infrastructure.Features.Users
 {

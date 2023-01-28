@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Application.Common.Responses;
 using Application.Common.Constants;
-using Application.Features.Users.Commands.CreateUser;
 using Application.Features.Users.Commands.Login;
 using Application.Features.Users.Commands.RefreshToken;
 using API.Common;
 using Application.Features.Users.Commands.Logout;
 using Application.Features.Users.Commands.ResetPassword;
 using Application.Features.Users.Commands.EmailConfirmation;
+using Application.Features.Users.Commands.Create;
 
 namespace API.Controllers
 {

@@ -1,14 +1,7 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Application.Common.EventHandlers;
-using Application.Common.Constants;
 using Application.Features.Users.Commands.AssignToRole;
 using Application.Features.Users.Commands.EmailConfirmation;
-using Application.Interfaces.Users;
 using Domain.Events;
 
 namespace Application.Features.Users.EventHandler

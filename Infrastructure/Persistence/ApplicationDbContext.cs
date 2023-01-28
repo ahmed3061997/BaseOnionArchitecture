@@ -1,9 +1,10 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Application.Interfaces.Persistence;
+﻿using Application.Interfaces.Persistence;
+using Domain.Entities.System;
 using Domain.Entities.Users;
 using Infrastructure.Common;
+using MediatR;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
 {
@@ -29,5 +30,16 @@ namespace Infrastructure.Persistence
             await mediator.DispatchDomainEvents(this);
             return await base.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task<int> UpdateAsync<T>(T obj, CancellationToken cancellationToken = default) where T : class
+        {
+            Entry(obj).State = EntityState.Modified;
+            return await SaveChangesAsync(cancellationToken);
+        }
+
+        public DbSet<Module> Modules { get; set; }
+        public DbSet<Operation> Operations { get; set; }
+        public DbSet<Page> Pages { get; set; }
+        public DbSet<PageOperation> PageOperations { get; set; }
     }
 }
