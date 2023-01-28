@@ -5,6 +5,7 @@ using System.Text.Json;
 using Application.Common.Responses;
 using Localization;
 using Application.Common.Exceptions;
+using Application.Common.Extensions;
 
 namespace API.Middlewares
 {
@@ -47,7 +48,7 @@ namespace API.Middlewares
             var response = new Response()
             {
                 Result = false,
-                Errors = LocalizeErrors(GetErrors(exception))
+                Errors = LocalizeErrors(exception.GetErrors())
             };
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -61,34 +62,6 @@ namespace API.Middlewares
         private IEnumerable<string> LocalizeErrors(IEnumerable<string> errors)
         {
             return errors.Select(x => localizer[x].ToString());
-        }
-
-        private IEnumerable<string> GetErrors(Exception exception)
-        {
-            if (exception is ValidationException validationException)
-                return validationException.Errors.Select(x => x.ErrorMessage);
-
-            else if (exception is AuthenticationException authenticationException)
-                return GetAuthenticationError(authenticationException);
-
-            else if (exception is IdentityException identityException)
-                return identityException.Result.Errors.Select(x => x.Description);
-
-            return new[] { exception.Message };
-        }
-
-        private IEnumerable<string> GetAuthenticationError(AuthenticationException authenticationException)
-        {
-            var errors = new List<string>();
-            if (authenticationException.Result.IsNotAllowed)
-                errors.Add("Your account is blocked");
-
-            else if (authenticationException.Result.IsLockedOut)
-                errors.Add("Your account is locked");
-
-            else
-                errors.Add("Invalid Username or Password");
-            return errors;
         }
     }
 }
