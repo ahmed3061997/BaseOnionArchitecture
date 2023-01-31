@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Domain.Entities.Users;
 using Application.Common.Constants;
+using Application.Common.Extensions;
 
 namespace Infrastructure.Persistence
 {
@@ -51,7 +52,7 @@ namespace Infrastructure.Persistence
         private async Task TrySeedAsync()
         {
             // Default roles
-            foreach (var role in Roles.GetRoles())
+            foreach (var role in Extensions.GetStaticMembers<string>(typeof(Roles)))
                 if (!_roleManager.Roles.Any(r => r.Name == role))
                     await _roleManager.CreateAsync(new ApplicationUserRole(role));
         }

@@ -1,21 +1,21 @@
 <div class="dropdown">
     <a class="dropdown-toggle language-selector-btn" href="#" role="button" aria-expanded="false"
         data-bs-toggle="dropdown">
-        <span class="fi fi-{{currentFlag}} m-0"></span>
+        <span class="fi fi-{{currentCulture.flag}} m-0"></span>
     </a>
 
     <ul class="dropdown-menu language-selector-list" aria-labelledby="Dropdown">
-        <li class="language">
-            <a class="dropdown-item" role="button" data-language="ar" (click)="selectLanguage('ar')">
-                <span class="fi fi-eg flag me-2"></span>Arabic
-                <i class="fa fa-check text-success ms-2" *ngIf="currentLang == 'ar'"></i>
+        <li class="language" *ngFor="let culture of cultures">
+            <a class="dropdown-item" role="button" (click)="selectLanguage(culture)">
+                <span class="fi fi-{{culture.flag}} flag me-2"></span>{{culture.name}}
+                <i class="fa fa-check text-success ms-2" *ngIf="culture.code == currentCulture.code"></i>
             </a>
         </li>
-        <li class="language">
+        <!-- <li class="language">
             <a class="dropdown-item" role="button" data-language="en" (click)="selectLanguage('en')">
                 <span class="fi fi-us flag me-2"></span>English
                 <i class="fa fa-check text-success ms-2" *ngIf="currentLang == 'en'"></i>
             </a>
-        </li>
+        </li> -->
     </ul>
 </div>

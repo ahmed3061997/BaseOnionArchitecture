@@ -54,17 +54,21 @@ class Menu {
     _bindEvents() {
         // Click Event
         this._evntElClick = e => {
+            // Find menu toggle element
+            const toggleLink = e.target.classList.contains('menu-toggle')
+                ? e.target
+                : Menu._findParent(e.target, 'menu-toggle', false)
+
             // Find top parent element
             if (e.target.closest('ul') && e.target.closest('ul').classList.contains('menu-inner')) {
                 const menuItem = Menu._findParent(e.target, 'menu-item', false)
 
                 // eslint-disable-next-line prefer-destructuring
                 if (menuItem) this._topParent = menuItem.childNodes[0]
-            }
 
-            const toggleLink = e.target.classList.contains('menu-toggle')
-                ? e.target
-                : Menu._findParent(e.target, 'menu-toggle', false)
+                // hide if route
+                if (menuItem && !toggleLink) window.Helpers.setCollapsed(true, true);
+            }
 
             if (toggleLink) {
                 e.preventDefault()
@@ -72,8 +76,6 @@ class Menu {
                 if (toggleLink.getAttribute('data-hover') !== 'true') {
                     this.toggle(toggleLink)
                 }
-            } else {
-                window.Helpers.setCollapsed(true, true);
             }
         }
         if (window.Helpers.isMobileDevice) this._el.addEventListener('click', this._evntElClick)

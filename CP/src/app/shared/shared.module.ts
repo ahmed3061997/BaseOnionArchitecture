@@ -8,6 +8,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
+import { AccessDeniedComponent } from './access-denied/access-denied.component';
 
 
 
@@ -18,7 +19,8 @@ import { LanguageSelectorComponent } from './language-selector/language-selector
     SearchBarComponent,
     LayoutComponent,
     NotFoundComponent,
-    LanguageSelectorComponent
+    LanguageSelectorComponent,
+    AccessDeniedComponent
   ],
   imports: [
     SharedRoutingModule,

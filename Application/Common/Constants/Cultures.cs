@@ -1,20 +1,16 @@
-﻿namespace Application.Common.Constants
+﻿using Application.Models.System;
+
+namespace Application.Common.Constants
 {
     public static class Cultures
     {
         public const string Arabic = "ar";
         public const string English = "en";
 
-        public static readonly Dictionary<string, string> Flags = new Dictionary<string, string>()
+        public static readonly IEnumerable<CultureDto> All = new List<CultureDto>()
         {
-            { Arabic, "egypt" },
-            { English, "united-states" },
-        };
-
-        public static readonly Dictionary<string, string> Names = new Dictionary<string, string>()
-        {
-            { Arabic, "عربي" },
-            { English, "English" },
+            new CultureDto() { Code = Arabic, Name = "عربي", Flag = "eg"},
+            new CultureDto() { Code = English, Name = "English", Flag = "us", IsDefault = true},
         };
     }
 }

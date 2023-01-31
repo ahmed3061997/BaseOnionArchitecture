@@ -2,6 +2,10 @@
 {
     public static class ApiRoutes
     {
+        // System
+        public const string GetCultures = "get-cultures";
+
+        // Users
         public const string Login = "login";
         public const string Logout = "logout";
         public const string Register = "register";

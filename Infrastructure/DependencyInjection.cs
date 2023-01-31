@@ -14,6 +14,8 @@ using Infrastructure.Features.Culture;
 using Infrastructure.Features.Emails;
 using Infrastructure.Features.Users;
 using Infrastructure.Persistence;
+using Application.Interfaces.System;
+using Infrastructure.Features.System;
 
 namespace Infrastructure
 {
@@ -32,10 +34,14 @@ namespace Infrastructure
         {
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITokenService, JwtTokenService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<ICurrentCultureService, CurrentCultureService>();
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IModuleService, ModuleService>();
+            services.AddScoped<IPageService, PageService>();
+            services.AddScoped<IOperationService, OperationService>();
         }
 
         private static void AddJwt(IServiceCollection services, IConfiguration configuration)

@@ -13,6 +13,13 @@ namespace Application.Common.Extensions
                 .OfType<TResult>();
         }
 
+        public static IReadOnlyDictionary<string, TResult> GetStaticMembersDic<TResult>(Type type)
+        {
+            return type.GetMembers()
+                .Where(m => m.MemberType == System.Reflection.MemberTypes.Field)
+                .ToDictionary(k => k.Name, m => (TResult)m.GetMemberValue(null));
+        }
+
         public static bool IsAjaxRequest(this HttpRequest request)
         {
             if (request == null)

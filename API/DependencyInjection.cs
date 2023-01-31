@@ -1,4 +1,6 @@
 ﻿using API.Middlewares;
+using Application.Common.Constants;
+using Application.Common.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API
@@ -51,8 +53,8 @@ namespace API
         {
             services.Configure<RequestLocalizationOptions>(options =>
             {
-                options.SetDefaultCulture("en-Us");
-                options.AddSupportedUICultures("en-US", "ar-EG");
+                options.SetDefaultCulture("en");
+                options.AddSupportedUICultures(Extensions.GetStaticMembers<string>(typeof(Cultures)).ToArray());
                 options.FallBackToParentUICultures = true;
             });
 

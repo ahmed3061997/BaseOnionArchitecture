@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Culture } from 'src/app/core/models/culture';
 
 @Component({
   selector: 'app-language-selector',
@@ -6,12 +8,18 @@ import { Component } from '@angular/core';
   styleUrls: ['./language-selector.component.scss']
 })
 export class LanguageSelectorComponent {
-  private flags: [string, string][] = [['ar', 'eg'], ['en', 'us']];
-  currentFlag: string = 'us';
-  currentLang: string = 'en';
+  cultures: Culture[] = [];
+  currentCulture: Culture = new Culture();
 
-  selectLanguage(lang: string) {
-    this.currentLang = lang;
-    this.currentFlag = this.flags.filter(x => x[0] == lang)[0][1];
+  constructor(private httpClient: HttpClient) {
+    httpClient.get<Culture[]>('/system/get-cultures')
+      .subscribe(result => {
+        this.cultures = result;
+        this.currentCulture = result.filter(x => x.isDefault)[0];
+      })
+  }
+
+  selectLanguage(culture: Culture) {
+    this.currentCulture = culture;
   }
 }
