@@ -28,6 +28,7 @@
     "flag-icons": "^6.6.6",
     "jest-editor-support": "*",
     "jquery": "^3.6.3",
+    "ngx-toastr": "^16.0.2",
     "perfect-scrollbar": "^1.5.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
