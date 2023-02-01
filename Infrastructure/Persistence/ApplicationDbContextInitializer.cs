@@ -12,9 +12,9 @@ namespace Infrastructure.Persistence
         private readonly ILogger<ApplicationDbContextInitializer> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<ApplicationUserRole> _roleManager;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationUserRole> roleManager)
+        public ApplicationDbContextInitializer(ILogger<ApplicationDbContextInitializer> logger, ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             _logger = logger;
             _context = context;
@@ -52,9 +52,9 @@ namespace Infrastructure.Persistence
         private async Task TrySeedAsync()
         {
             // Default roles
-            foreach (var role in Extensions.GetStaticMembers<string>(typeof(Roles)))
-                if (!_roleManager.Roles.Any(r => r.Name == role))
-                    await _roleManager.CreateAsync(new ApplicationUserRole(role));
+            //foreach (var role in Extensions.GetStaticMembers<string>(typeof(Roles)))
+            //    if (!_roleManager.Roles.Any(r => r.Name == role))
+            //        await _roleManager.CreateAsync(new ApplicationUserRole(role));
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using Application.Common.Exceptions;
+﻿using Application.Common.Exceptions;
 using Application.Interfaces.Persistence;
 using Application.Interfaces.System;
 using Application.Models.System;
+using AutoMapper;
 using Domain.Entities.System;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -46,9 +46,17 @@ namespace Infrastructure.Features.System
         public async Task<IEnumerable<OperationDto>> GetAll()
         {
             return await context.Operations
-                  .Include(x => x.Names)
-                  .AsNoTracking()
-                  .Select(x => mapper.Map<OperationDto>(x)).ToListAsync();
+                    .Include(x => x.Names)
+                    .AsNoTracking()
+                    .Select(x => mapper.Map<OperationDto>(x)).ToListAsync();
+        }
+
+        public async Task<IEnumerable<OperationDto>> GetDrop()
+        {
+            return await context.Operations
+                 .Include(x => x.Names)
+                 .AsNoTracking()
+                 .Select(x => mapper.Map<OperationDto>(x)).ToListAsync();
         }
 
         public async Task<OperationDto> Get(Guid id)

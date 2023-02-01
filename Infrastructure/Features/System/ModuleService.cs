@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using Application.Common.Exceptions;
+﻿using Application.Common.Exceptions;
 using Application.Interfaces.Persistence;
 using Application.Interfaces.System;
 using Application.Models.System;
+using AutoMapper;
 using Domain.Entities.System;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +44,14 @@ namespace Infrastructure.Features.System
         }
 
         public async Task<IEnumerable<ModuleDto>> GetAll()
+        {
+            return await context.Modules
+                .Include(x => x.Names)
+                .AsNoTracking()
+                .Select(x => mapper.Map<ModuleDto>(x)).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ModuleDto>> GetDrop()
         {
             return await context.Modules
                   .Include(x => x.Names)

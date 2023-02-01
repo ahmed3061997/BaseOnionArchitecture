@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using Application.Common.Exceptions;
+﻿using Application.Common.Exceptions;
 using Application.Interfaces.Persistence;
 using Application.Interfaces.System;
 using Application.Models.System;
+using AutoMapper;
 using Domain.Entities.System;
 using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
@@ -46,14 +46,17 @@ namespace Infrastructure.Features.System
         public async Task<IEnumerable<PageDto>> GetAll()
         {
             return await context.Pages
-                .Include(x => x.Names)
-                .AsNoTracking()
-                .Select(x => mapper.Map<PageDto>(x)).ToListAsync();
+                   .Include(x => x.Names)
+                   .AsNoTracking()
+                   .Select(x => mapper.Map<PageDto>(x)).ToListAsync();
         }
 
         public async Task<PageDto> Get(Guid id)
         {
-            var page = await context.Pages.Include(x => x.Names).FirstOrDefaultAsync(x => x.Id == id);
+            var page = await context.Pages
+                .Include(x => x.Names)
+                .Include(x => x.Operations)
+                .FirstOrDefaultAsync(x => x.Id == id);
             return mapper.Map<PageDto>(page);
         }
 

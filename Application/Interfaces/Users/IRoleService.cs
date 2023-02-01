@@ -1,4 +1,6 @@
-﻿using Application.Models.Users;
+﻿using Application.Models.Common;
+using Application.Models.Users;
+using System.Security.Claims;
 
 namespace Application.Interfaces.Users
 {
@@ -6,8 +8,9 @@ namespace Application.Interfaces.Users
     {
         Task Create(RoleDto role);
         Task Update(RoleDto role);
-        Task Delete(string roleId);
-        Task<RoleDto> Get(string roleId);
-        Task SetClaims(string roleId, IEnumerable<string> claims);
+        Task Delete(string id);
+        Task<RoleDto> Get(string id);
+        Task<IEnumerable<RoleDto>> GetDrop();
+        Task<IEnumerable<RoleDto>> GetAll( ); 
     }
 }

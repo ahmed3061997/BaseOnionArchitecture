@@ -1,8 +1,8 @@
-﻿using MediatR;
-using System.Web;
-using Application.Common.Responses;
+﻿using Application.Common.Responses;
 using Application.Interfaces.Users;
 using Application.Models.Users;
+using MediatR;
+using System.Web;
 
 namespace Application.Features.Users.Commands.EmailConfirmation
 {

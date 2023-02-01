@@ -4,7 +4,7 @@ namespace Application.Interfaces.Users
 {
     public interface ICurrentUserService
     {
-        Task<CurrentUserDto> GetCurrentUser();
+        Task<UserDto> GetCurrentUser();
         string GetCurrentUserId();
     }
 }

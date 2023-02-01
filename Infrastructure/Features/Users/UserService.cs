@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using Application.Common.Extensions;
+﻿using Application.Common.Extensions;
 using Application.Interfaces.Users;
 using Application.Models.Users;
+using AutoMapper;
 using Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 
@@ -38,6 +38,11 @@ namespace Infrastructure.Features.Users
         {
             var user = await userManager.FindByIdAsync(userId);
             await userManager.AddToRoleAsync(user, role);
+        }
+
+        public async Task<IEnumerable<string>> GetRoles(string userId)
+        {
+            return await userManager.GetRolesAsync(await userManager.FindByIdAsync(userId));
         }
     }
 }

@@ -1,8 +1,8 @@
-﻿using MediatR;
-using Application.Common.EventHandlers;
+﻿using Application.Common.EventHandlers;
 using Application.Features.Users.Commands.AssignToRole;
 using Application.Features.Users.Commands.EmailConfirmation;
 using Domain.Events;
+using MediatR;
 
 namespace Application.Features.Users.EventHandler
 {

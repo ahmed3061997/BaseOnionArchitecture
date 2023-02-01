@@ -1,10 +1,8 @@
-﻿using FluentValidation;
-using Microsoft.Extensions.Localization;
+﻿using Microsoft.Extensions.Localization;
 using System.Net;
 using System.Text.Json;
 using Application.Common.Responses;
 using Localization;
-using Application.Common.Exceptions;
 using Application.Common.Extensions;
 
 namespace API.Middlewares

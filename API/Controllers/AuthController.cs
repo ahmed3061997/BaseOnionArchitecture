@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Application.Common.Responses;
 using Application.Common.Constants;
@@ -23,9 +22,6 @@ namespace API.Controllers
         {
             this.mediator = mediator;
         }
-
-        [HttpGet(ApiRoutes.Authenticate), Authorize]
-        public bool Authenticate() => true;
 
         [HttpPost(ApiRoutes.Login)]
         public async Task<IResponse> Login(LoginCommand request)

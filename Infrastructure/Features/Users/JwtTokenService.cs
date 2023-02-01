@@ -17,11 +17,13 @@ namespace Infrastructure.Features.Users
     public class JwtTokenService : ITokenService
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<ApplicationRole> roleManager;
         private readonly JwtOptions jwt;
 
-        public JwtTokenService(UserManager<ApplicationUser> userManager, IOptions<JwtOptions> jwt)
+        public JwtTokenService(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, IOptions<JwtOptions> jwt)
         {
             this.userManager = userManager;
+            this.roleManager = roleManager;
             this.jwt = jwt.Value;
         }
 
@@ -32,7 +34,7 @@ namespace Infrastructure.Features.Users
             var roleClaims = new List<Claim>();
 
             foreach (var role in roles)
-                roleClaims.Add(new Claim(Claims.Role, role));
+                roleClaims.AddRange(await roleManager.GetClaimsAsync(await roleManager.FindByNameAsync(role)));
 
             var claims = new[]
             {
@@ -42,7 +44,7 @@ namespace Infrastructure.Features.Users
                 new Claim(Claims.UserId, user.Id)
             }
             .Union(userClaims)
-            .Union(roleClaims);
+            .Union(roles.Select(x => new Claim(Claims.Role, x)));
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));
             var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);

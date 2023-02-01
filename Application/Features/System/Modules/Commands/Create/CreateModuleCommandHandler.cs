@@ -1,9 +1,9 @@
-﻿using Application.Interfaces.System;
-using Application.Models.Common;
-using Application.Models.System;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
 using Application.Common.Responses;
+using Application.Interfaces.System;
+using Application.Models.Common;
+using Application.Models.System;
 using MediatR;
 
 namespace Application.Features.System.Modules.Commands.Create

@@ -1,5 +1,5 @@
-﻿using Application.Common.Responses;
-using FluentValidation;
+﻿using FluentValidation;
+using Application.Common.Responses;
 using MediatR;
 
 namespace Application.Features.Users.Commands.EmailConfirmation

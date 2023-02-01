@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using MediatR;
 using Application.Common.Responses;
 using Application.Models.Users;
+using MediatR;
 
 namespace Application.Features.Users.Commands.ResetPassword
 {

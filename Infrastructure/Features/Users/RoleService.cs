@@ -1,19 +1,21 @@
-﻿using AutoMapper;
-using Application.Common.Constants;
+﻿using Application.Common.Constants;
 using Application.Common.Extensions;
 using Application.Interfaces.Users;
 using Application.Models.Users;
+using AutoMapper;
 using Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Infrastructure.Features.Users
 {
     public class RoleService : IRoleService
     {
-        private readonly RoleManager<ApplicationUserRole> roleManager;
+        private readonly RoleManager<ApplicationRole> roleManager;
         private readonly IMapper mapper;
 
-        public RoleService(RoleManager<ApplicationUserRole> roleManager, IMapper mapper)
+        public RoleService(RoleManager<ApplicationRole> roleManager, IMapper mapper)
         {
             this.roleManager = roleManager;
             this.mapper = mapper;
@@ -21,38 +23,42 @@ namespace Infrastructure.Features.Users
 
         public async Task Create(RoleDto role)
         {
-            var result = await roleManager.CreateAsync(mapper.Map<ApplicationUserRole>(role));
+            var result = await roleManager.CreateAsync(mapper.Map<ApplicationRole>(role));
             result.ThrowIfFailed();
         }
 
         public async Task Update(RoleDto role)
         {
-            var result = await roleManager.UpdateAsync(mapper.Map<ApplicationUserRole>(role));
+            var result = await roleManager.UpdateAsync(mapper.Map<ApplicationRole>(role));
             result.ThrowIfFailed();
         }
 
-        public async Task Delete(string roleId)
+        public async Task Delete(string id)
         {
-            var role = await roleManager.FindByIdAsync(roleId);
+            var role = await roleManager.FindByIdAsync(id);
             var result = await roleManager.DeleteAsync(role);
             result.ThrowIfFailed();
         }
 
-        public async Task<RoleDto> Get(string roleId)
+        public async Task<RoleDto> Get(string id)
         {
-            return mapper.Map<RoleDto>(await roleManager.FindByIdAsync(roleId));
+            return mapper.Map<RoleDto>(await roleManager.FindByIdAsync(id));
         }
 
-        public async Task SetClaims(string roleId, IEnumerable<string> claims)
+        public async Task<IEnumerable<RoleDto>> GetAll()
         {
-            var role = await roleManager.FindByIdAsync(roleId);
-            role.Claims = claims.Select(claim => new IdentityRoleClaim<int>()
-            {
-                ClaimType = Claims.Permission,
-                ClaimValue = claim
-            }).ToList();
-            var result = await roleManager.UpdateAsync(role);
-            result.ThrowIfFailed();
+            return await roleManager.Roles
+                  .Include(x => x.Names)
+                  .AsNoTracking()
+                  .Select(x => mapper.Map<RoleDto>(x)).ToListAsync();
+        }
+
+        public async Task<IEnumerable<RoleDto>> GetDrop()
+        {
+            return await roleManager.Roles
+                .Include(x => x.Names)
+                .AsNoTracking()
+                .Select(x => mapper.Map<RoleDto>(x)).ToListAsync();
         }
     }
 }

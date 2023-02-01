@@ -1,7 +1,8 @@
-﻿using AutoMapper;
+﻿using Application.Common.Exceptions;
 using Application.Common.Extensions;
 using Application.Interfaces.Users;
 using Application.Models.Users;
+using AutoMapper;
 using Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 
@@ -30,7 +31,7 @@ namespace Infrastructure.Features.Users
 
         public async Task<AuthResult> Login(string username, string password)
         {
-            var user = await userManager.FindByEmailAsync(username) ?? await userManager.FindByNameAsync(username);
+            var user = await GetUser(username);
             var result = await signInManager.CheckPasswordSignInAsync(user, password, false);
             result.ThrowIfFailed();
             await SetUserStatus(user, true);
@@ -47,7 +48,7 @@ namespace Infrastructure.Features.Users
 
         public async Task<IdentityTokenResult> GenerateResetPasswordToken(string username)
         {
-            var user = await userManager.FindByEmailAsync(username) ?? await userManager.FindByNameAsync(username);
+            var user = await GetUser(username);
             return new IdentityTokenResult()
             {
                 Name = $"{user.FirstName} {user.LastName}",
@@ -58,7 +59,7 @@ namespace Infrastructure.Features.Users
 
         public async Task<AuthResult> ResetPassword(string username, string token, string newPassword)
         {
-            var user = await userManager.FindByEmailAsync(username) ?? await userManager.FindByNameAsync(username);
+            var user = await GetUser(username);
             var result = await userManager.ResetPasswordAsync(user, token, newPassword);
             result.ThrowIfFailed();
             return new AuthResult() { User = mapper.Map<UserDto>(user), Jwt = await tokenService.GenerateToken(user) };
@@ -66,7 +67,7 @@ namespace Infrastructure.Features.Users
 
         public async Task<IdentityTokenResult> GenerateEmailConfirmationToken(string username)
         {
-            var user = await userManager.FindByEmailAsync(username) ?? await userManager.FindByNameAsync(username);
+            var user = await GetUser(username);
             return new IdentityTokenResult()
             {
                 Name = $"{user.FirstName} {user.LastName}",
@@ -77,10 +78,18 @@ namespace Infrastructure.Features.Users
 
         public async Task<AuthResult> ConfirmEmail(string username, string token)
         {
-            var user = await userManager.FindByEmailAsync(username) ?? await userManager.FindByNameAsync(username);
+            var user = await GetUser(username);
             var result = await userManager.ConfirmEmailAsync(user, token);
             result.ThrowIfFailed();
             return new AuthResult() { User = mapper.Map<UserDto>(user), Jwt = await tokenService.GenerateToken(user) };
+        }
+
+        private async Task<ApplicationUser> GetUser(string username)
+        {
+            var user = await userManager.FindByEmailAsync(username) ?? await userManager.FindByNameAsync(username);
+            if (user == null)
+                throw new UserNotFoundException();
+            return user;
         }
 
         private async Task SetUserStatus(ApplicationUser user, bool loggedIn)

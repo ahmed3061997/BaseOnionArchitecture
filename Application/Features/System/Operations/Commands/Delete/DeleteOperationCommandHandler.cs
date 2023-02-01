@@ -1,6 +1,6 @@
-﻿using Application.Interfaces.System;
-using FluentValidation;
+﻿using FluentValidation;
 using Application.Common.Responses;
+using Application.Interfaces.System;
 using MediatR;
 
 namespace Application.Features.System.Operations.Commands.Delete

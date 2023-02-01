@@ -1,6 +1,6 @@
-﻿using MediatR;
-using Application.Common.Responses;
+﻿using Application.Common.Responses;
 using Application.Interfaces.Users;
+using MediatR;
 
 namespace Application.Features.Users.Commands.AssignToRole
 {

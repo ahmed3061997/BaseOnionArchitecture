@@ -1,4 +1,5 @@
-﻿using Application.Models.System;
+﻿using Application.Models.Common;
+using Application.Models.System;
 
 namespace Application.Interfaces.System
 {

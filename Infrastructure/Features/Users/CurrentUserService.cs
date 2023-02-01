@@ -1,9 +1,8 @@
-﻿using AutoMapper;
-using Application.Common.Constants;
+﻿using Application.Common.Constants;
 using Application.Interfaces.Users;
 using Application.Models.Users;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace Infrastructure.Features.Users
 {
@@ -20,10 +19,10 @@ namespace Infrastructure.Features.Users
             this.mapper = mapper;
         }
 
-        public async Task<CurrentUserDto> GetCurrentUser()
+        public async Task<UserDto> GetCurrentUser()
         {
-            var dto = mapper.Map<CurrentUserDto>(await userService.Get(GetCurrentUserId()));
-            dto.Roles = httpContextAccessor.HttpContext.User.FindAll(ClaimTypes.Role).Select(x => x.Value);
+            var dto = mapper.Map<UserDto>(await userService.Get(GetCurrentUserId()));
+            dto.Roles = httpContextAccessor.HttpContext.User.FindAll(Claims.Role).Select(x => x.Value);
             return dto;
         }
 

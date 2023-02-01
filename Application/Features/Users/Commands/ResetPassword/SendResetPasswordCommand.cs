@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
-using MediatR;
 using Application.Common.Responses;
+using MediatR;
 
 namespace Application.Features.Users.Commands.ResetPassword
 {

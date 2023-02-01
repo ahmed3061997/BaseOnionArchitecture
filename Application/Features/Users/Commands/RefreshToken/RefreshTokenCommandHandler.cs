@@ -1,7 +1,7 @@
-﻿using MediatR;
-using Application.Common.Responses;
+﻿using Application.Common.Responses;
 using Application.Interfaces.Users;
 using Application.Models.Users;
+using MediatR;
 
 namespace Application.Features.Users.Commands.RefreshToken
 {

@@ -1,11 +1,11 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Hosting;
-using System.Web;
-using Application.Common.Responses;
+﻿using Application.Common.Responses;
 using Application.Interfaces.Emails;
 using Application.Interfaces.Users;
 using Application.Models.Common;
 using Application.Models.Users;
+using MediatR;
+using Microsoft.AspNetCore.Hosting;
+using System.Web;
 
 namespace Application.Features.Users.Commands.ResetPassword
 {

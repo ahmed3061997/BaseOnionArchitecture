@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using MediatR;
 using Application.Common.Responses;
 using Application.Interfaces.Users;
 using Application.Models.Users;
 using Domain.Events;
+using MediatR;
 
 namespace Application.Features.Users.Commands.Create
 {

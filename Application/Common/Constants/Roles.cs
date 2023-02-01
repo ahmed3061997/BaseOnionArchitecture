@@ -1,6 +1,4 @@
-﻿using AutoMapper.Internal;
-
-namespace Application.Common.Constants
+﻿namespace Application.Common.Constants
 {
     public static class Roles
     {

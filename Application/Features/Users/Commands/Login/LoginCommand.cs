@@ -1,6 +1,6 @@
-﻿using Application.Common.Responses;
+﻿using FluentValidation;
+using Application.Common.Responses;
 using Application.Models.Users;
-using FluentValidation;
 using MediatR;
 
 namespace Application.Features.Users.Commands.Login
@@ -9,6 +9,7 @@ namespace Application.Features.Users.Commands.Login
     {
         public string Username { get; set; }
         public string Password { get; set; }
+        public bool RememberMe { get; set; }
     }
 
     public class LoginCommandValidator : AbstractValidator<LoginCommand>

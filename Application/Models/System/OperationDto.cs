@@ -7,6 +7,7 @@ namespace Application.Models.System
     {
         public Guid Id { get; set; }
         public Operations Code { get; set; }
+        public string Name { get; set; }
         public IEnumerable<CultureLookupDto> Names { get; set; }
     }
 }
