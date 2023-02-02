@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { Culture } from 'src/app/core/models/culture';
+import { CultureService } from 'src/app/core/services/culture/culture.service';
 
 @Component({
   selector: 'app-language-selector',
@@ -10,16 +12,30 @@ import { Culture } from 'src/app/core/models/culture';
 export class LanguageSelectorComponent {
   cultures: Culture[] = [];
   currentCulture: Culture = new Culture();
+  subscriptions: Subscription[] = [];
 
-  constructor(private httpClient: HttpClient) {
-    httpClient.get<Culture[]>('/system/get-cultures')
-      .subscribe(result => {
-        this.cultures = result;
-        this.currentCulture = result.filter(x => x.isDefault)[0];
-      })
+  constructor(private cultureService: CultureService) {
+
+  }
+
+  ngOnInit() {
+    this.subscriptions.push(
+      this.cultureService
+        .getCultures()
+        .subscribe(result => this.cultures = result),
+      this.cultureService
+        .getCurrentCulture()
+        .subscribe(result => this.currentCulture = result)
+    )
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription) => {
+      subscription.unsubscribe();
+   });
   }
 
   selectLanguage(culture: Culture) {
-    this.currentCulture = culture;
+    this.cultureService.changeCulture(culture);
   }
 }

@@ -9,6 +9,7 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
+import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
 
 
 
@@ -20,14 +21,17 @@ import { AccessDeniedComponent } from './access-denied/access-denied.component';
     LayoutComponent,
     NotFoundComponent,
     LanguageSelectorComponent,
-    AccessDeniedComponent
+    AccessDeniedComponent,
+    AuthLayoutComponent
   ],
   imports: [
     SharedRoutingModule,
     CommonModule,
   ],
   exports: [
-    LayoutComponent
+    LayoutComponent,
+    AuthLayoutComponent,
+    LanguageSelectorComponent
   ]
 })
 export class SharedModule { }
