@@ -6,12 +6,12 @@
       <div class="app-brand justify-content-center">
         <a href="/" class="app-brand-link gap-2">
           <span class="app-brand-logo demo"></span>
-          <span class="app-brand-text demo text-body fw-bolder">Sneat</span>
+          <span class="app-brand-text demo text-body fw-bolder">{{ 'shared.app_name' | translate }}</span>
         </a>
       </div>
       <!-- /Logo -->
-      <h4 class="mb-2">Welcome to Sneat! 👋</h4>
-      <p class="mb-4">Please sign-in to your account and start the adventure</p>
+      <h4 class="mb-2">{{ 'users.login_title' | translate: { app_name: 'shared.app_name' | translate } }}</h4>
+      <p class="mb-4">{{ 'users.login_subtitle' | translate }}</p>
 
       <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
         <div class="mb-3">
@@ -22,7 +22,7 @@
         <div class="mb-3 form-password-toggle">
           <div class="d-flex justify-content-between">
             <label class="form-label" for="password">Password</label>
-            <a href="auth-forgot-password-basic.html">
+            <a href="/users/forget-password">
               <small>Forgot Password?</small>
             </a>
           </div>
@@ -46,7 +46,7 @@
 
       <p class="text-center">
         <span>New on our platform?</span>
-        <a href="auth-register-basic.html">
+        <a href="/users/register">
           <span>Create an account</span>
         </a>
       </p>

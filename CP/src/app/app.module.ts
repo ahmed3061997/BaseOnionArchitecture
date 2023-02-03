@@ -12,6 +12,9 @@ import { AuthGuard } from './guards/auth-guard';
 import { HttpRequestEndPointInterceptor } from './interceptors/http/endpoint-interceptor';
 import { HttpRequestTokenInterceptor } from './interceptors/http/token-interceptor';
 import { HttpRequestErrorInterceptor } from './interceptors/http/error-interceptor';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 
 @NgModule({
     declarations: [
@@ -23,9 +26,16 @@ import { HttpRequestErrorInterceptor } from './interceptors/http/error-intercept
         RouterModule,
         HttpClientModule,
         BrowserAnimationsModule,
-        ToastrModule.forRoot(),
         AppRoutingModule,
         CoreModule,
+        ToastrModule.forRoot(),
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (httpClient: HttpClient) => new TranslateHttpLoader(httpClient),
+                deps: [HttpClient]
+            }
+        })
     ],
     providers: [
         AuthGuard,

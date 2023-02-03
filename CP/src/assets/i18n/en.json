@@ -1,0 +1,47 @@
+{
+    "shared": {
+        "app_name": "app_name",
+        "not_found": "Page Not Found :(",
+        "not_found_msg": "Oops! 😖 The requested URL was not found on this server.",
+        "search": "Search",
+        "my_profile": "My Profile",
+        "settings": "Settings",
+        "logout": "Log Out",
+        "actions": "Actions",
+        "yes": "Yes",
+        "no": "No",
+        "on": "On",
+        "off": "Off"
+    },
+    "users": {
+        "login": "Log In",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "create_account": "Create an account",
+        "login_title": "Welcome to {{app_name}}! 👋",
+        "login_subtitle": "Please sign-in to your account and start the manage your shops",
+        "email_username": "Email or Username",
+        "enter_username_email": "Enter your email or username",
+        "forget_password": "Forgot Password?",
+        "remember_me": "Remember Me",
+        "new_to_our_platform": "New on our platform?",
+        "register_title": "Register for a Shop Owner account",
+        "register_subtitle": "Create and manage your shops",
+        "register": "Register Account",
+        "have_account": "Already have an account?",
+        "login_instead": "Log in instead",
+        "enter_username": "Enter your username",
+        "enter_email": "Enter your email",
+        "verified": "Verified",
+        "blocked": "Blocked",
+        "online": "Online"
+    },
+    "side_menu": {
+      "dashboard": "Dashboard",
+      "manage_users": "Manage Users",
+      "users": "Users",
+      "roles": "Roles"
+    }
+}
