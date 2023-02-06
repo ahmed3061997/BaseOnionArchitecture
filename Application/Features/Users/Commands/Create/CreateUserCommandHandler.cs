@@ -27,7 +27,7 @@ namespace Application.Features.Users.Commands.Create
         {
             var user = mapper.Map<UserDto>(request);
             var result = await userService.Create(user, request.Password);
-            await publisher.Publish(new UserCreatedEvent(result.User.Id, result.User.Email, request.Role, request.ConfirmEmailUrl));
+            await publisher.Publish(new UserCreatedEvent(result.User.Id, result.User.Email, request.Roles, request.ConfirmEmailUrl));
             return new ResultResponse<AuthResult>() { Result = true, Value = result };
         }
     }

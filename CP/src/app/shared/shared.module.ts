@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
@@ -10,6 +9,10 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { LanguageSelectorComponent } from './language-selector/language-selector.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
+import { CurrentUserComponent } from './current-user/current-user.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpBackend, HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 
 
@@ -22,11 +25,19 @@ import { AuthLayoutComponent } from './auth-layout/auth-layout.component';
     NotFoundComponent,
     LanguageSelectorComponent,
     AccessDeniedComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    CurrentUserComponent
   ],
   imports: [
     SharedRoutingModule,
     CommonModule,
+    TranslateModule.forChild({
+        loader: {
+            provide: TranslateLoader,
+            useFactory: (httpHandler: HttpBackend) => new TranslateHttpLoader(new HttpClient(httpHandler)),
+            deps: [HttpBackend]
+        }
+    })
   ],
   exports: [
     LayoutComponent,

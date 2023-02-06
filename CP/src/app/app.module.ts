@@ -1,4 +1,4 @@
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS, HttpBackend } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -8,12 +8,20 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
-import { AuthGuard } from './guards/auth-guard';
-import { HttpRequestEndPointInterceptor } from './interceptors/http/endpoint-interceptor';
-import { HttpRequestTokenInterceptor } from './interceptors/http/token-interceptor';
-import { HttpRequestErrorInterceptor } from './interceptors/http/error-interceptor';
+import { HttpRequestApiEndPointInterceptor } from './core/interceptors/api-interceptor';
+import { HttpRequestAuthInterceptor } from './core/interceptors/token-interceptor';
+import { HttpRequestErrorInterceptor } from './core/interceptors/error-interceptor';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpRequestLanguageInterceptor } from './core/interceptors/language-interceptor';
+
+const InterceptorProviders = [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestApiEndPointInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestLanguageInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestAuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestErrorInterceptor, multi: true },
+];
+
 
 
 @NgModule({
@@ -32,28 +40,13 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
-                useFactory: (httpClient: HttpClient) => new TranslateHttpLoader(httpClient),
-                deps: [HttpClient]
+                useFactory: (httpHandler: HttpBackend) => new TranslateHttpLoader(new HttpClient(httpHandler)),
+                deps: [HttpBackend]
             }
         })
     ],
     providers: [
-        AuthGuard,
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: HttpRequestEndPointInterceptor,
-            multi: true,
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: HttpRequestTokenInterceptor,
-            multi: true,
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: HttpRequestErrorInterceptor,
-            multi: true,
-        }
+        InterceptorProviders,
     ],
 })
 export class AppModule { }

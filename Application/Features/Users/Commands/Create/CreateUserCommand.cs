@@ -12,7 +12,7 @@ namespace Application.Features.Users.Commands.Create
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string Role { get; set; }
+        public IEnumerable<string>? Roles { get; set; }
         public string ConfirmEmailUrl { get; set; }
     }
 
@@ -25,7 +25,6 @@ namespace Application.Features.Users.Commands.Create
             RuleFor(x => x.Username).NotEmpty().MaximumLength(120);
             RuleFor(x => x.Email).NotEmpty().MaximumLength(120);
             RuleFor(x => x.Password).NotEmpty().MinimumLength(6);
-            RuleFor(x => x.Role).NotEmpty();
             RuleFor(x => x.ConfirmEmailUrl).NotEmpty();
         }
     }

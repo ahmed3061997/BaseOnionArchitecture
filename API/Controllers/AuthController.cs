@@ -9,6 +9,8 @@ using Application.Features.Users.Commands.Logout;
 using Application.Features.Users.Commands.ResetPassword;
 using Application.Features.Users.Commands.EmailConfirmation;
 using Application.Features.Users.Commands.Create;
+using Domain.Entities.Users;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -26,9 +28,13 @@ namespace API.Controllers
         [HttpPost(ApiRoutes.Login)]
         public async Task<IResponse> Login(LoginCommand request)
         {
-            var res = await mediator.Send(request);
-            SetRefreshTokenCookie(res.Value.Jwt.RefreshToken, res.Value.Jwt.RefreshTokenExpiresOn);
-            return res;
+            return await mediator.Send(request);
+        }
+
+        [HttpPost(ApiRoutes.Register)]
+        public async Task<IResponse> Register(CreateUserCommand request)
+        {
+            return await mediator.Send(request);
         }
 
         [HttpPost(ApiRoutes.SendResetPassword)]
@@ -55,41 +61,17 @@ namespace API.Controllers
             return await mediator.Send(request);
         }
 
+        [Authorize]
         [HttpGet(ApiRoutes.Logout)]
         public async Task<IResponse> Logout()
         {
             return await mediator.Send(new LogoutCommand());
         }
 
-        [HttpPost(ApiRoutes.Register)]
-        public async Task<IResponse> Register(CreateUserCommand request)
-        {
-            var res = await mediator.Send(request);
-            SetRefreshTokenCookie(res.Value.Jwt.RefreshToken, res.Value.Jwt.RefreshTokenExpiresOn);
-            return res;
-        }
-
         [HttpPost(ApiRoutes.RefreshToken)]
-        public async Task<IResponse> RefreshToken([FromForm] string? token)
+        public async Task<IResponse> RefreshToken(string token)
         {
-            var refreshToken = token ?? Request.Cookies[Cookies.RefreshToken];
-            var res = await mediator.Send(new RefreshTokenCommand() { Token = refreshToken });
-            SetRefreshTokenCookie(res.Value.RefreshToken, res.Value.RefreshTokenExpiresOn);
-            return res;
-        }
-
-        [ApiExplorerSettings(IgnoreApi = true)]
-        private void SetRefreshTokenCookie(string refreshToken, DateTime expires)
-        {
-            var cookieOptions = new CookieOptions()
-            {
-                HttpOnly = true,
-                Secure = true,
-                Expires = expires,
-                SameSite = SameSiteMode.Lax
-            };
-
-            Response.Cookies.Append(Cookies.RefreshToken, refreshToken, cookieOptions);
+            return await mediator.Send(new RefreshTokenCommand() { Token = token });
         }
     }
 }

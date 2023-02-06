@@ -4,7 +4,7 @@
     <div class="card-body">
       <!-- Logo -->
       <div class="app-brand justify-content-center">
-        <a href="/" class="app-brand-link gap-2">
+        <a [routerLink]="['/']" class="app-brand-link gap-2">
           <span class="app-brand-logo demo"></span>
           <span class="app-brand-text demo text-body fw-bolder">{{ 'shared.app_name' | translate }}</span>
         </a>
@@ -13,41 +13,45 @@
       <h4 class="mb-2">{{ 'users.login_title' | translate: { app_name: 'shared.app_name' | translate } }}</h4>
       <p class="mb-4">{{ 'users.login_subtitle' | translate }}</p>
 
-      <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+      <form class="mb-3" [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="mb-3">
-          <label for="email" class="form-label">Email or Username</label>
-          <input type="text" class="form-control" id="email" name="email-username"
-            placeholder="Enter your email or username" autofocus />
+          <label for="email" class="form-label">{{ 'users.email_username' | translate }}</label>
+          <input type="text" class="form-control" id="email" name="email-username" formControlName="username"
+            [placeholder]="'users.enter_username_email' | translate"
+            [ngClass]="{ 'is-invalid': submitted && f.username.errors }" autofocus />
+          <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+            <div class="animate__animated animate__headShake animate__fast" *ngIf="f.username.errors['required']">{{
+              'shared.required' | translate }}</div>
+          </div>
         </div>
         <div class="mb-3 form-password-toggle">
-          <div class="d-flex justify-content-between">
-            <label class="form-label" for="password">Password</label>
-            <a href="/users/forget-password">
-              <small>Forgot Password?</small>
-            </a>
-          </div>
-          <div class="input-group input-group-merge">
-            <input type="password" id="password" class="form-control" name="password"
+          <label class="form-label" for="password">{{ 'users.password' | translate }}</label>
+          <div class="input-group input-group-merge" [ngClass]="{ 'invalid': submitted && f.password.errors }">
+            <input type="password" class="form-control" id="password" name="password" formControlName="password"
               placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-              aria-describedby="password" />
+              aria-describedby="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+              <div class="animate__animated animate__headShake animate__fast" *ngIf="f.password.errors['required']">{{
+                'shared.required' | translate }}</div>
+            </div>
           </div>
         </div>
         <div class="mb-3">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" id="remember-me" />
-            <label class="form-check-label" for="remember-me"> Remember Me </label>
+            <label class="form-check-label" for="remember-me">{{ 'users.remember_me' | translate }}</label>
           </div>
         </div>
         <div class="mb-3">
-          <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+          <button class="btn btn-primary d-grid w-100" type="submit">{{ 'users.login' | translate }}</button>
         </div>
       </form>
 
       <p class="text-center">
-        <span>New on our platform?</span>
-        <a href="/users/register">
-          <span>Create an account</span>
+        <span class="me-1">{{ 'users.new_to_our_platform' | translate }}</span>
+        <a [routerLink]="['/users/register']">
+          <span>{{ 'users.create_account' | translate }}</span>
         </a>
       </p>
     </div>

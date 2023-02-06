@@ -15,7 +15,7 @@ namespace Application.Features.Users.Commands.AssignToRole
 
         public async Task<IResponse> Handle(AssignToRoleCommand request, CancellationToken cancellationToken)
         {
-            await userService.AssignToRole(request.UserId, request.Role);
+            await userService.AssignToRoles(request.UserId, request.Roles);
             return new Response() { Result = true };
         }
     }

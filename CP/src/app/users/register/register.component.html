@@ -1,0 +1,124 @@
+<app-auth-layout>
+    <div class="card">
+        <div class="card-body">
+            <!-- Logo -->
+            <div class="app-brand justify-content-center">
+                <a [routerLink]="['/']" class="app-brand-link gap-2">
+                    <span class="app-brand-logo demo"></span>
+                    <span class="app-brand-text demo text-body fw-bolder">{{ 'shared.app_name' | translate }}</span>
+                </a>
+            </div>
+            <!-- /Logo -->
+            <h4 class="mb-2">{{ 'users.register_title' | translate: { app_name: 'shared.app_name' | translate } }}</h4>
+            <p class="mb-4">{{ 'users.register_subtitle' | translate }}</p>
+
+            <form class="mb-3" [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <label for="firstName" class="form-label">{{ 'users.first_name' | translate }}</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName"
+                            formControlName="firstName" placeholder="{{ 'users.enter_first_name' | translate }}"
+                            [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" autofocus />
+                        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                            <div class="animate__animated animate__headShake animate__fast"
+                                *ngIf="f.firstName.errors['required']">{{ 'shared.required' | translate }}</div>
+                            <div class="animate__animated animate__headShake animate__fast"
+                                *ngIf="f.firstName.errors['maxlength']">{{ 'shared.max_length' | translate: { max:
+                                f.firstName.errors['maxlength'].requiredLength } }}</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <label for="lastName" class="form-label">{{ 'users.last_name' | translate }}</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" formControlName="lastName"
+                            placeholder="{{ 'users.enter_last_name' | translate }}"
+                            [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+                        <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                            <div class="animate__animated animate__headShake animate__fast"
+                                *ngIf="f.lastName.errors['required']">{{ 'shared.required' | translate }}</div>
+                            <div class="animate__animated animate__headShake animate__fast"
+                                *ngIf="f.lastName.errors['maxlength']">{{ 'shared.max_length' | translate: { max:
+                                f.lastName.errors['maxlength'].requiredLength } }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">{{ 'users.username' | translate }}</label>
+                    <input type="text" class="form-control" id="username" name="username" formControlName="username"
+                        placeholder="{{ 'users.enter_username' | translate }}"
+                        [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                        <div class="animate__animated animate__headShake animate__fast"
+                            *ngIf="f.username.errors['required']">{{ 'shared.required' | translate }}</div>
+                        <div class="animate__animated animate__headShake animate__fast"
+                            *ngIf="f.username.errors['maxlength']">{{ 'shared.max_length' | translate: { max:
+                            f.username.errors['maxlength'].requiredLength } }}</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">{{ 'users.email' | translate }}</label>
+                    <input type="text" class="form-control" id="email" name="email" formControlName="email"
+                        placeholder="{{ 'users.enter_email' | translate }}"
+                        [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                        <div class="animate__animated animate__headShake animate__fast"
+                            *ngIf="f.email.errors['required']">{{ 'shared.required' | translate }}</div>
+                        <div class="animate__animated animate__headShake animate__fast" *ngIf="f.email.errors['email']">
+                            {{ 'shared.invalid_email' | translate }}</div>
+                        <div class="animate__animated animate__headShake animate__fast"
+                            *ngIf="f.email.errors['maxlength']">{{ 'shared.max_length' | translate: { max:
+                            f.email.errors['maxlength'].requiredLength } }}</div>
+                    </div>
+                </div>
+                <div class="mb-3 form-password-toggle">
+                    <label class="form-label" for="password">{{ 'users.password' | translate }}</label>
+                    <div class="input-group input-group-merge"
+                        [ngClass]="{ 'invalid': submitted && f.password.errors }">
+                        <input type="password" class="form-control" id="password" name="password"
+                            formControlName="password"
+                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                            aria-describedby="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                            <div class="animate__animated animate__headShake animate__fast"
+                                *ngIf="f.password.errors['required']">{{ 'shared.required' | translate }}</div>
+                            <div class="animate__animated animate__headShake animate__fast"
+                                *ngIf="f.password.errors['minlength']">{{ 'shared.min_length' | translate: { min:
+                                f.password.errors['minlength'].requiredLength } }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 form-password-toggle">
+                    <label class="form-label" for="confirmPassword">{{ 'users.confirm_password' | translate }}</label>
+                    <div class="input-group input-group-merge"
+                        [ngClass]="{ 'invalid': submitted && f.confirmPassword.errors }">
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                            formControlName="confirmPassword"
+                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                            aria-describedby="confirmPassword"
+                            [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+                        <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                            <div class="animate__animated animate__headShake animate__fast"
+                                *ngIf="f.confirmPassword.errors['required']">{{ 'shared.required' | translate }}</div>
+                            <div class="animate__animated animate__headShake animate__fast"
+                                *ngIf="f.confirmPassword.errors['minlength']">{{ 'shared.min_length' | translate: {
+                                min: f.confirmPassword.errors['minlength'].requiredLength } }}</div>
+                            <div class="animate__animated animate__headShake animate__fast"
+                                *ngIf="f.confirmPassword.errors['matchPassword']">{{ 'shared.match_password' |
+                                translate }}</div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary d-grid w-100">{{
+                    'users.register' | translate }}</button>
+            </form>
+
+            <p class="text-center">
+                <span class="me-1">{{ 'users.have_account' | translate }}</span>
+                <a [routerLink]="['/users/login']">
+                    <span>{{ 'users.login_instead' | translate }}</span>
+                </a>
+            </p>
+        </div>
+    </div>
+</app-auth-layout>

@@ -6,7 +6,7 @@ namespace Application.Interfaces.Users
     {
         Task<UserDto> Get(string userId);
         Task<AuthResult> Create(UserDto user, string password);
-        Task AssignToRole(string userId, string role);
+        Task AssignToRoles(string userId, IEnumerable<string> roles);
         Task<IEnumerable<string>> GetRoles(string userId);
     }
 }

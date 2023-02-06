@@ -1,0 +1,46 @@
+<a class="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown">
+    <div class="avatar avatar-online">
+        <img src="./assets/img/avatars/user.png" class="w-px-40 h-auto rounded-circle avatar" />
+    </div>
+</a>
+<ul class="dropdown-menu dropdown-menu-end animate__animated animate__faster animate__zoomIn">
+    <li>
+        <a class="dropdown-item" href="#">
+            <div class="d-flex">
+                <div class="flex-shrink-0 me-3">
+                    <div class="avatar avatar-online">
+                        <img src="./assets/img/avatars/user.png" class="w-px-40 h-auto rounded-circle avatar" />
+                    </div>
+                </div>
+                <div class="flex-grow-1 mt-2 placeholder-glow">
+                    <span class="fw-semibold d-block mb-2">{{ user.firstName }} {{ user.lastName }}</span>
+                    <small class="text-muted d-block">{{ (user.roles || []).join(', ') }}</small>
+                </div>
+            </div>
+        </a>
+    </li>
+    <li>
+        <div class="dropdown-divider"></div>
+    </li>
+    <li>
+        <a class="dropdown-item" href="#">
+            <i class="bx bx-user me-2"></i>
+            <span class="align-middle">{{ 'shared.my_profile' | translate }}</span>
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="#">
+            <i class="bx bx-cog me-2"></i>
+            <span class="align-middle" i18n>{{ 'shared.settings' | translate }}</span>
+        </a>
+    </li>
+    <li>
+        <div class="dropdown-divider"></div>
+    </li>
+    <li>
+        <a class="dropdown-item logout" role="button" (click)="logout()">
+            <i class="bx bx-power-off me-2"></i>
+            <span class="align-middle" i18n>{{ 'shared.logout' | translate }}</span>
+        </a>
+    </li>
+</ul>

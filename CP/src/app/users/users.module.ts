@@ -6,8 +6,10 @@ import { SharedModule } from "../shared/shared.module";
 import { HomeComponent } from './home/home.component';
 import { RolesComponent } from './roles/roles.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { RegisterComponent } from './register/register.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -15,17 +17,19 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     declarations: [
         LoginComponent,
         HomeComponent,
-        RolesComponent
+        RolesComponent,
+        RegisterComponent
     ],
     imports: [
         UsersRoutingModule,
         CommonModule,
         SharedModule,
+        ReactiveFormsModule,
         TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,
-                useFactory: (httpClient: HttpClient) => new TranslateHttpLoader(httpClient),
-                deps: [HttpClient]
+                useFactory: (httpHandler: HttpBackend) => new TranslateHttpLoader(new HttpClient(httpHandler)),
+                deps: [HttpBackend]
             }
         })
     ]

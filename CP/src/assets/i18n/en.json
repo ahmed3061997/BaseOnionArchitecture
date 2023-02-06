@@ -3,7 +3,9 @@
         "app_name": "app_name",
         "not_found": "Page Not Found :(",
         "not_found_msg": "Oops! 😖 The requested URL was not found on this server.",
-        "search": "Search",
+        "error": "Error",
+        "undefined_error": "An unknown server error has been occured",
+        "search": "Search ...",
         "my_profile": "My Profile",
         "settings": "Settings",
         "logout": "Log Out",
@@ -11,7 +13,12 @@
         "yes": "Yes",
         "no": "No",
         "on": "On",
-        "off": "Off"
+        "off": "Off",
+        "required": "Required",
+        "max_length": "Please enter no more than {{max}} characters",
+        "min_length": "Please enter at least {{min}} characters",
+        "match_password": "Passwords did not match",
+        "invalid_email": "Please enter a valid email address"
     },
     "users": {
         "login": "Log In",
@@ -36,7 +43,11 @@
         "enter_email": "Enter your email",
         "verified": "Verified",
         "blocked": "Blocked",
-        "online": "Online"
+        "online": "Online",
+        "first_name": "First Name",
+        "enter_first_name": "Enter first name",
+        "last_name": "Last Name",
+        "enter_last_name": "Enter last name"
     },
     "side_menu": {
       "dashboard": "Dashboard",

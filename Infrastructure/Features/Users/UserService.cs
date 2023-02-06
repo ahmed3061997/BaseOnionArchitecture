@@ -34,10 +34,10 @@ namespace Infrastructure.Features.Users
             return new AuthResult() { User = mapper.Map<UserDto>(dbUser), Jwt = await tokenService.GenerateToken(dbUser) };
         }
 
-        public async Task AssignToRole(string userId, string role)
+        public async Task AssignToRoles(string userId, IEnumerable<string> roles)
         {
             var user = await userManager.FindByIdAsync(userId);
-            await userManager.AddToRoleAsync(user, role);
+            await userManager.AddToRolesAsync(user, roles);
         }
 
         public async Task<IEnumerable<string>> GetRoles(string userId)

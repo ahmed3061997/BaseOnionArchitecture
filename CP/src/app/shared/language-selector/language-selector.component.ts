@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Culture } from 'src/app/core/models/culture';
 import { CultureService } from 'src/app/core/services/culture/culture.service';
 

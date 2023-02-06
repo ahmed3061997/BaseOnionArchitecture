@@ -6,14 +6,14 @@ namespace Domain.Events
     {
         public string UserId { get; set; }
         public string Email { get; set; }
-        public string Role { get; set; }
+        public IEnumerable<string>? Roles { get; set; }
         public string ConfirmEmailUrl { get; set; }
 
-        public UserCreatedEvent(string userId, string email, string role, string confirmEmailUrl)
+        public UserCreatedEvent(string userId, string email, IEnumerable<string>? roles, string confirmEmailUrl)
         {
             UserId = userId;
             Email = email;
-            Role = role;
+            Roles = roles;
             ConfirmEmailUrl = confirmEmailUrl;
         }
     }

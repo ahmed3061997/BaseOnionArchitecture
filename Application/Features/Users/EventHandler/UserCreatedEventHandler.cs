@@ -17,7 +17,8 @@ namespace Application.Features.Users.EventHandler
 
         public override async Task Handle(UserCreatedEvent notification, CancellationToken cancellationToken)
         {
-            await AssignToRole(notification);
+            if (notification.Roles != null)
+                await AssignToRole(notification);
             await SendConfirmationEmail(notification);
         }
 
@@ -26,7 +27,7 @@ namespace Application.Features.Users.EventHandler
             await mediator.Send(new AssignToRoleCommand()
             {
                 UserId = notification.UserId,
-                Role = notification.Role,
+                Roles = notification.Roles,
             });
         }
 
