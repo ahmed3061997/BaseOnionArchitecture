@@ -14,6 +14,7 @@ import { HttpRequestErrorInterceptor } from './core/interceptors/error-intercept
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpRequestLanguageInterceptor } from './core/interceptors/language-interceptor';
+import { CustomToastrComponent } from './shared/custom-toastr/custom-toastr.component';
 
 const InterceptorProviders = [
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestApiEndPointInterceptor, multi: true },
@@ -36,7 +37,10 @@ const InterceptorProviders = [
         BrowserAnimationsModule,
         AppRoutingModule,
         CoreModule,
-        ToastrModule.forRoot(),
+        ToastrModule.forRoot({
+            toastClass: '',
+            toastComponent: CustomToastrComponent,
+        }),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

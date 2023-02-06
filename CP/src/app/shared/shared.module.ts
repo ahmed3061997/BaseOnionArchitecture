@@ -13,6 +13,7 @@ import { CurrentUserComponent } from './current-user/current-user.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { CustomToastrComponent } from './custom-toastr/custom-toastr.component';
 
 
 
@@ -26,7 +27,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     LanguageSelectorComponent,
     AccessDeniedComponent,
     AuthLayoutComponent,
-    CurrentUserComponent
+    CurrentUserComponent,
+    CustomToastrComponent
   ],
   imports: [
     SharedRoutingModule,
@@ -42,6 +44,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
   exports: [
     LayoutComponent,
     AuthLayoutComponent,
+    CustomToastrComponent,
     LanguageSelectorComponent
   ]
 })
