@@ -14,6 +14,9 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CustomToastrComponent } from './custom-toastr/custom-toastr.component';
+import { MultiLanguageInputComponent } from './multi-language-input/multi-language-input.component';
+import { MultiLanguageTextAreaComponent } from './multi-language-textarea/multi-language-textarea.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -28,11 +31,14 @@ import { CustomToastrComponent } from './custom-toastr/custom-toastr.component';
     AccessDeniedComponent,
     AuthLayoutComponent,
     CurrentUserComponent,
-    CustomToastrComponent
+    CustomToastrComponent,
+    MultiLanguageInputComponent,
+    MultiLanguageTextAreaComponent
   ],
   imports: [
     SharedRoutingModule,
     CommonModule,
+    ReactiveFormsModule,
     TranslateModule.forChild({
         loader: {
             provide: TranslateLoader,
@@ -45,7 +51,9 @@ import { CustomToastrComponent } from './custom-toastr/custom-toastr.component';
     LayoutComponent,
     AuthLayoutComponent,
     CustomToastrComponent,
-    LanguageSelectorComponent
+    LanguageSelectorComponent,
+    MultiLanguageInputComponent,
+    MultiLanguageTextAreaComponent
   ]
 })
 export class SharedModule { }

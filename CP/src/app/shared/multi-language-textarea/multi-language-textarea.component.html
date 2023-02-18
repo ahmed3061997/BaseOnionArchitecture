@@ -1,0 +1,9 @@
+<div class="language-input-container">
+    <div *ngFor="let culture of cultures" class="input-group input-group-merge language-input mb-2"
+        data-culture="@flag.Key">
+        <span class="input-group-text">
+            <i class="fi fi-{{ culture.flag }} m-0"></i>
+        </span>
+        <textarea type="text" class="form-control" [placeholder]="culture.name" required></textarea>
+    </div>
+</div>

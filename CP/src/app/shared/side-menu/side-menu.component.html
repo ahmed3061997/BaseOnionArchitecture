@@ -23,6 +23,34 @@
 
         <li class="menu-item" [routerLinkActive]="['active', 'open']">
             <a href="#" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-cog"></i>
+                <div i18n>{{ 'side_menu.system' | translate }}</div>
+            </a>
+
+            <ul class="menu-sub">
+                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <a [routerLink]="['/system/modules']" class="menu-link">
+                        <div i18n>{{ 'side_menu.modules' | translate }}</div>
+                    </a>
+                </li>
+                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <a [routerLink]="['/system/operations']" class="menu-link">
+                        <div i18n>{{ 'side_menu.operations' | translate }}</div>
+                    </a>
+                </li>
+                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                    true}">
+                    <a [routerLink]="['/system/pages']" class="menu-link">
+                        <div i18n>{{ 'side_menu.pages' | translate }}</div>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-item" [routerLinkActive]="['active', 'open']">
+            <a href="#" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-user"></i>
                 <div i18n>{{ 'side_menu.manage_users' | translate }}</div>
             </a>

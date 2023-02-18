@@ -1,0 +1,60 @@
+<app-layout>
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{{ 'side_menu.system' | translate }} /</span>
+            {{ 'side_menu.modules' | translate }}</h4>
+
+        <div class="card">
+            <h5 class="card-header">{{ 'side_menu.modules' | translate }}</h5>
+            <div class="d-flex justify-content-end mx-4 mb-3">
+                <button type="button" class="btn btn-success" id="addBtn" (click)="add()">
+                    <i class="fa fa-plus"></i>
+                    {{ 'shared.add' | translate }}
+                </button>
+            </div>
+            <div class="table-responsive text-nowrap" style="min-height: 250px;">
+                <table id="datatable" class="table">
+                    <thead>
+                        <tr>
+                            <th>{{ 'shared.code' | translate }}</th>
+                            <th>{{ 'shared.name' | translate }}</th>
+                            <th>{{ 'shared.actions' | translate }}</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</app-layout>
+
+<ng-template #moduleDialog>
+    <div mat-dialog-title>
+        <h5>{{ 'modules.add_edit_module' | translate }}</h5>
+    </div>
+
+    <form mat-dialog-content [formGroup]="form">
+        <input id="ID" value="@Model?.Id" hidden />
+        <div class="mb-3">
+            <label class="form-label">{{ 'shared.code' | translate }}</label>
+            <select class="form-select" formControlName="code" [ngClass]="{ 'is-invalid': submitted && f.code.errors }">
+            </select>
+            <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+              <div class="animate__animated animate__headShake animate__fast" *ngIf="f.code.errors['required']">{{
+                'shared.required' | translate }}</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">{{ 'shared.name' | translate }}</label>
+            <app-multi-language-input #nameInput [form]="form" [submitted]="submitted"></app-multi-language-input>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" (click)="save()">{{ 'shared.save_changes' | translate
+            }}</button>
+        <button type="button" class="btn btn-outline-secondary" mat-dialog-close>{{ 'shared.cancel' | translate
+            }}</button>
+    </div>
+</ng-template>

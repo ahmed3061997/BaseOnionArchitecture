@@ -1,0 +1,23 @@
+<div class="language-input-container" *ngIf="form else nonFormInput" [formGroup]="form">
+    <div *ngFor="let culture of cultures" class="input-group input-group-merge language-input mb-2" [attr.data-culture]="culture.code" [ngClass]="{ 'invalid': submitted && f[culture.code + 'Input'].errors }">
+        <span class="input-group-text">
+            <i class="fi fi-{{ culture.flag }} m-0"></i>
+        </span>
+        <input type="text" class="form-control" [placeholder]="culture.name" [formControlName]="culture.code + 'Input'" [ngClass]="{ 'is-invalid': submitted && f[culture.code + 'Input'].errors }">
+        <div *ngIf="submitted && f[culture.code + 'Input'].errors" class="invalid-feedback">
+          <div class="animate__animated animate__headShake animate__fast" *ngIf="f[culture.code + 'Input'].errors['required']">{{
+            'shared.required' | translate }}</div>
+        </div>
+    </div>
+</div>
+
+<ng-template #nonFormInput>
+    <div class="language-input-container">
+        <div *ngFor="let culture of cultures" class="input-group input-group-merge language-input mb-2" [ngClass]="{ 'disabled': disabled }" [attr.data-culture]="culture.code">
+            <span class="input-group-text">
+                <i class="fi fi-{{ culture.flag }} m-0"></i>
+            </span>
+            <input type="text" class="form-control" [placeholder]="culture.name" [disabled]="disabled">
+        </div>
+    </div>
+</ng-template>

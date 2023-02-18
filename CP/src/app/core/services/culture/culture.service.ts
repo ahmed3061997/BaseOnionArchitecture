@@ -1,25 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { BehaviorSubject, Observable, shareReplay, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, of, shareReplay, tap } from 'rxjs';
 import { Culture } from '../../models/culture';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CultureService {
+  private readonly fallbackCultures: Culture[] = [
+    new Culture('ar', 'عربي', 'eg', false),
+    new Culture('en', 'English', 'us', true),
+  ]
   private cultures: Observable<Culture[]>;
   private currentCulture$: BehaviorSubject<Culture> = new BehaviorSubject(new Culture());
 
   constructor(private httpClient: HttpClient, private translate: TranslateService) {
     this.cultures = this.httpClient.get<Culture[]>('/api/system/get-cultures')
       .pipe(
-        // configure nx-translate
+        catchError(() => {
+          return of(this.fallbackCultures)
+        }),
+        // configure nx-translate & set current or default
         tap(result => {
           translate.addLangs(result.map(x => x.code))
-        }),
-        // set current or default
-        tap(result => {
           var culture = result.filter(x => x.code == localStorage.getItem('culture') || x.isDefault)[0]
           this.changeCulture(culture)
         }),
@@ -42,8 +46,13 @@ export class CultureService {
     this.currentCulture$.next(culture)
   }
 
+  dir() {
+    const htmlTag = document.getElementsByTagName("html")[0] as HTMLHtmlElement
+    return htmlTag.dir
+  }
+
   private changeDirection(lang: string) {
-    const htmlTag = document.getElementsByTagName("html")[0] as HTMLHtmlElement;
-    htmlTag.dir = lang === "ar" ? "rtl" : "ltr";
+    const htmlTag = document.getElementsByTagName("html")[0] as HTMLHtmlElement
+    htmlTag.dir = lang === "ar" ? "rtl" : "ltr"
   }
 }

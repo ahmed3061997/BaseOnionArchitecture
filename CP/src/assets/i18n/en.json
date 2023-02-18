@@ -22,7 +22,12 @@
         "max_length": "Please enter no more than {{max}} characters",
         "min_length": "Please enter at least {{min}} characters",
         "match_password": "Passwords did not match",
-        "invalid_email": "Please enter a valid email address"
+        "invalid_email": "Please enter a valid email address",
+        "add": "Add",
+        "code": "Code",
+        "name": "Name",
+        "cancel": "Cancel",
+        "save_changes": "Save Changes"
     },
     "users": {
         "login": "Log In",
@@ -53,10 +58,17 @@
         "last_name": "Last Name",
         "enter_last_name": "Enter last name"
     },
+    "modules": {
+        "add_edit_module": "Add / Edit Module"
+    },
     "side_menu": {
       "dashboard": "Dashboard",
       "manage_users": "Manage Users",
       "users": "Users",
-      "roles": "Roles"
+      "roles": "Roles",
+      "system": "System",
+      "modules": "Modules",
+      "pages": "Pages",
+      "operations": "Operations"
     }
 }

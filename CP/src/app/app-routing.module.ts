@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
   },
   {
+    path: 'system',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./system/system.module').then(m => m.SystemModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule)
   },

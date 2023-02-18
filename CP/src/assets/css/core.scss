@@ -2964,6 +2964,9 @@
         border-bottom-left-radius: 0 !important;
         border-left-style: none;
     }
+    .input-group.invalid > .input-group-text {
+        border-color: #ff3e1d;
+    }
 
     .btn {
         display: inline-block;
@@ -8766,7 +8769,7 @@
         border-left: 0;
     }
 
-    .input-group-merge .form-control:not(:last-child) {
+    .input-group-merge .form-control:not(:last-child) and :last-child:not(.invalid-feedback) {
         padding-right: 0;
         border-right: 0;
     }
