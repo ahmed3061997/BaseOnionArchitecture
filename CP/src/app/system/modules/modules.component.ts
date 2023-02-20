@@ -31,7 +31,7 @@ export class ModulesComponent {
   }
 
   add() {
-    this.dialogRef = this.dialog.open(this.moduleDialog, { width: '30vw' })
+    this.dialogRef = this.dialog.open(this.moduleDialog)
     this.dialogRef
       .afterClosed()
       .subscribe(() => {

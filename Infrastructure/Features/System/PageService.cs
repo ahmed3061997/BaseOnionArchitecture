@@ -32,7 +32,11 @@ namespace Infrastructure.Features.System
         {
             CheckCode(page.Code, page.Id);
             CheckNames(page.Names.Select(x => x.Value).ToArray(), page.Id);
-            await context.UpdateAsync(mapper.Map<Page>(page));
+            mapper.Map(page, await context.Pages
+                .Include(x => x.Names)
+                .Include(x => x.Operations)
+                .FirstOrDefaultAsync(x => x.Id == page.Id));
+            await context.SaveChangesAsync();
         }
 
         public async Task Delete(Guid id)

@@ -11,7 +11,7 @@ export class DialogService {
 
   constructor(private dialog: MatDialog, private cultureService: CultureService) { }
 
-  open<T>(template: ComponentType<T> | TemplateRef<T>, config: MatDialogConfig | undefined) {
+  open<T>(template: ComponentType<T> | TemplateRef<T>, config?: MatDialogConfig | undefined) {
     return this.dialog.open(template, {
       ...config,
       direction:  this.cultureService.dir() as Direction

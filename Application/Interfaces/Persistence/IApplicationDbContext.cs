@@ -13,6 +13,5 @@ namespace Application.Interfaces.Persistence
         DbSet<T> Set<T>() where T : class;
         EntityEntry<T> Entry<T>(T entity) where T : class;
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-        Task<int> UpdateAsync<T>(T obj, CancellationToken cancellationToken = default) where T : class;
     }
 }

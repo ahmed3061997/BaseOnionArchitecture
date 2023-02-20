@@ -1,9 +1,10 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Application.Common.Responses;
 using API.Common;
-using Application.Features.Users.Queries.GetCurrentUser;
+using Application.Models.Users;
+using Application.Interfaces.Users;
+using Application.Interfaces.Validation;
+using AutoMapper;
 
 namespace API.Controllers
 {
@@ -11,17 +12,22 @@ namespace API.Controllers
     [ApiController, Authorize]
     public class UsersController : ControllerBase
     {
-        private readonly IMediator mediator;
+        private readonly IUserService userService;
+        private readonly IValidationService validationService;
+        private readonly IMapper mapper;
 
-        public UsersController(IMediator mediator)
+        public UsersController(IUserService userService, IValidationService validationService, IMapper mapper)
         {
-            this.mediator = mediator;
+            this.userService = userService;
+            this.validationService = validationService;
+            this.mapper = mapper;
         }
 
-        [HttpGet(ApiRoutes.GetCurrentUser)]
-        public async Task<IResponse> GetCurrentUser()
+        [HttpPost(ApiRoutes.Register)]
+        public async Task<AuthResult> Register(CreateUserDto dto)
         {
-            return await mediator.Send(new GetCurrentUserQuery());
+            await validationService.ThrowIfInvalid(dto);
+            return await userService.Create(mapper.Map<UserDto>(dto), dto.Password);
         }
     }
 }

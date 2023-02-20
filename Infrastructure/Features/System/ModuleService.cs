@@ -32,7 +32,10 @@ namespace Infrastructure.Features.System
         {
             CheckCode(module.Code, module.Id);
             CheckNames(module.Names.Select(x => x.Value).ToArray(), module.Id);
-            await context.UpdateAsync(mapper.Map<Module>(module));
+            mapper.Map(module, await context.Modules
+                .Include(x => x.Names)
+                .FirstOrDefaultAsync(x => x.Id == module.Id));
+            await context.SaveChangesAsync();
         }
 
         public async Task Delete(Guid id)

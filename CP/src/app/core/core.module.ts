@@ -11,7 +11,7 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/d
     MatDialogModule,
   ],
   providers: [
-    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { disableClose: true } }
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { disableClose: true, panelClass: 'dialog-md' } }
   ]
 })
 export class CoreModule { }

@@ -62,3 +62,20 @@ body {
 .mat-mdc-dialog-content {
   font-family: inherit !important;
 }
+
+.dialog-md {
+  width: 40%;
+}
+
+.dialog-lg {
+  width: 70%;
+}
+
+@media only screen and (max-width: 760px) {
+  .dialog-md {
+      width: 90%;
+  }
+  .dialog-lg {
+      width: 90%;
+  }
+}

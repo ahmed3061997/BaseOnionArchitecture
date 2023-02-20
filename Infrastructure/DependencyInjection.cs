@@ -16,6 +16,8 @@ using Infrastructure.Features.Users;
 using Infrastructure.Persistence;
 using Application.Interfaces.System;
 using Infrastructure.Features.System;
+using Application.Interfaces.Validation;
+using Infrastructure.Features.Validation;
 
 namespace Infrastructure
 {
@@ -32,13 +34,16 @@ namespace Infrastructure
 
         private static void AddServices(IServiceCollection services)
         {
+            services.AddSingleton<IValidationService, ValidationService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITokenService, JwtTokenService>();
             services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddScoped<ICurrentCultureService, CurrentCultureService>();
-            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IResetPasswordEmailSender, ResetPasswordEmailSender>();
+            services.AddScoped<IConfirmationEmailSender, ConfirmationEmailSender>();
             services.AddScoped<IModuleService, ModuleService>();
             services.AddScoped<IPageService, PageService>();
             services.AddScoped<IOperationService, OperationService>();

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Localization;
 using System.Net;
 using System.Text.Json;
-using Application.Common.Responses;
 using Localization;
 using Application.Common.Extensions;
 
@@ -43,7 +42,7 @@ namespace API.Middlewares
 
         private async Task HandleException(HttpContext context, Exception exception)
         {
-            var response = new Response()
+            var response = new
             {
                 Result = false,
                 Errors = LocalizeErrors(exception.GetErrors())

@@ -7,8 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Behaviors\**" />
+    <Compile Remove="Common\EventHandlers\**" />
+    <Compile Remove="Common\Responses\**" />
+    <Compile Remove="Features\**" />
     <Compile Remove="Helpers\**" />
+    <EmbeddedResource Remove="Behaviors\**" />
+    <EmbeddedResource Remove="Common\EventHandlers\**" />
+    <EmbeddedResource Remove="Common\Responses\**" />
+    <EmbeddedResource Remove="Features\**" />
     <EmbeddedResource Remove="Helpers\**" />
+    <None Remove="Behaviors\**" />
+    <None Remove="Common\EventHandlers\**" />
+    <None Remove="Common\Responses\**" />
+    <None Remove="Features\**" />
     <None Remove="Helpers\**" />
   </ItemGroup>
 

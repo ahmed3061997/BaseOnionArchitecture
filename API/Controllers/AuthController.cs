@@ -1,16 +1,11 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Application.Common.Responses;
-using Application.Common.Constants;
-using Application.Features.Users.Commands.Login;
-using Application.Features.Users.Commands.RefreshToken;
+﻿using Microsoft.AspNetCore.Mvc;
 using API.Common;
-using Application.Features.Users.Commands.Logout;
-using Application.Features.Users.Commands.ResetPassword;
-using Application.Features.Users.Commands.EmailConfirmation;
-using Application.Features.Users.Commands.Create;
-using Domain.Entities.Users;
 using Microsoft.AspNetCore.Authorization;
+using Application.Models.Users;
+using Application.Interfaces.Users;
+using Application.Interfaces.Validation;
+using Application.Interfaces.Emails;
+using System.Web;
 
 namespace API.Controllers
 {
@@ -18,60 +13,71 @@ namespace API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IMediator mediator;
+        private readonly IAuthService authService;
+        private readonly ITokenService tokenService;
+        private readonly IValidationService validationService;
 
-        public AuthController(IMediator mediator)
+        public AuthController(IAuthService authService, ITokenService tokenService, IValidationService validationService)
         {
-            this.mediator = mediator;
+            this.authService = authService;
+            this.tokenService = tokenService;
+            this.validationService = validationService;
         }
 
         [HttpPost(ApiRoutes.Login)]
-        public async Task<IResponse> Login(LoginCommand request)
+        public async Task<AuthResult> Login(LoginDto login)
         {
-            return await mediator.Send(request);
-        }
-
-        [HttpPost(ApiRoutes.Register)]
-        public async Task<IResponse> Register(CreateUserCommand request)
-        {
-            return await mediator.Send(request);
+            await validationService.ThrowIfInvalid(login);
+            return await authService.Login(login.Username, login.Password);
         }
 
         [HttpPost(ApiRoutes.SendResetPassword)]
-        public async Task<IResponse> SendResetPassword(SendResetPasswordCommand request)
+        public async Task<bool> SendResetPassword(SendResetPasswordDto dto, [FromServices] IResetPasswordEmailSender emailSender)
         {
-            return await mediator.Send(request);
+            await validationService.ThrowIfInvalid(dto);
+            var result = await authService.GenerateResetPasswordToken(dto.Username);
+            emailSender.Send(result, dto.ResetUrl);
+            return true;
         }
 
         [HttpPost(ApiRoutes.ResetPassword)]
-        public async Task<IResponse> ResetPassword(ResetPassowrdCommand request)
+        public async Task<AuthResult> ResetPassword(ResetPassowrdDto dto)
         {
-            return await mediator.Send(request);
-        }
-
-        [HttpPost(ApiRoutes.ConfirmEmail)]
-        public async Task<IResponse> ConfirmEmail(ConfirmEmailCommand request)
-        {
-            return await mediator.Send(request);
+            await validationService.ThrowIfInvalid(dto);
+            return await authService.ResetPassword(
+                      dto.Username,
+                      HttpUtility.HtmlDecode(dto.Token),
+                      dto.NewPassword);
         }
 
         [HttpPost(ApiRoutes.SendEmailConfirmation)]
-        public async Task<IResponse> SendEmailConfirmation(SendEmailConfirmationCommand request)
+        public async Task<bool> SendEmailConfirmation(SendConfirmationEmailDto dto, [FromServices] IConfirmationEmailSender emailSender)
         {
-            return await mediator.Send(request);
+            await validationService.ThrowIfInvalid(dto);
+            var result = await authService.GenerateResetPasswordToken(dto.Username);
+            emailSender.Send(result, dto.ConfirmUrl);
+            return true;
+        }
+
+        [HttpPost(ApiRoutes.ConfirmEmail)]
+        public async Task<AuthResult> ConfirmEmail(ConfirmEmailDto dto)
+        {
+            await validationService.ThrowIfInvalid(dto);
+            return await authService.ConfirmEmail(dto.Username, HttpUtility.HtmlDecode(dto.Token));
         }
 
         [Authorize]
         [HttpGet(ApiRoutes.Logout)]
-        public async Task<IResponse> Logout()
+        public async Task<bool> Logout()
         {
-            return await mediator.Send(new LogoutCommand());
+            await authService.Logout();
+            return true;
         }
 
         [HttpPost(ApiRoutes.RefreshToken)]
-        public async Task<IResponse> RefreshToken(string token)
+        public async Task<JwtToken> RefreshToken(string token)
         {
-            return await mediator.Send(new RefreshTokenCommand() { Token = token });
+            return await tokenService.RefreshToken(token);
         }
     }
 }
