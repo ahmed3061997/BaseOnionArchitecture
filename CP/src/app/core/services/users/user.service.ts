@@ -14,9 +14,8 @@ export class UserService {
   constructor(private httpClient: HttpClient, private authService: AuthService) { }
 
   register(user: any): Observable<AuthResult> {
-    return this.httpClient.post<ApiResponse<AuthResult>>('/api/auth/register', user)
+    return this.httpClient.post<AuthResult>('/api/auth/register', user)
       .pipe(
-        map(x => x.value),
         tap(result => {
           this.authService.saveUser(result.user);
           this.authService.saveToken(result.jwt.token);

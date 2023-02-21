@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces.Validation;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +15,11 @@ namespace Infrastructure.Features.Validation
 {
     public class ValidationService : IValidationService
     {
-        private readonly IServiceProvider provider;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public ValidationService(IServiceProvider provider)
+        public ValidationService(IHttpContextAccessor httpContextAccessor)
         {
-            this.provider = provider;
+            this.httpContextAccessor = httpContextAccessor;
         }
 
         public async Task ThrowIfInvalid<T>(T value)
@@ -29,7 +31,7 @@ namespace Infrastructure.Features.Validation
 
         public async Task<IEnumerable<ValidationFailure>> Validate<T>(T value)
         {
-            var validators = (IEnumerable<IValidator<T>>)provider.GetService(typeof(IEnumerable<IValidator<T>>));
+            var validators = httpContextAccessor.HttpContext.RequestServices.GetServices<IValidator<T>>();
             if (validators!.Any())
             {
                 var context = new ValidationContext<T>(value);

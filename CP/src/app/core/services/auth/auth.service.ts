@@ -1,10 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
-import { ApiResponse } from '../../models/api-response';
+import { Observable, tap } from 'rxjs';
 import { AuthResult } from '../../models/auth-result';
 import { JwtToken } from '../../models/jwt-token';
-import { User } from '../../models/user';
 
 const TOKEN_KEY = 'access-token';
 const REFRESHTOKEN_KEY = 'refresh-token';
@@ -18,9 +16,8 @@ export class AuthService {
   constructor(private httpClient: HttpClient) { }
 
   login(username: string | null | undefined, password: string | null | undefined): Observable<AuthResult> {
-    return this.httpClient.post<ApiResponse<AuthResult>>('/api/auth/login', { username, password })
+    return this.httpClient.post<AuthResult>('/api/auth/login', { username, password })
       .pipe(
-        map(x => x.value),
         tap(result => {
           this.saveUser(result.user);
           this.saveToken(result.jwt.token);
@@ -30,15 +27,11 @@ export class AuthService {
   }
 
   refreshToken(token: string): Observable<JwtToken> {
-    return this.httpClient.post<ApiResponse<JwtToken>>('/api/auth/login', { token })
-      .pipe(
-        map(x => x.value)
-      );
+    return this.httpClient.post<JwtToken>('/api/auth/login', { token });
   }
 
   logout(): Observable<boolean> {
-    return this.httpClient.get<ApiResponse>('/api/auth/logout').pipe(
-      map(x=>x.result),
+    return this.httpClient.get<boolean>('/api/auth/logout').pipe(
       tap(this.clearSession)
     );
   }
