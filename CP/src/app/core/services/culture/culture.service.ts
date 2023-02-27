@@ -16,6 +16,7 @@ export class CultureService {
   private currentCulture$: BehaviorSubject<Culture> = new BehaviorSubject(new Culture());
 
   constructor(private httpClient: HttpClient, private translate: TranslateService) {
+    translate.setDefaultLang(this.fallbackCultures.filter(x => x.isDefault)[0].code)
     this.cultures = this.httpClient.get<Culture[]>('/api/system/get-cultures')
       .pipe(
         catchError(() => {

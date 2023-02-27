@@ -1,9 +1,11 @@
-﻿using Application.Common.Extensions;
+﻿using Application.Common.Constants;
+using Application.Common.Extensions;
 using Application.Interfaces.Culture;
 using Application.Interfaces.Persistence;
 using Application.Interfaces.System;
 using Application.Models.System;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace Infrastructure.Features.System
 {
@@ -18,7 +20,20 @@ namespace Infrastructure.Features.System
             this.currentCultureService = currentCultureService;
         }
 
-        public async Task<IEnumerable<PageClaimDto>> GetClaims()
+        public async Task<IEnumerable<Claim>> GetClaims()
+        {
+            var query = await context.PageOperations
+                .Select(x => new
+                {
+                    ModuleCode = x.Page.Module.Code,
+                    PageCode = x.Page.Code,
+                    OperationCode = x.Operation.Code,
+                })
+                .ToListAsync();
+            return query.Select(x => new Claim(Claims.Permission, $"{x.ModuleCode.EnumToString()}.{x.PageCode.EnumToString()}.{x.OperationCode.EnumToString()}"));
+        }
+
+        public async Task<IEnumerable<PageClaimDto>> GetPageClaims()
         {
             var culture = currentCultureService.GetCurrentUICulture();
             var query = await context.PageOperations

@@ -2,7 +2,7 @@
 {
     public static class EnumExtensions
     {
-        public static IEnumerable<KeyValuePair<int, string>> EnumToDictionary<T>(this T @enum) where T : Enum
+        public static IEnumerable<KeyValuePair<int, string>> EnumToDictionary<T>() where T : Enum
         {
             return Enum.GetValues(typeof(T))
                .Cast<T>()

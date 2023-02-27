@@ -1,7 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { BehaviorSubject } from 'rxjs';
 import { DialogService } from 'src/app/core/services/dialogs/dialog.service';
+import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { MultiLanguageInputComponent } from 'src/app/shared/multi-language-input/multi-language-input.component';
 
 @Component({
@@ -10,11 +13,12 @@ import { MultiLanguageInputComponent } from 'src/app/shared/multi-language-input
   styleUrls: ['./modules.component.scss']
 })
 export class ModulesComponent {
-  @ViewChild('moduleDialog') moduleDialog: TemplateRef<any>;
-  @ViewChild('nameInput') nameInput: MultiLanguageInputComponent;
+  @ViewChild('moduleDialog') moduleDialog: TemplateRef<any>
+  @ViewChild('nameInput') nameInput: MultiLanguageInputComponent
 
-  submitted: boolean = false;
-  private dialogRef: MatDialogRef<any, any>;
+  submitted: boolean = false
+  private dialogRef: MatDialogRef<any, any>
+  private moduleCodes: [] = []
 
   form = new FormGroup({
     code: new FormControl('',
@@ -24,10 +28,17 @@ export class ModulesComponent {
     ),
   })
 
-  constructor(private dialog: DialogService) { }
+  constructor(private dialog: DialogService, private httpClient: HttpClient, private notification: NotificationService) {
+  }
 
   get f() {
     return this.form.controls
+  }
+
+  ngOnInit() {
+    this.httpClient.get<[]>('/api/modules/get-codes')
+      .subscribe(result => this.moduleCodes = result)
+      .unsubscribe()
   }
 
   add() {
@@ -38,11 +49,18 @@ export class ModulesComponent {
         this.submitted = false
         this.form.reset()
       })
+      .unsubscribe()
   }
 
   save() {
     this.submitted = true
-    if (this.form.valid)
+    if (!this.form.valid) return
+
+    var module = this.form.value as any
+    module.names = this.nameInput.getValue()
+    this.httpClient.post('/api/modules/create', module).subscribe(() => {
       this.dialogRef.close()
+      this.notification.success()
+    })
   }
 }

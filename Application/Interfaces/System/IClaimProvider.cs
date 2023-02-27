@@ -1,9 +1,11 @@
 ﻿using Application.Models.System;
+using System.Security.Claims;
 
 namespace Application.Interfaces.System
 {
     public interface IClaimProvider
     {
-        Task<IEnumerable<PageClaimDto>> GetClaims();
+        Task<IEnumerable<Claim>> GetClaims();
+        Task<IEnumerable<PageClaimDto>> GetPageClaims();
     }
 }

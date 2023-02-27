@@ -16,5 +16,15 @@
         public const string SendResetPassword = "send-reset-password";
         public const string Authenticate = "authenticate";
         public const string GetCurrentUser = "get-current-user";
+
+        // Modules
+        public const string GetModuleCodes = "get-codes";
+
+        // CRUD
+        public const string Get = "get";
+        public const string GetAll = "get-all";
+        public const string Create = "create";
+        public const string Edit = "edit";
+        public const string Delete = "delete";
     }
 }
