@@ -17,6 +17,8 @@ import { CustomToastrComponent } from './custom-toastr/custom-toastr.component';
 import { MultiLanguageInputComponent } from './multi-language-input/multi-language-input.component';
 import { MultiLanguageTextAreaComponent } from './multi-language-textarea/multi-language-textarea.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -33,12 +35,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     CurrentUserComponent,
     CustomToastrComponent,
     MultiLanguageInputComponent,
-    MultiLanguageTextAreaComponent
+    MultiLanguageTextAreaComponent,
+    AlertDialogComponent
   ],
   imports: [
     SharedRoutingModule,
     CommonModule,
     ReactiveFormsModule,
+    MatDialogModule,
     TranslateModule.forChild({
         loader: {
             provide: TranslateLoader,
@@ -50,6 +54,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   exports: [
     LayoutComponent,
     AuthLayoutComponent,
+    AlertDialogComponent,
     CustomToastrComponent,
     LanguageSelectorComponent,
     MultiLanguageInputComponent,

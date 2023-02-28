@@ -42,9 +42,13 @@ export class CultureService {
 
   changeCulture(culture: Culture) {
     localStorage.setItem('culture', culture.code)
-    this.changeDirection(culture.code)
+    this.updateDocument(culture.code)
     this.translate.use(culture.code)
     this.currentCulture$.next(culture)
+  }
+
+  isRtl() {
+    return this.dir() == 'rtl'
   }
 
   dir() {
@@ -52,8 +56,9 @@ export class CultureService {
     return htmlTag.dir
   }
 
-  private changeDirection(lang: string) {
+  private updateDocument(lang: string) {
     const htmlTag = document.getElementsByTagName("html")[0] as HTMLHtmlElement
+    htmlTag.lang = lang
     htmlTag.dir = lang === "ar" ? "rtl" : "ltr"
   }
 }

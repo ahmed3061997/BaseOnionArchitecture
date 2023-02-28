@@ -2,7 +2,7 @@
 {
     public enum Modules : int
     {
-        System = 1,
-        Settings = 2,
+        Settings = 1,
+        ManageUsers = 2,
     }
 }

@@ -7,6 +7,9 @@ namespace Domain.Entities.Users
         public ApplicationRole() : base()
         {
         }
+        public ApplicationRole(string roleName) : base(roleName)
+        {
+        }
 
         public bool IsActive { get; set; }
         public IList<ApplicationRoleName> Names { get; set; }

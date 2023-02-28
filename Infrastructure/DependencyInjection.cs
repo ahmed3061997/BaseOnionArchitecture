@@ -47,6 +47,7 @@ namespace Infrastructure
             services.AddScoped<IModuleService, ModuleService>();
             services.AddScoped<IPageService, PageService>();
             services.AddScoped<IOperationService, OperationService>();
+            services.AddScoped<IClaimProvider, ClaimProvider>();
         }
 
         private static void AddJwt(IServiceCollection services, IConfiguration configuration)

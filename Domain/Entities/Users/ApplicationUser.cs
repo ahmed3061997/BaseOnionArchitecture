@@ -4,6 +4,14 @@ namespace Domain.Entities.Users
 {
     public class ApplicationUser : IdentityUser
     {
+        public ApplicationUser()
+        {
+        }
+
+        public ApplicationUser(string userName) : base(userName)
+        {
+        }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public bool IsLoggedIn { get; set; }

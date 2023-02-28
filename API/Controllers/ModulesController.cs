@@ -21,19 +21,19 @@ namespace API.Controllers
             this.validationService = validationService;
         }
 
-        [HttpPost(ApiRoutes.GetModuleCodes)]
+        [HttpGet(ApiRoutes.GetModuleCodes)]
         public IEnumerable<KeyValuePair<int, string>> GetCodes()
         {
             return EnumExtensions.EnumToDictionary<Modules>();
         }
 
-        [HttpPost(ApiRoutes.GetAll)]
+        [HttpGet(ApiRoutes.GetAll)]
         public async Task<IEnumerable<ModuleDto>> GetAll()
         {
             return await moduleService.GetAll();
         }
 
-        [HttpPost(ApiRoutes.Get)]
+        [HttpGet(ApiRoutes.Get)]
         public async Task<ModuleDto> Get(Guid id)
         {
             return await moduleService.Get(id);

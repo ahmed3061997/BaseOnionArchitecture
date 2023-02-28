@@ -12,44 +12,63 @@
                     {{ 'shared.add' | translate }}
                 </button>
             </div>
-            <div class="table-responsive text-nowrap" style="min-height: 250px;">
-                <table id="datatable" class="table">
-                    <thead>
-                        <tr>
-                            <th>{{ 'shared.code' | translate }}</th>
-                            <th>{{ 'shared.name' | translate }}</th>
-                            <th>{{ 'shared.actions' | translate }}</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                    </tbody>
-                </table>
-            </div>
+
+            <mat-table class="mb-1" [dataSource]="data">
+
+                <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef>{{ 'shared.code' | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let module">{{module.code}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>{{ 'shared.name' | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let module">{{module.name}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>{{ 'shared.actions' | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let module">
+                        <div class="d-flex">
+                            <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.edit' | translate" (click)="edit(module.id)">
+                                <i class="bx bx-edit-alt me-1"></i>
+                            </button>
+                            <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.delete' | translate" (click)="confirmDelete(module.id)">
+                                <i class="bx bx-trash me-1"></i>
+                            </button>
+                            </div>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+            </mat-table>
         </div>
     </div>
 
 </app-layout>
 
-<ng-template #moduleDialog>
+<ng-template #moduleDialog let-data>
     <div mat-dialog-title>
         <h5>{{ 'modules.add_edit_module' | translate }}</h5>
     </div>
 
     <form mat-dialog-content [formGroup]="form">
-        <input id="ID" value="@Model?.Id" hidden />
         <div class="mb-3">
             <label class="form-label">{{ 'shared.code' | translate }}</label>
             <select class="form-select" formControlName="code" [ngClass]="{ 'is-invalid': submitted && f.code.errors }">
-                <option *ngFor="let option of moduleCodes" [value]="option.key">{{ option.value }}</option>
+                <option *ngFor="let option of moduleCodes | async | keyvalue" [value]="option.key" [selected]="data?.code == option.key">{{ option.value }}
+                </option>
             </select>
             <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
-              <div class="animate__animated animate__headShake animate__fast" *ngIf="f.code.errors['required']">{{
-                'shared.required' | translate }}</div>
+                <div class="animate__animated animate__headShake animate__fast" *ngIf="f.code.errors['required']">{{
+                    'shared.required' | translate }}</div>
             </div>
         </div>
         <div class="mb-3">
             <label class="form-label">{{ 'shared.name' | translate }}</label>
-            <app-multi-language-input #nameInput [form]="form" [submitted]="submitted"></app-multi-language-input>
+            <app-multi-language-input #nameInput [form]="form" [submitted]="submitted" [value]="data?.names"></app-multi-language-input>
         </div>
     </form>
     <div class="modal-footer">

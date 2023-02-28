@@ -51,7 +51,9 @@ namespace Infrastructure.Features.System
             return await context.Modules
                 .Include(x => x.Names)
                 .AsNoTracking()
-                .Select(x => mapper.Map<ModuleDto>(x)).ToListAsync();
+                .OrderBy(x => x.Code)
+                .Select(x => mapper.Map<ModuleDto>(x))
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<ModuleDto>> GetDrop()

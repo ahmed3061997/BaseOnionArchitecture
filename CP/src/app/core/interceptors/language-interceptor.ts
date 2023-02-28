@@ -12,14 +12,11 @@ export class HttpRequestLanguageInterceptor implements HttpInterceptor {
         if (req.url.endsWith('/api/system/get-cultures'))
             return next.handle(req)
 
-        return this.cultureService.getCurrentCulture().pipe(
-            switchMap(culture => {
-                req = req.clone({
-                    headers: req.headers.set('accept-language', culture.code)
-                });
+        const htmlTag = document.getElementsByTagName("html")[0] as HTMLHtmlElement
+        req = req.clone({
+            headers: req.headers.set('accept-language', htmlTag.lang)
+        })
 
-                return next.handle(req);
-            })
-        )
+        return next.handle(req)
     }
 }

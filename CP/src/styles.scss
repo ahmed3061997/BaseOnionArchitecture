@@ -63,6 +63,10 @@ body {
   font-family: inherit !important;
 }
 
+.dialog-sm {
+  width: 30%;
+}
+
 .dialog-md {
   width: 40%;
 }
@@ -72,10 +76,18 @@ body {
 }
 
 @media only screen and (max-width: 760px) {
+  .dialog-sm {
+      width: 90%;
+      height: 60%;
+  }
   .dialog-md {
       width: 90%;
   }
   .dialog-lg {
       width: 90%;
   }
+}
+
+.mat-mdc-row .mat-mdc-cell {
+  border: none !important;
 }

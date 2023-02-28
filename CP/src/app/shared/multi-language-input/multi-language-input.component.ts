@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { Culture } from 'src/app/core/models/culture';
+import { CultureLookup } from 'src/app/core/models/culture-lookup';
 import { CultureService } from 'src/app/core/services/culture/culture.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class MultiLanguageInputComponent {
   @Input() disabled: boolean = false;
   @Input() form: FormGroup;
   @Input() submitted: boolean;
+  @Input() value: CultureLookup[];
 
   cultures: Culture[] = [];
   subscriptions: Subscription[] = [];
@@ -29,11 +31,15 @@ export class MultiLanguageInputComponent {
         .getCultures()
         .subscribe(result => {
           this.cultures = result
-          result.forEach(x => this.form?.addControl(`${x.code}Input`, new FormControl('',
-            [
-              Validators.required
-            ]
-          )))
+          result.forEach(x => {
+            this.form?.addControl(`${x.code}Input`, new FormControl(
+              '',
+              [
+                Validators.required
+              ]
+            ))
+            this.form?.patchValue({ [`${x.code}Input`]: this.value?.filter(c => c.culture == x.code)[0].value })
+          })
         }),
     )
   }

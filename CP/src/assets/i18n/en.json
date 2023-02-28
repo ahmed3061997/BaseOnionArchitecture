@@ -24,10 +24,18 @@
         "match_password": "Passwords did not match",
         "invalid_email": "Please enter a valid email address",
         "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "view": "View",
+        "active": "Active",
+        "in_active": "Inactive",
         "code": "Code",
         "name": "Name",
         "cancel": "Cancel",
-        "save_changes": "Save Changes"
+        "save_changes": "Save Changes",
+        "confirm": "Confirm",
+        "confirm_delete_msg": "Are you sure you wanna delete this record?",
+        "exit": "Exit"
     },
     "users": {
         "login": "Log In",

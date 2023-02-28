@@ -1,0 +1,11 @@
+<div class="" mat-dialog-content>
+    <div class="d-flex flex-column align-items-center justify-content-center mt-2">
+        <i class="{{data.iconClass}} mb-3" style="font-size: 75px;"></i>
+        <h4>{{data.title}}</h4>
+        <p class="lead text-center">{{data.message}}</p>
+    </div>
+</div>
+<div class="modal-footer m-0">
+    <button type="submit" class="btn btn-{{data.btnClass}}" (click)="data.confirmFunc && data.confirmFunc()" mat-dialog-close>{{data.confirmBtnText}}</button>
+    <button type="button" class="btn btn-outline-secondary" (click)="data.cancelFunc && data.cancelFunc()" mat-dialog-close>{{data.cancelBtnText}}</button>
+</div>
