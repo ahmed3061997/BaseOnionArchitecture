@@ -10,58 +10,58 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/modules")]
+    [Route("api/operations")]
     [ApiController]
     [Authorize(Roles = Roles.Developer)]
-    public class ModulesController : ControllerBase
+    public class OperationsController : ControllerBase
     {
-        private readonly IModuleService moduleService;
+        private readonly IOperationService operationService;
         private readonly IValidationService validationService;
 
-        public ModulesController(IModuleService moduleService, IValidationService validationService)
+        public OperationsController(IOperationService operationService, IValidationService validationService)
         {
-            this.moduleService = moduleService;
+            this.operationService = operationService;
             this.validationService = validationService;
         }
 
         [HttpGet(ApiRoutes.GetCodes)]
         public IEnumerable<KeyValuePair<int, string>> GetCodes()
         {
-            return EnumExtensions.EnumToDictionary<Modules>();
+            return EnumExtensions.EnumToDictionary<Operations>();
         }
 
         [HttpGet(ApiRoutes.GetAll)]
-        public async Task<IEnumerable<ModuleDto>> GetAll()
+        public async Task<IEnumerable<OperationDto>> GetAll()
         {
-            return await moduleService.GetAll();
+            return await operationService.GetAll();
         }
 
         [HttpGet(ApiRoutes.Get)]
-        public async Task<ModuleDto> Get(Guid id)
+        public async Task<OperationDto> Get(Guid id)
         {
-            return await moduleService.Get(id);
+            return await operationService.Get(id);
         }
 
         [HttpPost(ApiRoutes.Create)]
-        public async Task<bool> Create(ModuleDto dto)
+        public async Task<bool> Create(OperationDto dto)
         {
             await validationService.ThrowIfInvalid(dto);
-            await moduleService.Create(dto);
+            await operationService.Create(dto);
             return true;
         }
 
         [HttpPost(ApiRoutes.Edit)]
-        public async Task<bool> Edit(ModuleDto dto)
+        public async Task<bool> Edit(OperationDto dto)
         {
             await validationService.ThrowIfInvalid(dto);
-            await moduleService.Edit(dto);
+            await operationService.Edit(dto);
             return true;
         }
 
         [HttpPost(ApiRoutes.Delete)]
         public async Task<bool> Delete(Guid id)
         {
-            await moduleService.Delete(id);
+            await operationService.Delete(id);
             return true;
         }
     }

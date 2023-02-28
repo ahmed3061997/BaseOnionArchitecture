@@ -5,7 +5,6 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
 import { LoadingOverlayHelper } from 'src/app/core/helpers/loading-overlay/loading-overlay';
-import { CultureService } from 'src/app/core/services/culture/culture.service';
 import { DialogService } from 'src/app/core/services/dialogs/dialog.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { AlertDialogComponent } from 'src/app/shared/alert-dialog/alert-dialog.component';
@@ -53,6 +52,7 @@ export class ModulesComponent {
       .onLangChange
       .subscribe(() => this.refreshTable())
     )
+    this.refreshTable()
   }
 
   ngOnDestroy() {
@@ -125,7 +125,6 @@ export class ModulesComponent {
   }
 
   save() {
-    debugger
     this.submitted = true
     if (!this.form.valid) return
 

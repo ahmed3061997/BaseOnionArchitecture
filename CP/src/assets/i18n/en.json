@@ -35,7 +35,8 @@
         "save_changes": "Save Changes",
         "confirm": "Confirm",
         "confirm_delete_msg": "Are you sure you wanna delete this record?",
-        "exit": "Exit"
+        "exit": "Exit",
+        "no_records": "No records found"
     },
     "users": {
         "login": "Log In",
@@ -68,6 +69,9 @@
     },
     "modules": {
         "add_edit_module": "Add / Edit Module"
+    },
+    "operations": {
+        "add_edit_operation": "Add / Edit Operation"
     },
     "side_menu": {
       "dashboard": "Dashboard",

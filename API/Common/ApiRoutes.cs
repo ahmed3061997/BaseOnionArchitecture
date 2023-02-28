@@ -17,10 +17,8 @@
         public const string Authenticate = "authenticate";
         public const string GetCurrentUser = "get-current-user";
 
-        // Modules
-        public const string GetModuleCodes = "get-codes";
-
         // CRUD
+        public const string GetCodes = "get-codes";
         public const string Get = "get";
         public const string GetAll = "get-all";
         public const string Create = "create";

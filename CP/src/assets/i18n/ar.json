@@ -35,7 +35,8 @@
         "save_changes": "حفظ التعديلات",
         "confirm": "تأكيد",
         "confirm_delete_msg": "هل أنت متأكد أنك تريد حذف هذا السجل؟",
-        "exit": "خروج"
+        "exit": "خروج",
+        "no_records": "لم يتم العثور علي بيانات"
     },
     "users": {
         "login": "تسجيل الدخول",
@@ -68,6 +69,9 @@
     },
     "modules": {
         "add_edit_module": "أضافة / تعديل وحدة"
+    },
+    "operations": {
+        "add_edit_operation": "أضافة / تعديل عملية"
     },
     "side_menu": {
         "dashboard": "لوحة التحكم",

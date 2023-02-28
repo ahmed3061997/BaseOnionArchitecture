@@ -29,20 +29,24 @@
                     <mat-header-cell *matHeaderCellDef>{{ 'shared.actions' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let module">
                         <div class="d-flex">
-                            <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.edit' | translate" (click)="edit(module.id)">
+                            <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.edit' | translate"
+                                (click)="edit(module.id)">
                                 <i class="bx bx-edit-alt me-1"></i>
                             </button>
-                            <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.delete' | translate" (click)="confirmDelete(module.id)">
+                            <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.delete' | translate"
+                                (click)="confirmDelete(module.id)">
                                 <i class="bx bx-trash me-1"></i>
                             </button>
-                            </div>
+                        </div>
                     </mat-cell>
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
                 <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-
+            <div *matNoDataRow>
+                <p class="text-center pt-3">{{ 'shared.no_records' | translate }}</p>
+            </div>
             </mat-table>
         </div>
     </div>
@@ -58,7 +62,8 @@
         <div class="mb-3">
             <label class="form-label">{{ 'shared.code' | translate }}</label>
             <select class="form-select" formControlName="code" [ngClass]="{ 'is-invalid': submitted && f.code.errors }">
-                <option *ngFor="let option of moduleCodes | async | keyvalue" [value]="option.key" [selected]="data?.code == option.key">{{ option.value }}
+                <option *ngFor="let option of moduleCodes | async | keyvalue" [value]="option.key"
+                    [selected]="data?.code == option.key">{{ option.value }}
                 </option>
             </select>
             <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
@@ -68,7 +73,8 @@
         </div>
         <div class="mb-3">
             <label class="form-label">{{ 'shared.name' | translate }}</label>
-            <app-multi-language-input #nameInput [form]="form" [submitted]="submitted" [value]="data?.names"></app-multi-language-input>
+            <app-multi-language-input #nameInput [form]="form" [submitted]="submitted"
+                [value]="data?.names"></app-multi-language-input>
         </div>
     </form>
     <div class="modal-footer">
