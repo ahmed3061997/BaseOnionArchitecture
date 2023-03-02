@@ -17,7 +17,8 @@
         public const string Authenticate = "authenticate";
         public const string GetCurrentUser = "get-current-user";
 
-        // CRUD
+        // General
+        public const string GetClaims = "get-claims";
         public const string GetCodes = "get-codes";
         public const string Get = "get";
         public const string GetAll = "get-all";

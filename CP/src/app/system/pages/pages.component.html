@@ -1,1 +1,127 @@
-<app-layout></app-layout>
+<app-layout>
+
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{{ 'side_menu.system' | translate }} /</span>
+            {{ 'side_menu.pages' | translate }}</h4>
+
+        <div class="card">
+            <h5 class="card-header">{{ 'side_menu.pages' | translate }}</h5>
+            <div class="d-flex justify-content-end mx-4 mb-3">
+                <button type="button" class="btn btn-success" id="addBtn" (click)="add()">
+                    <i class="fa fa-plus"></i>
+                    {{ 'shared.add' | translate }}
+                </button>
+            </div>
+
+            <mat-table class="mb-1" [dataSource]="data">
+
+                <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef>{{ 'shared.code' | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let page">{{page.code}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>{{ 'shared.name' | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let page">{{page.name}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef>{{ 'shared.actions' | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let page">
+                        <div class="d-flex">
+                            <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.edit' | translate"
+                                (click)="edit(page.id)">
+                                <i class="bx bx-edit-alt me-1"></i>
+                            </button>
+                            <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.delete' | translate"
+                                (click)="confirmDelete(page.id)">
+                                <i class="bx bx-trash me-1"></i>
+                            </button>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+                <div class="mat-row" *matNoDataRow>
+                    <div *ngIf="loading==true" class="mat-cell-load">
+                        <mat-progress-bar mode="indeterminate" class="table-progressbar"></mat-progress-bar>
+                    </div>
+                    <p class="mat-cell text-center pt-3" *ngIf="loading==false">{{ 'shared.no_records' | translate }}
+                    </p>
+                </div>
+            </mat-table>
+        </div>
+    </div>
+
+</app-layout>
+
+<ng-template #pageDialog let-data>
+    <div mat-dialog-title>
+        <h5>{{ 'pages.add_edit_page' | translate }}</h5>
+    </div>
+
+    <form mat-dialog-content [formGroup]="form">
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">{{ 'shared.code' | translate }}</label>
+                <select class="form-select" formControlName="code"
+                    [ngClass]="{ 'is-invalid': submitted && f.code.errors }">
+                    <option *ngFor="let option of pageCodes | async | keyvalue" [value]="option.key"
+                        [selected]="data?.code == option.key">{{ option.value }}
+                    </option>
+                </select>
+                <div *ngIf="submitted && f.code.errors" class="invalid-feedback">
+                    <div class="animate__animated animate__headShake animate__fast" *ngIf="f.code.errors['required']">{{
+                        'shared.required' | translate }}</div>
+                </div>
+            </div>
+            <div class="col">
+                <label class="form-label">{{ 'modules.module' | translate }}</label>
+                <select class="form-select" formControlName="moduleId"
+                    [ngClass]="{ 'is-invalid': submitted && f.moduleId.errors }">
+                    <option *ngFor="let option of modules | async" [value]="option.id"
+                        [selected]="data?.moduleId == option.id">{{ option.name }}
+                    </option>
+                </select>
+                <div *ngIf="submitted && f.moduleId.errors" class="invalid-feedback">
+                    <div class="animate__animated animate__headShake animate__fast"
+                        *ngIf="f.moduleId.errors['required']">{{
+                        'shared.required' | translate }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">{{ 'pages.url' | translate }}</label>
+            <input type="text" class="form-control" formControlName="url"
+                [ngClass]="{ 'is-invalid': submitted && f.url.errors }">
+            <div *ngIf="submitted && f.url.errors" class="invalid-feedback">
+                <div class="animate__animated animate__headShake animate__fast" *ngIf="f.url.errors['required']">{{
+                    'shared.required' | translate }}</div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">{{ 'pages.operations' | translate }}</label>
+            <div class="hstack flex-wrap gap-3">
+                <div class="form-check" *ngFor="let x of operations | async">
+                    <input class="form-check-input operation" type="checkbox" [id]="x.id"
+                        [checked]="checkOp(data, x.id)">
+                    <label class="form-check-label" [htmlFor]="x.id">{{x.name}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">{{ 'shared.name' | translate }}</label>
+            <app-multi-language-input #nameInput [form]="form" [submitted]="submitted"
+                [value]="data?.names"></app-multi-language-input>
+        </div>
+    </form>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" (click)="save()">{{ 'shared.save_changes' | translate
+            }}</button>
+        <button type="button" class="btn btn-outline-secondary" mat-dialog-close>{{ 'shared.cancel' | translate
+            }}</button>
+    </div>
+</ng-template>

@@ -68,10 +68,16 @@
         "enter_last_name": "أدخل اسم العائلة"
     },
     "modules": {
-        "add_edit_module": "أضافة / تعديل وحدة"
+        "add_edit_module": "أضافة / تعديل وحدة",
+        "module": "الوحدة"
     },
     "operations": {
         "add_edit_operation": "أضافة / تعديل عملية"
+    },
+    "pages": {
+        "add_edit_page": "أضافة / تعديل صفحة",
+        "operations": "العمليات",
+        "url": "الرابط"
     },
     "side_menu": {
         "dashboard": "لوحة التحكم",

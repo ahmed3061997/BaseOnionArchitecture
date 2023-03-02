@@ -22,7 +22,8 @@ export class HttpRequestAuthInterceptor implements HttpInterceptor {
 
         return next.handle(authReq).pipe(
             catchError(error => {
-                if (error instanceof HttpErrorResponse && !authReq.url.includes('auth/login') && error.status === 401) {
+                if (error instanceof HttpErrorResponse && !authReq.url.includes('auth/login') && !authReq.url.includes('auth/refresh-token') && error.status === 401) {
+                    debugger
                     return this.handle401Error(authReq, next);
                 }
 
@@ -49,8 +50,8 @@ export class HttpRequestAuthInterceptor implements HttpInterceptor {
                         return next.handle(this.addTokenHeader(request, token.token));
                     }),
                     catchError((err) => {
+                        debugger
                         this.isRefreshing = false;
-
                         this.authService.clearSession();
                         return throwError(() => err);
                     })

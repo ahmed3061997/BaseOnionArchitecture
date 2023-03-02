@@ -10,6 +10,7 @@ import { HttpBackend, HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -26,6 +27,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     MatDialogModule,
     MatTableModule,
+    MatProgressBarModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

@@ -68,10 +68,16 @@
         "enter_last_name": "Enter last name"
     },
     "modules": {
-        "add_edit_module": "Add / Edit Module"
+        "add_edit_module": "Add / Edit Module",
+        "module": "Module"
     },
     "operations": {
         "add_edit_operation": "Add / Edit Operation"
+    },
+    "pages": {
+        "add_edit_page": "Add / Edit Page",
+        "operations": "Operations",
+        "url": "Url"
     },
     "side_menu": {
       "dashboard": "Dashboard",

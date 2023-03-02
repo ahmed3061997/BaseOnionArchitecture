@@ -75,9 +75,9 @@ namespace API.Controllers
         }
 
         [HttpPost(ApiRoutes.RefreshToken)]
-        public async Task<JwtToken> RefreshToken(string token)
+        public async Task<JwtToken> RefreshToken(JwtToken token)
         {
-            return await tokenService.RefreshToken(token);
+            return await tokenService.RefreshToken(token.RefreshToken);
         }
     }
 }

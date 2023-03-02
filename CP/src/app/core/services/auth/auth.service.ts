@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   refreshToken(token: string): Observable<JwtToken> {
-    return this.httpClient.post<JwtToken>('/api/auth/login', { token });
+    return this.httpClient.post<JwtToken>('/api/auth/refresh-token', { refreshToken: token });
   }
 
   logout(): Observable<boolean> {

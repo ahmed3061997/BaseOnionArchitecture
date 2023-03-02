@@ -61,6 +61,10 @@ body {
 
 .mat-mdc-dialog-content {
   font-family: inherit !important;
+  line-height: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
 }
 
 .dialog-sm {
@@ -78,13 +82,24 @@ body {
 @media only screen and (max-width: 760px) {
   .dialog-sm {
       width: 90%;
-      height: 60%;
   }
   .dialog-md {
       width: 90%;
   }
   .dialog-lg {
       width: 90%;
+  }
+}
+
+@media only screen and (min-width: 760px) and (max-width: 1024px) {
+  .dialog-sm {
+      width: 40%;
+  }
+  .dialog-md {
+      width: 60%;
+  }
+  .dialog-lg {
+      width: 80%;
   }
 }
 
