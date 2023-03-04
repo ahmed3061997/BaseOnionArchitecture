@@ -11,6 +11,6 @@ namespace Application.Interfaces.Users
         Task Delete(string id);
         Task<RoleDto> Get(string id);
         Task<IEnumerable<RoleDto>> GetDrop();
-        Task<IEnumerable<RoleDto>> GetAll( ); 
+        Task<PageResultDto<RoleDto>> GetAll(PageQueryDto query);
     }
 }

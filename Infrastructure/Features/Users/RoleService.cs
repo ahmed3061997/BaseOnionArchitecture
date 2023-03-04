@@ -1,6 +1,7 @@
 ﻿using Application.Common.Constants;
 using Application.Common.Extensions;
 using Application.Interfaces.Users;
+using Application.Models.Common;
 using Application.Models.Users;
 using AutoMapper;
 using Domain.Entities.Users;
@@ -45,12 +46,22 @@ namespace Infrastructure.Features.Users
             return mapper.Map<RoleDto>(await roleManager.FindByIdAsync(id));
         }
 
-        public async Task<IEnumerable<RoleDto>> GetAll()
+        public async Task<PageResultDto<RoleDto>> GetAll(PageQueryDto queryDto)
         {
-            return await roleManager.Roles
-                  .Include(x => x.Names)
-                  .AsNoTracking()
-                  .Select(x => mapper.Map<RoleDto>(x)).ToListAsync();
+            var query = roleManager.Roles
+                .Include(x => x.Names)
+                .Where(queryDto.SeachColumn, queryDto.SeachTerm)
+                .OrderBy(queryDto.SortColumn, queryDto.SortDirection);
+
+            return new PageResultDto<RoleDto>()
+            {
+                TotalCount = await query.CountAsync(),
+                Items = await query.AsNoTracking()
+                                   .Skip(queryDto.PageIndex * queryDto.PageSize)
+                                   .Take(queryDto.PageSize)
+                                   .Select(x => mapper.Map<RoleDto>(x))
+                                   .ToListAsync()
+            };
         }
 
         public async Task<IEnumerable<RoleDto>> GetDrop()

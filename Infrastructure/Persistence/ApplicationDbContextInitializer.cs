@@ -63,29 +63,48 @@ namespace Infrastructure.Persistence
             var claims = await claimProvider.GetClaims();
 
             // Default Roles & Users + Claims
-            foreach (var role in Extensions.GetStaticMembers<string>(typeof(Roles)))
+            foreach (var roleName in Extensions.GetStaticMembers<string>(typeof(Roles)))
             {
-                if (await roleManager.FindByNameAsync(role) == null)
-                    await roleManager.CreateAsync(new ApplicationRole(role));
+                bool createRole = false;
+                var role = await roleManager.Roles
+                    .Include(x => x.Names)
+                    .Include(x => x.Claims)
+                    .FirstOrDefaultAsync(x => x.Name == roleName);
+                if (role == null)
+                {
+                    createRole = true;
+                    role = new ApplicationRole(roleName);
+                }
+                role.IsActive = true;
+                role.Names = new List<ApplicationRoleName>() {
+                    new ApplicationRoleName() { Culture = "en", Name = roleName },
+                    new ApplicationRoleName() { Culture = "ar", Name = Roles.ArDic[roleName] },
+                };
+                role.Claims = claims.Select(x => new ApplicationRoleClaim() { ClaimType = x.Type, ClaimValue = x.Value }).ToList();
 
-                var user = await userManager.FindByNameAsync(role);
+                if (createRole)
+                    await roleManager.CreateAsync(role);
+                else
+                    await roleManager.UpdateAsync(role);
+
+                var user = await userManager.FindByNameAsync(roleName);
                 if (user == null)
                 {
-                    user = new ApplicationUser(role)
+                    user = new ApplicationUser(roleName)
                     {
-                        FirstName = role,
+                        FirstName = roleName,
                         LastName = "User",
-                        Email = $"{role.ToLower()}@email.com",
+                        Email = $"{roleName.ToLower()}@email.com",
                         EmailConfirmed = true
                     };
                     await userManager.CreateAsync(user, "User123@@@");
                 }
 
-                if (!await userManager.IsInRoleAsync(user, role))
-                    await userManager.AddToRoleAsync(user, role);
+                if (!await userManager.IsInRoleAsync(user, roleName))
+                    await userManager.AddToRoleAsync(user, roleName);
 
                 await context.Set<ApplicationUserClaim>().Where(x => x.UserId == user.Id).ExecuteDeleteAsync();
-                await userManager.AddClaimsAsync(user, claims);
+                //await userManager.AddClaimsAsync(user, claims);
             }
         }
     }

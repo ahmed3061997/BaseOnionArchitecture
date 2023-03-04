@@ -1,0 +1,39 @@
+﻿using Application.Common.Constants;
+using Application.Common.Helpers;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+
+namespace Application.Common.Extensions
+{
+    public static class QueryableExtensions
+    {
+        public static IQueryable<T> Where<T>(this IQueryable<T> source, string? propertyName, string? value)
+        {
+            if (propertyName == null || value == null) return source;
+            return source.Where(ExpressionUtils.BuildPredicate<T>(propertyName, "Contains", value));
+        }
+
+        public static IQueryable<T> Where<T>(this IQueryable<T> source, string? propertyName, string comparison, string? value)
+        {
+            if (propertyName == null || value == null) return source;
+            return source.Where(ExpressionUtils.BuildPredicate<T>(propertyName, comparison, value));
+        }
+
+        public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, string? propertyName, SortDirection direction)
+        {
+            if (propertyName == null || direction == SortDirection.None) return source;
+
+            if (direction == SortDirection.Ascending)
+                return source.OrderBy(ExpressionUtils.BuildSortExpression<T>(propertyName));
+            else
+                return source.OrderByDescending(ExpressionUtils.BuildSortExpression<T>(propertyName));
+        }
+    }
+}
