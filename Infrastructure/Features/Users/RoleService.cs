@@ -13,6 +13,7 @@ namespace Infrastructure.Features.Users
 {
     public class RoleService : IRoleService
     {
+        private readonly IEnumerable<string> SeachColumns = new string[] { "Id", "IsActive", "Names.Name" };
         private readonly RoleManager<ApplicationRole> roleManager;
         private readonly IMapper mapper;
 
@@ -50,7 +51,7 @@ namespace Infrastructure.Features.Users
         {
             var query = roleManager.Roles
                 .Include(x => x.Names)
-                .Where(queryDto.SeachColumn, queryDto.SeachTerm)
+                .Where(SeachColumns, queryDto.SeachTerm)
                 .OrderBy(queryDto.SortColumn, queryDto.SortDirection);
 
             return new PageResultDto<RoleDto>()

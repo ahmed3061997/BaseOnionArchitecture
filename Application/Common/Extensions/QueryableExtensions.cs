@@ -14,6 +14,12 @@ namespace Application.Common.Extensions
 {
     public static class QueryableExtensions
     {
+        public static IQueryable<T> Where<T>(this IQueryable<T> source, IEnumerable<string> propertyNames, string? value)
+        {
+            if (value == null) return source;
+            return source.Where(ExpressionUtils.BuildPredicate<T>(propertyNames, "Contains", value));
+        }
+
         public static IQueryable<T> Where<T>(this IQueryable<T> source, string? propertyName, string? value)
         {
             if (propertyName == null || value == null) return source;

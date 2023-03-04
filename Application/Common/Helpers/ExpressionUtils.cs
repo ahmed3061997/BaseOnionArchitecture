@@ -1,4 +1,6 @@
 ﻿using Application.Common.Constants;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,47 +20,25 @@ namespace Application.Common.Helpers
             return Expression.Lambda<Func<T, object>>(property, parameter);
         }
 
+        public static Expression<Func<T, bool>> BuildPredicate<T>(IEnumerable<string> propertyNames, string comparison, string value)
+        {
+            return propertyNames.Select(x => BuildPredicate<T>(x, comparison, value)).Aggregate((acc, cur) =>
+            {
+                var parameter = acc.Parameters[0];
+                var left = acc.Body;
+                var right = cur.Body.ReplaceParameter(cur.Parameters[0], parameter);
+                var body = Expression.Or(left, right);
+                return Expression.Lambda<Func<T, bool>>(body, parameter);
+            });
+        }
+
         public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyName, string comparison, string value)
         {
-            var type = typeof(T);
-            var path = propertyName.Split('.');
-
-            Expression left;
             var parameter = Expression.Parameter(typeof(T), "x");
+            var left = MakePropertyPath<T>(parameter, propertyName, comparison, value);
 
-            if (path.Length == 1)
-            {
-                left = Expression.Property(parameter, propertyName);
-            }
-            else if (path.Length == 2)
-            {
-                var propInfo = type.GetProperty(path[0]);
-                if (propInfo.PropertyType.IsPrimitive)
-                {
-                    left = propertyName.Split('.').Aggregate((Expression)parameter, Expression.Property);
-                }
-                else
-                {
-                    var nestedType = propInfo.PropertyType.GenericTypeArguments[0];
-
-                    var nestedParameter = Expression.Parameter(nestedType, "y");
-                    var predicate = Expression.Lambda(
-                        MakeComparison(Expression.Property(nestedParameter, path[1]), comparison, value),
-                        nestedParameter);
-                    left = Expression.Call(
-                          typeof(Enumerable),
-                          "Any",
-                          new[] { nestedType },
-                          Expression.Property(parameter, path[0]),
-                          predicate);
-
-                    return Expression.Lambda<Func<T, bool>>(left, parameter);
-                }
-            }
-            else
-            {
-                throw new NotSupportedException("Property navigation is not supported");
-            }
+            if (left.NodeType == ExpressionType.Call)
+                return Expression.Lambda<Func<T, bool>>(left, parameter);
 
             var body = MakeComparison(left, comparison, value);
             return Expression.Lambda<Func<T, bool>>(body, parameter);
@@ -115,6 +95,50 @@ namespace Application.Common.Helpers
             }
             var right = Expression.Constant(typedValue, left.Type);
             return Expression.MakeBinary(type, left, right);
+        }
+
+        private static Expression MakePropertyPath<T>(ParameterExpression parameter, string propertyName, string comparison, string value)
+        {
+            var type = typeof(T);
+            var path = propertyName.Split('.');
+
+            if (path.Length == 1)
+            {
+                return Expression.Property(parameter, propertyName);
+            }
+            else if (path.Length == 2)
+            {
+                var propInfo = type.GetProperty(path[0]);
+                var nestedType = propInfo.PropertyType.GenericTypeArguments[0];
+
+                var nestedParameter = Expression.Parameter(nestedType, "y");
+                var predicate = Expression.Lambda(
+                    MakeComparison(Expression.Property(nestedParameter, path[1]), comparison, value),
+                    nestedParameter);
+                return Expression.Call(
+                      typeof(Enumerable),
+                      "Any",
+                      new[] { nestedType },
+                      Expression.Property(parameter, path[0]),
+                      predicate);
+            }
+
+            throw new NotSupportedException("Property navigation is not supported");
+        }
+
+        private static Expression ReplaceParameter(this Expression expression, ParameterExpression source, Expression target)
+        {
+            return new ParameterReplacer { Source = source, Target = target }.Visit(expression);
+        }
+
+        private class ParameterReplacer : ExpressionVisitor
+        {
+            public ParameterExpression Source;
+            public Expression Target;
+            protected override Expression VisitParameter(ParameterExpression node)
+            {
+                return node == Source ? Target : base.VisitParameter(node);
+            }
         }
     }
 }
