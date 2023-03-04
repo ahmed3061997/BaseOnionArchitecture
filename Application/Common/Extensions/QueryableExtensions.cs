@@ -36,10 +36,22 @@ namespace Application.Common.Extensions
         {
             if (propertyName == null || direction == SortDirection.None) return source;
 
+            var expression = ExpressionUtils.BuildSortExpression<T>(propertyName);
             if (direction == SortDirection.Ascending)
-                return source.OrderBy(ExpressionUtils.BuildSortExpression<T>(propertyName));
+                return source.OrderBy(expression);
             else
-                return source.OrderByDescending(ExpressionUtils.BuildSortExpression<T>(propertyName));
+                return source.OrderByDescending(expression);
+        }
+
+        public static IQueryable<T> OrderByPredicated<T>(this IQueryable<T> source, string? orderPropertyName, string predicatePropertyName, string value, SortDirection direction)
+        {
+            if (orderPropertyName == null || direction == SortDirection.None) return source;
+
+            var expression = ExpressionUtils.BuildPredicatedSortExpression<T>(orderPropertyName, predicatePropertyName, "==", value);
+            if (direction == SortDirection.Ascending)
+                return source.OrderBy(expression);
+            else
+                return source.OrderByDescending(expression);
         }
     }
 }

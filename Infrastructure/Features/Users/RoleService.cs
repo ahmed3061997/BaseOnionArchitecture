@@ -1,5 +1,7 @@
 ﻿using Application.Common.Constants;
 using Application.Common.Extensions;
+using Application.Interfaces.Culture;
+using Application.Interfaces.Persistence;
 using Application.Interfaces.Users;
 using Application.Models.Common;
 using Application.Models.Users;
@@ -15,11 +17,13 @@ namespace Infrastructure.Features.Users
     {
         private readonly IEnumerable<string> SeachColumns = new string[] { "Id", "IsActive", "Names.Name" };
         private readonly RoleManager<ApplicationRole> roleManager;
+        private readonly ICurrentCultureService currentCultureService;
         private readonly IMapper mapper;
 
-        public RoleService(RoleManager<ApplicationRole> roleManager, IMapper mapper)
+        public RoleService(RoleManager<ApplicationRole> roleManager, ICurrentCultureService currentCultureService, IMapper mapper)
         {
             this.roleManager = roleManager;
+            this.currentCultureService = currentCultureService;
             this.mapper = mapper;
         }
 
@@ -49,10 +53,16 @@ namespace Infrastructure.Features.Users
 
         public async Task<PageResultDto<RoleDto>> GetAll(PageQueryDto queryDto)
         {
+            var culture = currentCultureService.GetCurrentUICulture();
+
             var query = roleManager.Roles
                 .Include(x => x.Names)
-                .Where(SeachColumns, queryDto.SeachTerm)
-                .OrderBy(queryDto.SortColumn, queryDto.SortDirection);
+                .Where(SeachColumns, queryDto.SeachTerm);
+
+            if (queryDto.SortColumn == "Names.Name")
+                query = query.OrderByPredicated(queryDto.SortColumn, "Culture", culture, queryDto.SortDirection);
+            else
+                query = query.OrderBy(queryDto.SortColumn, queryDto.SortDirection);
 
             return new PageResultDto<RoleDto>()
             {

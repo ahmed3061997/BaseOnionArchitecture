@@ -14,9 +14,15 @@ namespace Application.Common.Helpers
     {
         public static Expression<Func<T, object>> BuildSortExpression<T>(string propertyName)
         {
-            var elementType = typeof(T);
             var parameter = Expression.Parameter(typeof(T), "x");
             var property = propertyName.Split('.').Aggregate((Expression)parameter, Expression.Property);
+            return Expression.Lambda<Func<T, object>>(property, parameter);
+        }
+
+        public static Expression<Func<T, object>> BuildPredicatedSortExpression<T>(string selectPropertyName, string predicatePropertyName, string comparison, string value)
+        {
+            var parameter = Expression.Parameter(typeof(T), "x");
+            var property = MakePropertyOrChildSelect<T>(parameter, selectPropertyName, predicatePropertyName, comparison, value);
             return Expression.Lambda<Func<T, object>>(property, parameter);
         }
 
@@ -35,7 +41,7 @@ namespace Application.Common.Helpers
         public static Expression<Func<T, bool>> BuildPredicate<T>(string propertyName, string comparison, string value)
         {
             var parameter = Expression.Parameter(typeof(T), "x");
-            var left = MakePropertyPath<T>(parameter, propertyName, comparison, value);
+            var left = MakePropertyOrChildPredicate<T>(parameter, propertyName, comparison, value);
 
             if (left.NodeType == ExpressionType.Call)
                 return Expression.Lambda<Func<T, bool>>(left, parameter);
@@ -97,7 +103,7 @@ namespace Application.Common.Helpers
             return Expression.MakeBinary(type, left, right);
         }
 
-        private static Expression MakePropertyPath<T>(ParameterExpression parameter, string propertyName, string comparison, string value)
+        private static Expression MakePropertyOrChildPredicate<T>(ParameterExpression parameter, string propertyName, string comparison, string value)
         {
             var type = typeof(T);
             var path = propertyName.Split('.');
@@ -121,6 +127,36 @@ namespace Application.Common.Helpers
                       new[] { nestedType },
                       Expression.Property(parameter, path[0]),
                       predicate);
+            }
+
+            throw new NotSupportedException("Property navigation is not supported");
+        }
+
+        private static Expression MakePropertyOrChildSelect<T>(ParameterExpression parameter, string selectPropertyName, string predicatePropertyName, string comparison, string value)
+        {
+            var type = typeof(T);
+            var path = selectPropertyName.Split('.');
+
+            if (path.Length == 1)
+            {
+                return Expression.Property(parameter, selectPropertyName);
+            }
+            else if (path.Length == 2)
+            {
+                var propInfo = type.GetProperty(path[0]);
+                var nestedType = propInfo.PropertyType.GenericTypeArguments[0];
+
+                var nestedParameter = Expression.Parameter(nestedType, "y");
+
+                var predicate = Expression.Call(
+                        typeof(Enumerable),
+                        "FirstOrDefault",
+                        new[] { nestedType },
+                        Expression.Property(parameter, path[0]),
+                        Expression.Lambda(
+                            MakeComparison(Expression.Property(nestedParameter, predicatePropertyName), comparison, value), nestedParameter));
+
+                return Expression.Property(predicate, path[1]);
             }
 
             throw new NotSupportedException("Property navigation is not supported");
