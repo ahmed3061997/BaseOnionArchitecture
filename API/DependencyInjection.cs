@@ -1,6 +1,8 @@
-﻿using API.Middlewares;
+﻿using API.Common;
+using API.Middlewares;
 using Application.Common.Constants;
 using Application.Common.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API
@@ -14,7 +16,15 @@ namespace API
             AddSwagger(services);
             AddCors(services);
             AddLocalization(services);
+            AddAuthorization(services);
             return services;
+        }
+
+        private static void AddAuthorization(IServiceCollection services)
+        {
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
+            //services.AddAuthorization();
         }
 
         private static void Configure(IServiceCollection services)

@@ -30,7 +30,7 @@ namespace Infrastructure.Features.Users
             result.ThrowIfFailed();
         }
 
-        public async Task Update(RoleDto role)
+        public async Task Edit(RoleDto role)
         {
             var result = await roleManager.UpdateAsync(mapper.Map<ApplicationRole>(role));
             result.ThrowIfFailed();
@@ -43,10 +43,7 @@ namespace Infrastructure.Features.Users
             result.ThrowIfFailed();
         }
 
-        public async Task<RoleDto> Get(string id)
-        {
-            return mapper.Map<RoleDto>(await roleManager.FindByIdAsync(id));
-        }
+        public async Task<RoleDto> Get(string id) => mapper.Map<RoleDto>(await roleManager.FindByIdAsync(id));
 
         public async Task<PageResultDto<RoleDto>> GetAll(PageQueryDto queryDto)
         {
@@ -56,8 +53,8 @@ namespace Infrastructure.Features.Users
                 .Include(x => x.Names)
                 .Where(SeachColumns, queryDto.SeachTerm);
 
-            if (queryDto.SortColumn == "Names.Name")
-                query = query.OrderByPredicated(queryDto.SortColumn, "Culture", culture, queryDto.SortDirection);
+            if (queryDto.SortColumn == "Name")
+                query = query.OrderByPredicated("Names.Name", "Culture", culture, queryDto.SortDirection);
             else
                 query = query.OrderBy(queryDto.SortColumn, queryDto.SortDirection);
 
