@@ -1,7 +1,5 @@
-﻿using Application.Common.Constants;
-using Application.Common.Extensions;
+﻿using Application.Common.Extensions;
 using Application.Interfaces.Culture;
-using Application.Interfaces.Persistence;
 using Application.Interfaces.Users;
 using Application.Models.Common;
 using Application.Models.Users;
@@ -9,7 +7,6 @@ using AutoMapper;
 using Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace Infrastructure.Features.Users
 {

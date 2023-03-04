@@ -2,7 +2,6 @@
 using Application.Interfaces.Users;
 using Application.Models.Common;
 using Application.Models.Users;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers

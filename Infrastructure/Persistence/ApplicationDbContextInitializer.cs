@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Domain.Entities.Users;
 using Application.Common.Constants;
 using Application.Common.Extensions;
-using Infrastructure.Features.System;
 using Application.Interfaces.System;
 
 namespace Infrastructure.Persistence

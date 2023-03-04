@@ -1,6 +1,5 @@
 ﻿using Application.Models.Common;
 using Application.Models.Users;
-using System.Security.Claims;
 
 namespace Application.Interfaces.Users
 {
