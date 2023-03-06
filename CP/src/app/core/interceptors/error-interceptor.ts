@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { LoadingOverlayHelper } from '../helpers/loading-overlay/loading-overlay';
 import { NotificationService } from '../services/notification/notification.service';
@@ -14,6 +14,9 @@ export class HttpRequestErrorInterceptor implements HttpInterceptor {
         return next.handle(req)
             .pipe(
                 catchError((res: HttpErrorResponse) => {
+
+                    if (res.status == 401 || res.status == 403) return throwError(() => res)
+
                     let errorMsg = res.error?.errors?.join('\n')
                     this.notification.error(errorMsg)
                     LoadingOverlayHelper.hideLoading()

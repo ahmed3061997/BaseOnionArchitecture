@@ -38,7 +38,7 @@ export class MultiLanguageInputComponent {
                 Validators.required
               ]
             ))
-            this.form?.patchValue({ [`${x.code}Input`]: this.value?.filter(c => c.culture == x.code)[0].value })
+            this.value?.forEach(x => this.form?.patchValue({ [`${x.culture}Input`]: x.value }))
           })
         }),
     )
@@ -50,11 +50,15 @@ export class MultiLanguageInputComponent {
     });
   }
 
-  getValue() {
+  setValue(value: CultureLookup[]) {
+    value.forEach(x => this.form?.patchValue({ [`${x.culture}Input`]: x.value }))
+  }
+
+  getValue(): CultureLookup[] {
     var inputs = document.querySelectorAll('.language-input input')
     return Array.from(inputs).map(x => ({
       culture: x.parentElement!.getAttribute('data-culture'),
       value: (x as any).value
-    }))
+    }) as CultureLookup)
   }
 }

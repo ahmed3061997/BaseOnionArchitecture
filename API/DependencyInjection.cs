@@ -22,9 +22,9 @@ namespace API
 
         private static void AddAuthorization(IServiceCollection services)
         {
+            services.AddAuthorization();
             services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-            services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
-            //services.AddAuthorization();
+            //services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
         }
 
         private static void Configure(IServiceCollection services)

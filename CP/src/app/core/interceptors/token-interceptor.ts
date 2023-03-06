@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpHeaders, HTTP_INTERCEPTORS, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, catchError, filter, from, Observable, switchMap, take, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, filter, from, Observable, of, switchMap, take, throwError } from 'rxjs';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../services/notification/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 const TOKEN_HEADER_KEY = 'Authorization';  // for Spring Boot, .Net back-end
 // const TOKEN_HEADER_KEY = 'x-access-token';    // for Node.js Express back-end
@@ -11,7 +13,11 @@ export class HttpRequestAuthInterceptor implements HttpInterceptor {
     private isRefreshing = false;
     private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-    constructor(private router: Router, private authService: AuthService) { }
+    constructor(
+        private router: Router,
+        private authService: AuthService,
+        private translateService: TranslateService,
+        private notification: NotificationService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<Object>> {
         let authReq = req;
@@ -23,7 +29,6 @@ export class HttpRequestAuthInterceptor implements HttpInterceptor {
         return next.handle(authReq).pipe(
             catchError(error => {
                 if (error instanceof HttpErrorResponse && !authReq.url.includes('auth/login') && !authReq.url.includes('auth/refresh-token') && error.status === 401) {
-                    debugger
                     return this.handle401Error(authReq, next);
                 }
 
@@ -47,13 +52,14 @@ export class HttpRequestAuthInterceptor implements HttpInterceptor {
                         this.authService.saveRefreshToken(token.refreshToken);
                         this.refreshTokenSubject.next(token.token);
 
+                        console.info('new access token retreived!')
                         return next.handle(this.addTokenHeader(request, token.token));
                     }),
                     catchError((err) => {
-                        debugger
                         this.isRefreshing = false;
                         this.authService.clearSession();
-                        return throwError(() => err);
+                        this.notification.error(this.translateService.instant('shared.session_expired'))
+                        return of({});
                     })
                 );
             else

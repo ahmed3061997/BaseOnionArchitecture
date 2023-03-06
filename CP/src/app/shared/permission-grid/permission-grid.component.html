@@ -1,0 +1,10 @@
+<ng-template [ngIf]="enableRtl" [ngIfElse]="ltrGrid">
+    <ag-grid-angular class="ag-theme-material" style="max-height: 300px" [columnDefs]="colDefs" [rowData]="rowData"
+        domLayout="autoHeight" [enableRtl]="true" [context]="context"
+        (rowDataUpdated)="onRowDataUpdated()"></ag-grid-angular>
+</ng-template>
+<ng-template #ltrGrid>
+    <ag-grid-angular class="ag-theme-material" style="max-height: 300px" [columnDefs]="colDefs" [rowData]="rowData"
+        domLayout="autoHeight" [enableRtl]="false" [context]="context"
+        (rowDataUpdated)="onRowDataUpdated()"></ag-grid-angular>
+</ng-template>

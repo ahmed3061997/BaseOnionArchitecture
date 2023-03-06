@@ -9,14 +9,19 @@ const routes: Routes = [
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   {
+    path: 'system',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./system/system.module').then(m => m.SystemModule)
+  },
+  {
     path: 'users',
     canActivate: [AuthGuard],
     loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
   },
   {
-    path: 'system',
+    path: 'roles',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./system/system.module').then(m => m.SystemModule)
+    loadChildren: () => import('./roles/roles.module').then(m => m.RolesModule)
   },
   {
     path: '**',

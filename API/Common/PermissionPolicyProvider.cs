@@ -1,5 +1,5 @@
 ﻿using Application.Common.Constants;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 
@@ -23,7 +23,7 @@ namespace API.Common
             if (policyName.StartsWith(PermissionAuthorizeAttribute.POLICY_PREFIX, StringComparison.OrdinalIgnoreCase))
             {
                 var claim = policyName.Split('_')[1];
-                var policy = new AuthorizationPolicyBuilder(CookieAuthenticationDefaults.AuthenticationScheme);
+                var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
                 policy.RequireClaim(Claims.Permission, claim);
                 return Task.FromResult(policy.Build());
             }

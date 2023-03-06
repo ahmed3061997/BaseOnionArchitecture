@@ -44,6 +44,7 @@ namespace Infrastructure.Features.Users
                 new Claim(Claims.UserId, user.Id)
             }
             .Union(userClaims)
+            .Union(roleClaims)
             .Union(roles.Select(x => new Claim(Claims.Role, x)));
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));

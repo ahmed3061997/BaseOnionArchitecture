@@ -19,6 +19,9 @@ import { MultiLanguageTextAreaComponent } from './multi-language-textarea/multi-
 import { ReactiveFormsModule } from '@angular/forms';
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PermissionGridComponent } from './permission-grid/permission-grid.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { OperationCheckboxRenderer } from './permission-grid/operation-checkbox.renderer';
 
 
 
@@ -36,13 +39,16 @@ import { MatDialogModule } from '@angular/material/dialog';
     CustomToastrComponent,
     MultiLanguageInputComponent,
     MultiLanguageTextAreaComponent,
-    AlertDialogComponent
+    AlertDialogComponent,
+    PermissionGridComponent,
+    OperationCheckboxRenderer
   ],
   imports: [
     SharedRoutingModule,
     CommonModule,
     ReactiveFormsModule,
     MatDialogModule,
+    AgGridModule,
     TranslateModule.forChild({
         loader: {
             provide: TranslateLoader,
@@ -58,7 +64,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     CustomToastrComponent,
     LanguageSelectorComponent,
     MultiLanguageInputComponent,
-    MultiLanguageTextAreaComponent
+    MultiLanguageTextAreaComponent,
+    PermissionGridComponent
   ]
 })
 export class SharedModule { }

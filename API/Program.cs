@@ -21,13 +21,16 @@ if (app.Environment.IsDevelopment())
     {
         var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
         await initialiser.InitialiseAsync();
-        await initialiser.SeedAsync();
+        //await initialiser.SeedAsync();
     }
 }
 
-app.UseCors();
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
 app.UseRequestLocalization();
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();

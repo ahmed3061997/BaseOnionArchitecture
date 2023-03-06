@@ -41,9 +41,11 @@ $CP-theme: mat.define-light-theme((color: (primary: $CP-primary,
 @import '/src/assets/css/pages/page-misc.css';
 @import "/node_modules/flag-icons/css/flag-icons.min.css";
 @import "/node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
-@import "/node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
 @import "/node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
+@import "/node_modules/@fortawesome/fontawesome-free/scss/regular.scss";
 @import 'ngx-toastr/toastr';
+@import 'ag-grid-community/styles/ag-grid.css';
+@import 'ag-grid-community/styles/ag-theme-material.css';
 
 html,
 body {

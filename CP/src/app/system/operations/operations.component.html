@@ -1,54 +1,52 @@
 <app-layout>
 
-    <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">{{ 'side_menu.system' | translate }} /</span>
-            {{ 'side_menu.operations' | translate }}</h4>
+    <h4 class="fw-bold mb-4"><span class="text-muted fw-light">{{ 'side_menu.system' | translate }} /</span>
+        {{ 'side_menu.operations' | translate }}</h4>
 
-        <div class="card">
-            <h5 class="card-header">{{ 'side_menu.operations' | translate }}</h5>
-            <div class="d-flex justify-content-end mx-4 mb-3">
-                <button type="button" class="btn btn-success" id="addBtn" (click)="add()">
-                    <i class="fa fa-plus"></i>
-                    {{ 'shared.add' | translate }}
-                </button>
-            </div>
+    <div class="card">
+        <h5 class="card-header">{{ 'side_menu.operations' | translate }}</h5>
+        <div class="d-flex justify-content-end mx-4 mb-3">
+            <button type="button" class="btn btn-success" id="addBtn" (click)="add()">
+                <i class="fa fa-plus"></i>
+                {{ 'shared.add' | translate }}
+            </button>
+        </div>
 
-            <mat-table class="mb-1" [dataSource]="data">
+        <mat-table class="mb-1" [dataSource]="data">
 
-                <ng-container matColumnDef="code">
-                    <mat-header-cell *matHeaderCellDef>{{ 'shared.code' | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let operation">{{operation.code}}</mat-cell>
-                </ng-container>
+            <ng-container matColumnDef="code">
+                <mat-header-cell *matHeaderCellDef>{{ 'shared.code' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let operation">{{operation.code}}</mat-cell>
+            </ng-container>
 
-                <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef>{{ 'shared.name' | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let operation">{{operation.name}}</mat-cell>
-                </ng-container>
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>{{ 'shared.name' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let operation">{{operation.name}}</mat-cell>
+            </ng-container>
 
-                <ng-container matColumnDef="actions">
-                    <mat-header-cell *matHeaderCellDef>{{ 'shared.actions' | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let operation">
-                        <div class="d-flex">
-                            <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.edit' | translate"
-                                (click)="edit(operation.id)">
-                                <i class="bx bx-edit-alt me-1"></i>
-                            </button>
-                            <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.delete' | translate"
-                                (click)="confirmDelete(operation.id)">
-                                <i class="bx bx-trash me-1"></i>
-                            </button>
-                        </div>
-                    </mat-cell>
-                </ng-container>
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>{{ 'shared.actions' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let operation">
+                    <div class="d-flex">
+                        <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.edit' | translate"
+                            (click)="edit(operation.id)">
+                            <i class="bx bx-edit-alt me-1"></i>
+                        </button>
+                        <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.delete' | translate"
+                            (click)="confirmDelete(operation.id)">
+                            <i class="bx bx-trash me-1"></i>
+                        </button>
+                    </div>
+                </mat-cell>
+            </ng-container>
 
-                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
-                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
             <div *matNoDataRow>
                 <p class="text-center pt-3">{{ 'shared.no_records' | translate }}</p>
             </div>
-            </mat-table>
-        </div>
+        </mat-table>
     </div>
 
 </app-layout>

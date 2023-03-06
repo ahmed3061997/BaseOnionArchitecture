@@ -1,4 +1,10 @@
 {
+    "paginator":{
+        "of_label": "من",
+        "next_page": "الصفحة التالية",
+        "previous_page": "الصفحة السابقة",
+        "items_per_page": "السجلات في كل صفحة"
+    },
     "shared": {
         "app_name": "app_name",
         "not_found": "الصفحة غير موجودة :(",
@@ -28,6 +34,7 @@
         "delete": "حذف",
         "view": "عرض",
         "active": "نشط",
+        "is_active": "نشط ؟",
         "in_active": "غير نشط",
         "code": "الكود",
         "name": "الاسم",
@@ -36,7 +43,8 @@
         "confirm": "تأكيد",
         "confirm_delete_msg": "هل أنت متأكد أنك تريد حذف هذا السجل؟",
         "exit": "خروج",
-        "no_records": "لم يتم العثور علي بيانات"
+        "no_records": "لم يتم العثور علي بيانات",
+        "session_expired": "انتهت مدة الجلسة!"
     },
     "users": {
         "login": "تسجيل الدخول",
@@ -78,6 +86,12 @@
         "add_edit_page": "أضافة / تعديل صفحة",
         "operations": "العمليات",
         "url": "الرابط"
+    },
+    "roles": {
+        "add_role": "أضافة دور",
+        "module_name": "اسم الوحدة",
+        "page_name": "اسم الصفحة",
+        "copy_permissions_from_role": "نسخ الصلاحيات من الدور"
     },
     "side_menu": {
         "dashboard": "لوحة التحكم",

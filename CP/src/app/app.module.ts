@@ -15,6 +15,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpRequestLanguageInterceptor } from './core/interceptors/language-interceptor';
 import { CustomToastrComponent } from './shared/custom-toastr/custom-toastr.component';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomMatPaginatorIntl } from './core/common/custom-mat-paginator-intl';
 
 const InterceptorProviders = [
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestApiEndPointInterceptor, multi: true },
@@ -22,6 +24,8 @@ const InterceptorProviders = [
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestAuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestErrorInterceptor, multi: true },
 ];
+
+const MatPaginatorIntlProvider = { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl };
 
 
 
@@ -51,6 +55,7 @@ const InterceptorProviders = [
     ],
     providers: [
         InterceptorProviders,
+        MatPaginatorIntlProvider
     ],
 })
 export class AppModule { }

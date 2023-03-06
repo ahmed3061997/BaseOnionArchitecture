@@ -8,7 +8,7 @@ namespace Application.Common.Helpers
         {
             var parameter = Expression.Parameter(typeof(T), "x");
             var property = propertyName.Split('.').Aggregate((Expression)parameter, Expression.Property);
-            return Expression.Lambda<Func<T, object>>(property, parameter);
+            return Expression.Lambda<Func<T, object>>(Expression.Convert(property, typeof(object)), parameter);
         }
 
         public static Expression<Func<T, object>> BuildPredicatedSortExpression<T>(string selectPropertyName, string predicatePropertyName, string comparison, string value)

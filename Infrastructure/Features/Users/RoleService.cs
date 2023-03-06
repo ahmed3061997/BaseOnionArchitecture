@@ -43,7 +43,13 @@ namespace Infrastructure.Features.Users
             result.ThrowIfFailed();
         }
 
-        public async Task<RoleDto> Get(string id) => mapper.Map<RoleDto>(await roleManager.FindByIdAsync(id));
+        public async Task<RoleDto> Get(string id)
+        {
+            return mapper.Map<RoleDto>(await roleManager.Roles
+                 .Include(x => x.Names)
+                 .Include(x => x.Claims)
+                 .FirstOrDefaultAsync(x => x.Id == id));
+        }
 
         public async Task<PageResultDto<RoleDto>> GetAll(PageQueryDto queryDto)
         {
@@ -53,7 +59,7 @@ namespace Infrastructure.Features.Users
                 .Include(x => x.Names)
                 .Where(SeachColumns, queryDto.SeachTerm);
 
-            if (queryDto.SortColumn == "Name")
+            if (queryDto.SortColumn?.ToLower() == "Name".ToLower())
                 query = query.OrderByPredicated("Names.Name", "Culture", culture, queryDto.SortDirection);
             else
                 query = query.OrderBy(queryDto.SortColumn, queryDto.SortDirection);

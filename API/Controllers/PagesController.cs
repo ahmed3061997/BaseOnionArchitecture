@@ -16,13 +16,11 @@ namespace API.Controllers
     public class PagesController : ControllerBase
     {
         private readonly IPageService pageService;
-        private readonly IClaimProvider claimProvider;
         private readonly IValidationService validationService;
 
-        public PagesController(IPageService pageService, IClaimProvider claimProvider, IValidationService validationService)
+        public PagesController(IPageService pageService, IValidationService validationService)
         {
             this.pageService = pageService;
-            this.claimProvider = claimProvider;
             this.validationService = validationService;
         }
 
@@ -30,12 +28,6 @@ namespace API.Controllers
         public IEnumerable<KeyValuePair<int, string>> GetCodes()
         {
             return EnumExtensions.EnumToDictionary<Pages>();
-        }
-
-        [HttpGet(ApiRoutes.GetClaims)]
-        public async Task<IEnumerable<PageClaimDto>> GetClaims()
-        {
-            return await claimProvider.GetPageClaims();
         }
 
         [HttpGet(ApiRoutes.GetAll)]

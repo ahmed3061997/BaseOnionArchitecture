@@ -1,4 +1,10 @@
 {
+    "paginator": {
+        "of_label": "of",
+        "next_page": "Next page",
+        "previous_page": "Previous page",
+        "items_per_page": "Items per page"
+    },
     "shared": {
         "app_name": "app_name",
         "not_found": "Page Not Found :(",
@@ -28,6 +34,7 @@
         "delete": "Delete",
         "view": "View",
         "active": "Active",
+        "is_active": "Is Active",
         "in_active": "Inactive",
         "code": "Code",
         "name": "Name",
@@ -36,7 +43,8 @@
         "confirm": "Confirm",
         "confirm_delete_msg": "Are you sure you wanna delete this record?",
         "exit": "Exit",
-        "no_records": "No records found"
+        "no_records": "No records found",
+        "session_expired": "Session expired!"
     },
     "users": {
         "login": "Log In",
@@ -79,14 +87,20 @@
         "operations": "Operations",
         "url": "Url"
     },
+    "roles": {
+        "add_role": "Add Role",
+        "module_name": "Module Name",
+        "page_name": "Page Name",
+        "copy_permissions_from_role": "Copy Permissions From Role"
+    },
     "side_menu": {
-      "dashboard": "Dashboard",
-      "manage_users": "Manage Users",
-      "users": "Users",
-      "roles": "Roles",
-      "system": "System",
-      "modules": "Modules",
-      "pages": "Pages",
-      "operations": "Operations"
+        "dashboard": "Dashboard",
+        "manage_users": "Manage Users",
+        "users": "Users",
+        "roles": "Roles",
+        "system": "System",
+        "modules": "Modules",
+        "pages": "Pages",
+        "operations": "Operations"
     }
 }

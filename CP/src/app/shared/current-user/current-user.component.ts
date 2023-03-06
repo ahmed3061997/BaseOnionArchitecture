@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoadingOverlayHelper } from 'src/app/core/helpers/loading-overlay/loading-overlay';
 import { User } from 'src/app/core/models/user';
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 
@@ -16,7 +17,9 @@ export class CurrentUserComponent {
   }
 
   logout() {
+    LoadingOverlayHelper.showLoading()
     this.authService.logout().subscribe(() => {
+      LoadingOverlayHelper.hideLoading()
       this.router.navigate(['/users/login'])
     })
   }

@@ -9,6 +9,7 @@ using System.Web;
 
 namespace API.Controllers
 {
+    [AllowAnonymous]
     [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase

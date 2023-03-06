@@ -28,6 +28,13 @@ namespace API.Controllers
             return await roleService.GetAll(query);
         }
 
+        [HttpGet(ApiRoutes.Get)]
+        [PermissionAuthorize(Modules.ManageUsers, Pages.Roles, Operations.View)]
+        public async Task<RoleDto> Get(string id)
+        {
+            return await roleService.Get(id);
+        }
+
         [HttpPost(ApiRoutes.Create)]
         [PermissionAuthorize(Modules.ManageUsers, Pages.Roles, Operations.Create)]
         public async Task Create(RoleDto role)

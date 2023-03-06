@@ -1,0 +1,38 @@
+<app-layout>
+    <h4 class="fw-bold mb-4">
+        <span class="text-muted fw-light">{{ 'side_menu.manage_users' | translate }} /</span>
+        {{ 'side_menu.roles' | translate }}
+    </h4>
+
+    <form class="card">
+
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ 'roles.add_role' | translate }}</h5>
+            <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" checked>
+                <label class="form-check-label" for="IsActive">{{ 'shared.is_active' | translate }}</label>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="mb-4">
+                <label class="form-label">{{ 'shared.name' | translate }}</label>
+                <app-multi-language-input [form]="form" [submitted]="submitted"></app-multi-language-input>
+            </div>
+            <div class="mb-3">
+                <div class="d-flex justify-content-end mb-2">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                        data-bs-target="#copyModal">
+                        <i class="fa fa-copy"></i>
+                        {{ 'roles.copy_permissions_from_role' | translate }}
+                    </button>
+                </div>
+                <app-permission-grid></app-permission-grid>
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <button type="button" class="btn btn-primary" (click)="save()">{{ 'shared.save_changes' | translate }}</button>
+                    <a [routerLink]="['/roles']" class="btn btn-outline-secondary">{{ 'shared.cancel' | translate
+                        }}</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</app-layout>

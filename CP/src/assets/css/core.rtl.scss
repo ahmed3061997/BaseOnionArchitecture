@@ -671,7 +671,7 @@
 
     @media (min-width: 1400px) {
 
-        .container-xxl,
+        // .container-xxl,
         .container-xl,
         .container-lg,
         .container-md,
@@ -16537,9 +16537,9 @@
         padding: 0 1.5rem;
     }
 
-    .layout-navbar.navbar-detached.container-xxl {
-        max-width: calc(1440px - calc(1.625rem * 2));
-    }
+    // .layout-navbar.navbar-detached.container-xxl {
+    //     max-width: calc(1440px - calc(1.625rem * 2));
+    // }
 
     .layout-navbar-fixed .layout-navbar.navbar-detached {
         width: calc(100% - calc(1.625rem * 2) - 16.25rem);
