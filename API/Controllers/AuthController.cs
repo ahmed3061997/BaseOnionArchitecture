@@ -6,6 +6,8 @@ using Application.Interfaces.Users;
 using Application.Interfaces.Validation;
 using Application.Interfaces.Emails;
 using System.Web;
+using AutoMapper;
+using Infrastructure.Features.Users;
 
 namespace API.Controllers
 {
@@ -23,6 +25,13 @@ namespace API.Controllers
             this.authService = authService;
             this.tokenService = tokenService;
             this.validationService = validationService;
+        }
+
+        [HttpPost(ApiRoutes.Register)]
+        public async Task<AuthResult> Register(CreateUserDto dto)
+        {
+            await validationService.ThrowIfInvalid(dto);
+            return await userService.Create(mapper.Map<UserDto>(dto), dto.Password);
         }
 
         [HttpPost(ApiRoutes.Login)]

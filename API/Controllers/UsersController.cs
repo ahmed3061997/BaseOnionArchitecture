@@ -5,6 +5,9 @@ using Application.Models.Users;
 using Application.Interfaces.Users;
 using Application.Interfaces.Validation;
 using AutoMapper;
+using Application.Models.Common;
+using Domain.Enums;
+using Infrastructure.Features.Users;
 
 namespace API.Controllers
 {
@@ -23,11 +26,24 @@ namespace API.Controllers
             this.mapper = mapper;
         }
 
-        [HttpPost(ApiRoutes.Register)]
-        public async Task<AuthResult> Register(CreateUserDto dto)
+        [HttpPost(ApiRoutes.GetAll)]
+        [PermissionAuthorize(Modules.ManageUsers, Pages.Users, Operations.View)]
+        public async Task<PageResultDto<UserDto>> GetAll(PageQueryDto query)
         {
-            await validationService.ThrowIfInvalid(dto);
-            return await userService.Create(mapper.Map<UserDto>(dto), dto.Password);
+            return await userService.GetAll(query);
+        }
+
+        [HttpGet(ApiRoutes.GetDrop)]
+        public async Task<IEnumerable<UserDto>> GetDrop()
+        {
+            return await userService.GetDrop();
+        }
+
+        [HttpGet(ApiRoutes.Get)]
+        [PermissionAuthorize(Modules.ManageUsers, Pages.Users, Operations.View)]
+        public async Task<UserDto> Get(string id)
+        {
+            return await userService.Get(id);
         }
     }
 }
