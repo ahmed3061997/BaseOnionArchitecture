@@ -59,7 +59,7 @@ export class HttpRequestAuthInterceptor implements HttpInterceptor {
                         this.isRefreshing = false;
                         this.authService.clearSession();
                         this.notification.error(this.translateService.instant('shared.session_expired'))
-                        return of({});
+                        return from(this.router.navigate(['/users/login']))
                     })
                 );
             else

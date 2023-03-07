@@ -32,6 +32,7 @@ export class PermissionGridComponent {
 
   setSelectedClaims(claims: string[]) {
     this.context.claims = claims || []
+    this.agGrid.api.redrawRows()
   }
 
   ngOnInit() {

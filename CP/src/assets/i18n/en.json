@@ -24,6 +24,7 @@
         "no": "No",
         "on": "On",
         "off": "Off",
+        "ok": "Ok",
         "required": "Required",
         "max_length": "Please enter no more than {{max}} characters",
         "min_length": "Please enter at least {{min}} characters",
@@ -43,6 +44,7 @@
         "confirm": "Confirm",
         "confirm_delete_msg": "Are you sure you wanna delete this record?",
         "exit": "Exit",
+        "back": "Back",
         "no_records": "No records found",
         "session_expired": "Session expired!"
     },

@@ -50,6 +50,12 @@ export class MultiLanguageInputComponent {
     });
   }
 
+  protected get c() {
+    var item: any = {}
+    this.value.forEach(x => item[x.culture] = x.value)
+    return item
+  }
+
   setValue(value: CultureLookup[]) {
     value.forEach(x => this.form?.patchValue({ [`${x.culture}Input`]: x.value }))
   }

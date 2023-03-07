@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ICellRendererAngularComp, IHeaderAngularComp } from 'ag-grid-angular';
-import { ICellRendererParams, IHeaderParams } from 'ag-grid-community';
+import { IHeaderAngularComp } from 'ag-grid-angular';
+import { IHeaderParams } from 'ag-grid-community';
 
 @Component({
     selector: 'app-operation-checkbox',

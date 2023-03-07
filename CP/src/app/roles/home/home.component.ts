@@ -7,6 +7,7 @@ import { ServerSideDataSource } from 'src/app/core/common/server-side-data-sourc
 import { PageQuery, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/core/models/page-query';
 import { Role } from 'src/app/core/models/role';
 import { RoleService } from 'src/app/core/services/roles/role.service';
+import { SearchService } from 'src/app/core/services/search/search.service';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,10 @@ export class HomeComponent {
   displayedColumns: string[] = ['name', 'isActive', 'actions'];
   dataSource: ServerSideDataSource<Role>
 
-  constructor(private roleService: RoleService, private translateService: TranslateService) { }
+  constructor(
+    private roleService: RoleService,
+    private searchService: SearchService,
+    private translateService: TranslateService) { }
 
   ngOnInit() {
     this.dataSource = new ServerSideDataSource<Role>(this.roleService)
@@ -31,7 +35,7 @@ export class HomeComponent {
   }
 
   ngAfterViewInit() {
-    merge(this.paginator.page, this.sort.sortChange, this.translateService.onLangChange)
+    merge(this.paginator.page, this.sort.sortChange, this.searchService.searchChanged, this.translateService.onLangChange)
       .pipe(
         tap(() => this.dataSource.load(this.getQuery()))
       )
@@ -43,7 +47,8 @@ export class HomeComponent {
       pageIndex: this.paginator?.pageIndex || 0,
       pageSize: this.paginator?.pageSize || this.pageSize,
       sortColumn: this.sort?.active,
-      sortDirection: PageQuery.toSortDirection(this.sort?.direction)
+      sortDirection: PageQuery.toSortDirection(this.sort?.direction),
+      searchTerm: this.searchService.getSearchTerm()
     }
   }
 }

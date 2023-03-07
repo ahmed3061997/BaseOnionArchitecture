@@ -26,6 +26,10 @@ export class CreateRoleComponent {
     private router: Router,
     private roleService: RoleService) { }
 
+  onRoleLoaded(role: Role) {
+    this.permissionGrid.setSelectedClaims(role.claims!)
+  }
+
   save() {
     this.submitted = true
 
@@ -36,7 +40,7 @@ export class CreateRoleComponent {
       names: this.nameInput.getValue(),
       claims: this.permissionGrid.getSelectedClaims()
     }
-    
+
     this.roleService.create(role)
       .subscribe(() => this.router.navigate(['/roles']))
   }

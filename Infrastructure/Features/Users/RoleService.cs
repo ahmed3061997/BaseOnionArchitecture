@@ -57,7 +57,7 @@ namespace Infrastructure.Features.Users
 
             var query = roleManager.Roles
                 .Include(x => x.Names)
-                .Where(SeachColumns, queryDto.SeachTerm);
+                .Where(SeachColumns, queryDto.SearchTerm);
 
             if (queryDto.SortColumn?.ToLower() == "Name".ToLower())
                 query = query.OrderByPredicated("Names.Name", "Culture", culture, queryDto.SortDirection);

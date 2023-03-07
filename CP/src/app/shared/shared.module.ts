@@ -22,6 +22,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PermissionGridComponent } from './permission-grid/permission-grid.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { OperationCheckboxRenderer } from './permission-grid/operation-checkbox.renderer';
+import { OperationHeaderRenderer } from './permission-grid/operation-header.renderer';
 
 
 
@@ -41,7 +42,8 @@ import { OperationCheckboxRenderer } from './permission-grid/operation-checkbox.
     MultiLanguageTextAreaComponent,
     AlertDialogComponent,
     PermissionGridComponent,
-    OperationCheckboxRenderer
+    OperationCheckboxRenderer,
+    OperationHeaderRenderer
   ],
   imports: [
     SharedRoutingModule,

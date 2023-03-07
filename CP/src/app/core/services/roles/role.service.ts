@@ -15,8 +15,19 @@ export class RoleService implements IServerSideSource<Role> {
 
   constructor(private httpClient: HttpClient, private notification: NotificationService) { }
 
+  getDrop() {
+    LoadingOverlayHelper.showLoading()
+    return this.httpClient
+    .get<Role[]>('/api/roles/get-drop')
+    .pipe(
+      tap(() => {
+        LoadingOverlayHelper.hideLoading()
+      })
+    )
+  }
+
   getAll(query: PageQuery) {
-    return this.httpClient.post<PageResult<Role>>('/api/roles/get-all', query);
+    return this.httpClient.post<PageResult<Role>>('/api/roles/get-all', query)
   }
 
   get(id: string) {

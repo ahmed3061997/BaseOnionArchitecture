@@ -17,7 +17,7 @@
             <span class="input-group-text">
                 <i class="fi fi-{{ culture.flag }} m-0"></i>
             </span>
-            <input type="text" class="form-control" [placeholder]="culture.name" [disabled]="disabled">
+            <input type="text" class="form-control" [value]="c[culture.code]" [placeholder]="culture.name" [disabled]="disabled">
         </div>
     </div>
 </ng-template>

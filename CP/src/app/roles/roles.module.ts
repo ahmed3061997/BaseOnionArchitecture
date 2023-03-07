@@ -15,6 +15,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { CreateRoleComponent } from './create-role/create-role.component';
 import { EditRoleComponent } from './edit-role/edit-role.component';
 import { ViewRoleComponent } from './view-role/view-role.component';
+import { CopyFromRoleComponent } from './copy-from-role/copy-from-role.component';
 
 
 
@@ -23,7 +24,8 @@ import { ViewRoleComponent } from './view-role/view-role.component';
     HomeComponent,
     CreateRoleComponent,
     EditRoleComponent,
-    ViewRoleComponent
+    ViewRoleComponent,
+    CopyFromRoleComponent
   ],
   imports: [
       RolesRoutingModule,

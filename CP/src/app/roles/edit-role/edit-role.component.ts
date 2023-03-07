@@ -36,6 +36,10 @@ export class EditRoleComponent {
     })
   }
 
+  onRoleLoaded(role: Role) {
+    this.permissionGrid.setSelectedClaims(role.claims!)
+  }
+
   save() {
     this.submitted = true
 

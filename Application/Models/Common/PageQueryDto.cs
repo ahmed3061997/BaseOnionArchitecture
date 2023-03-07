@@ -8,7 +8,7 @@ namespace Application.Models.Common
         public int PageIndex { get; set; }
         public string? SortColumn { get; set; }
         public SortDirection SortDirection { get; set; }
-        public string? SeachColumn { get; set; }
-        public string? SeachTerm { get; set; }
+        public string? SearchColumn { get; set; }
+        public string? SearchTerm { get; set; }
     }
 }

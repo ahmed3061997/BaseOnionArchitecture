@@ -28,6 +28,12 @@ namespace API.Controllers
             return await roleService.GetAll(query);
         }
 
+        [HttpGet(ApiRoutes.GetDrop)]
+        public async Task<IEnumerable<RoleDto>> GetDrop()
+        {
+            return await roleService.GetDrop();
+        }
+
         [HttpGet(ApiRoutes.Get)]
         [PermissionAuthorize(Modules.ManageUsers, Pages.Roles, Operations.View)]
         public async Task<RoleDto> Get(string id)

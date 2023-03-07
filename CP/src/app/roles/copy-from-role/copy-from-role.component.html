@@ -1,0 +1,27 @@
+<button type="button" class="btn btn-outline-primary" (click)="showDialog()">
+    <i class="fa fa-copy"></i>
+    {{ 'roles.copy_permissions_from_role' | translate }}
+</button>
+
+<ng-template #dialog>
+    <div mat-dialog-title>
+        <h5>{{ 'roles.copy_permissions_from_role' | translate }}</h5>
+    </div>
+
+    <div mat-dialog-content>
+        <div class="mb-3">
+            <label class="form-label">{{ 'shared.code' | translate }}</label>
+            <select class="form-select" #roleDropDown>
+                <option *ngFor="let role of roles | async" [value]="role.id">{{ role.name }}
+                </option>
+            </select>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" (click)="loadRole()">{{ 'shared.ok' | translate
+            }}</button>
+        <button type="button" class="btn btn-outline-secondary" mat-dialog-close>{{ 'shared.cancel' | translate
+            }}</button>
+    </div>
+</ng-template>

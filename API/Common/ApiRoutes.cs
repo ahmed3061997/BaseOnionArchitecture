@@ -21,6 +21,7 @@
         public const string GetClaims = "get-claims";
         public const string GetCodes = "get-codes";
         public const string Get = "get";
+        public const string GetDrop = "get-drop";
         public const string GetAll = "get-all";
         public const string Create = "create";
         public const string Edit = "edit";

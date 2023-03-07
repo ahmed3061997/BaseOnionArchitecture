@@ -7,6 +7,7 @@ import { Role } from 'src/app/core/models/role';
 import { RoleService } from 'src/app/core/services/roles/role.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PermissionGridComponent } from 'src/app/shared/permission-grid/permission-grid.component';
+import { CultureLookup } from 'src/app/core/models/culture-lookup';
 
 @Component({
   selector: 'app-view-role',
@@ -16,9 +17,10 @@ import { PermissionGridComponent } from 'src/app/shared/permission-grid/permissi
 export class ViewRoleComponent {
 
   @ViewChild(PermissionGridComponent) permissionGrid: PermissionGridComponent;
-  @ViewChild(MultiLanguageInputComponent) nameInput: MultiLanguageInputComponent;
 
-  role: Role = new Role()
+  roleId: string
+  isActive: boolean
+  names: CultureLookup[] = []
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -26,8 +28,9 @@ export class ViewRoleComponent {
 
   ngOnInit() {
     this.roleService.get(this.activatedRoute.snapshot.params['id']).subscribe(result => {
-      this.role = result
-      this.nameInput.setValue(result.names!)
+      this.roleId = result.id!
+      this.names = result.names!
+      this.isActive = result.isActive
       this.permissionGrid.setSelectedClaims(result.claims!)
     })
   }
