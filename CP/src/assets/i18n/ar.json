@@ -46,9 +46,15 @@
         "exit": "خروج",
         "back": "رجوع",
         "no_records": "لم يتم العثور علي بيانات",
-        "session_expired": "انتهت مدة الجلسة!"
+        "session_expired": "انتهت مدة الجلسة!",
+        "phone_number": "رقم الهاتف",
+        "upload": "رفع",
+        "select": "إختار"
     },
     "users": {
+        "add_user": "أضافة مستخدم",
+        "edit_user": "تعديل المستخدم",
+        "view_user": "عرض المستخدم",
         "login": "تسجيل الدخول",
         "username": "اسم المستخدم",
         "email": "البريد الالكتروني",
@@ -75,7 +81,8 @@
         "first_name": "الاسم الأول",
         "enter_first_name": "أدخل الاسم الأول",
         "last_name": "اسم العائلة",
-        "enter_last_name": "أدخل اسم العائلة"
+        "enter_last_name": "أدخل اسم العائلة",
+        "roles": "الأدوار"
     },
     "modules": {
         "add_edit_module": "أضافة / تعديل وحدة",

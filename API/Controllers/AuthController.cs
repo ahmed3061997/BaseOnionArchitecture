@@ -17,13 +17,22 @@ namespace API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService authService;
+        private readonly IUserService userService;
         private readonly ITokenService tokenService;
+        private readonly IMapper mapper;
         private readonly IValidationService validationService;
 
-        public AuthController(IAuthService authService, ITokenService tokenService, IValidationService validationService)
+        public AuthController(
+            IAuthService authService,
+            IUserService userService,
+            ITokenService tokenService,
+            IMapper mapper,
+            IValidationService validationService)
         {
             this.authService = authService;
+            this.userService = userService;
             this.tokenService = tokenService;
+            this.mapper = mapper;
             this.validationService = validationService;
         }
 

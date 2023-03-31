@@ -1,5 +1,6 @@
 ﻿using Application.Common.Extensions;
 using Application.Interfaces.Culture;
+using Application.Interfaces.FileManager;
 using Application.Interfaces.Users;
 using Application.Models.Common;
 using Application.Models.Users;
@@ -17,15 +18,18 @@ namespace Infrastructure.Features.Users
 
         private UserManager<ApplicationUser> userManager;
         private readonly ITokenService tokenService;
+        private readonly IFileManager fileManager;
         private readonly IMapper mapper;
 
         public UserService(
             UserManager<ApplicationUser> userManager,
             ITokenService tokenService,
+            IFileManager fileManager,
             IMapper mapper)
         {
             this.userManager = userManager;
             this.tokenService = tokenService;
+            this.fileManager = fileManager;
             this.mapper = mapper;
         }
 
@@ -37,10 +41,23 @@ namespace Infrastructure.Features.Users
 
         public async Task<AuthResult> Create(UserDto user, string password)
         {
+            if (user.ProfileImageFile != null) user.ProfileImage = await fileManager.SaveFile(user.ProfileImageFile, "users");
             var dbUser = mapper.Map<ApplicationUser>(user);
             var result = await userManager.CreateAsync(dbUser, password);
             result.ThrowIfFailed();
             return new AuthResult() { User = mapper.Map<UserDto>(dbUser), Jwt = await tokenService.GenerateToken(dbUser) };
+        }
+
+        public async Task Edit(UserDto user)
+        {
+            if (user.ProfileImageFile != null) user.ProfileImage = await fileManager.SaveFile(user.ProfileImageFile, "users");
+            var dbUser = await userManager
+                  .Users
+                  .Include(x => x.Claims)
+                  .FirstOrDefaultAsync(x => x.Id == user.Id);
+            if (dbUser.ProfileImage != user.ProfileImage) fileManager.DeleteFile(dbUser.ProfileImage);
+            var result = await userManager.UpdateAsync(mapper.Map(user, dbUser));
+            result.ThrowIfFailed();
         }
 
         public async Task AssignToRoles(string userId, IEnumerable<string> roles)

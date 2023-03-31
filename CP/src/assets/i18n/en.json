@@ -46,9 +46,15 @@
         "exit": "Exit",
         "back": "Back",
         "no_records": "No records found",
-        "session_expired": "Session expired!"
+        "session_expired": "Session expired!",
+        "phone_number": "Phone Number",
+        "upload": "Upload",
+        "select": "Select"
     },
     "users": {
+        "add_user": "Add User",
+        "edit_user": "Edit User",
+        "view_user": "View User",
         "login": "Log In",
         "username": "Username",
         "email": "Email",
@@ -75,7 +81,8 @@
         "first_name": "First Name",
         "enter_first_name": "Enter first name",
         "last_name": "Last Name",
-        "enter_last_name": "Enter last name"
+        "enter_last_name": "Enter last name",
+        "roles": "Roles"
     },
     "modules": {
         "add_edit_module": "Add / Edit Module",

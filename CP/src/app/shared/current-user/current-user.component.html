@@ -1,6 +1,6 @@
 <a class="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown">
     <div class="avatar avatar-online">
-        <img src="./assets/img/avatars/user.png" class="w-px-40 h-auto rounded-circle avatar" />
+        <img [src]="user.profileImage ?? './assets/img/avatars/avatar.svg'" class="w-px-40 h-auto rounded-circle avatar" />
     </div>
 </a>
 <ul class="dropdown-menu dropdown-menu-end animate__animated animate__faster animate__zoomIn">
@@ -9,12 +9,12 @@
             <div class="d-flex">
                 <div class="flex-shrink-0 me-3">
                     <div class="avatar avatar-online">
-                        <img src="./assets/img/avatars/user.png" class="w-px-40 h-auto rounded-circle avatar" />
+                        <img [src]="user.profileImage ?? './assets/img/avatars/avatar.svg'" class="w-px-40 h-auto rounded-circle avatar" />
                     </div>
                 </div>
                 <div class="flex-grow-1 mt-2 placeholder-glow">
-                    <span class="fw-semibold d-block mb-2">{{ user.firstName }} {{ user.lastName }}</span>
-                    <small class="text-muted d-block">{{ (user.roles || []).join(', ') }}</small>
+                    <span class="fw-semibold d-block mb-2">{{ user.fullName }}</span>
+                    <small class="text-muted d-block">{{ user.roles?.join(', ') }}</small>
                 </div>
             </div>
         </a>

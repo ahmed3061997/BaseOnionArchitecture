@@ -51,7 +51,7 @@ namespace Infrastructure.Features.Users
             var user = await GetUser(username);
             return new IdentityTokenResult()
             {
-                Name = $"{user.FirstName} {user.LastName}",
+                Name = user.FullName,
                 Email = user.Email,
                 Token = await userManager.GeneratePasswordResetTokenAsync(user)
             };
@@ -70,7 +70,7 @@ namespace Infrastructure.Features.Users
             var user = await GetUser(username);
             return new IdentityTokenResult()
             {
-                Name = $"{user.FirstName} {user.LastName}",
+                Name = user.FullName,
                 Email = user.Email,
                 Token = await userManager.GenerateEmailConfirmationTokenAsync(user)
             };

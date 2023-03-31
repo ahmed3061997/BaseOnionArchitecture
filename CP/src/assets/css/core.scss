@@ -8769,7 +8769,12 @@
         border-left: 0;
     }
 
-    .input-group-merge .form-control:not(:last-child) and :last-child:not(.invalid-feedback) {
+    // .input-group-merge .form-control:not(:last-child) and :last-child:not(.invalid-feedback) {
+    //     padding-right: 0;
+    //     border-right: 0;
+    // }
+
+    .input-group-merge .form-control:not(:last-child) {
         padding-right: 0;
         border-right: 0;
     }

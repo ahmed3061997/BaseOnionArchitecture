@@ -83,28 +83,68 @@ body {
 
 @media only screen and (max-width: 760px) {
   .dialog-sm {
-      width: 90%;
+    width: 90%;
   }
+
   .dialog-md {
-      width: 90%;
+    width: 90%;
   }
+
   .dialog-lg {
-      width: 90%;
+    width: 90%;
   }
 }
 
 @media only screen and (min-width: 760px) and (max-width: 1024px) {
   .dialog-sm {
-      width: 40%;
+    width: 40%;
   }
+
   .dialog-md {
-      width: 60%;
+    width: 60%;
   }
+
   .dialog-lg {
-      width: 80%;
+    width: 80%;
   }
 }
 
 .mat-mdc-row .mat-mdc-cell {
   border: none !important;
+}
+
+select2.form-select {
+  padding: 1px !important;
+}
+
+.select2-selection {
+  border: none !important;
+  border-radius: 0.375rem !important;
+  padding-left: 4px;
+}
+
+.select2-selection__rendered {
+  width: unset !important;
+}
+
+.select2-selection__choice {
+  border: none !important;
+  background: rgba(105, 108, 255, 0.16) !important;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.select2-selection__choice__remove {
+  color: rgb(105 108 255) !important;
+  margin-right: 4px;
+}
+
+[dir=rtl] {
+  .select2-selection {
+    padding-right: 4px;
+  }
+
+  .select2-selection__choice__remove {
+    margin-left: 4px;
+  }
 }

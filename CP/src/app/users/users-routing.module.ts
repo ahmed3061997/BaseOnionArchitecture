@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CreateUserComponent } from './create-user/create-user.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { ViewUserComponent } from './view-user/view-user.component';
 
 const routes: Routes = [
   {
@@ -14,8 +16,16 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
-    path: 'register',
-    component: RegisterComponent,
+    path: 'create',
+    component: CreateUserComponent,
+  },
+  {
+    path: 'edit',
+    component: EditUserComponent,
+  },
+  {
+    path: 'view',
+    component: ViewUserComponent,
   },
 ];
 

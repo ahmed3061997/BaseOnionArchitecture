@@ -14,6 +14,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
+import { CreateUserComponent } from './create-user/create-user.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { ViewUserComponent } from './view-user/view-user.component';
+import { Select2Module } from 'ng-select2-component';
 
 
 @NgModule({
@@ -21,6 +25,9 @@ import { MatSortModule } from '@angular/material/sort';
         LoginComponent,
         HomeComponent,
         RegisterComponent,
+        CreateUserComponent,
+        EditUserComponent,
+        ViewUserComponent,
     ],
     imports: [
         UsersRoutingModule,
@@ -32,6 +39,7 @@ import { MatSortModule } from '@angular/material/sort';
         MatSortModule,
         MatPaginatorModule,
         MatProgressBarModule,
+        Select2Module,
         TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,

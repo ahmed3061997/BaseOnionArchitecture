@@ -91,10 +91,10 @@ namespace Infrastructure.Persistence
                 {
                     user = new ApplicationUser(roleName)
                     {
-                        FirstName = roleName,
-                        LastName = "User",
+                        FullName = roleName,
                         Email = $"{roleName.ToLower()}@email.com",
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        IsActive = true
                     };
                     await userManager.CreateAsync(user, "User123@@@");
                 }

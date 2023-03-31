@@ -1,3 +1,79 @@
 <app-layout>
-    <p>Users</p>
+
+    <h4 class="fw-bold mb-4"><span class="text-muted fw-light">{{ 'side_menu.manage_users' | translate }} /</span>
+        {{ 'side_menu.users' | translate }}</h4>
+
+    <div class="card">
+        <h5 class="card-header">{{ 'side_menu.users' | translate }}</h5>
+        <div class="d-flex justify-content-end mx-4 mb-3">
+            <a [routerLink]="['/users/create']" class="btn btn-success">
+                <i class="fa fa-plus"></i>
+                {{ 'shared.add' | translate }}
+            </a>
+        </div>
+
+        <mat-table class="mb-1" [dataSource]="dataSource" matSort>
+
+            <ng-container matColumnDef="fullName">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'shared.name' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.fullName}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="username">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'users.username' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.username}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'users.email' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let user">{{user.email}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="isActive">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'shared.is_active' | translate
+                    }}</mat-header-cell>
+                <mat-cell *matCellDef="let user">
+                    <div class="form-check form-switch mb-2">
+                        <input class="form-check-input" type="checkbox" [checked]="user.isActive">
+                    </div>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef>{{ 'shared.actions' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let user">
+                    <div class="d-flex">
+                        <a class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.view' | translate"
+                            [routerLink]="['/users/view', { id :user.id }]">
+                            <i class="far fa-eye me-1"></i>
+                        </a>
+                        <a class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.edit' | translate"
+                            [routerLink]="['/users/edit', { id :user.id }]">
+                            <i class="bx bx-edit-alt me-1"></i>
+                        </a>
+                        <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.delete' | translate">
+                            <i class="bx bx-trash me-1"></i>
+                        </button>
+                    </div>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+            <div class="mat-row" *matNoDataRow>
+                <div *ngIf="dataSource.loading$ | async" class="mat-cell-load">
+                    <mat-progress-bar mode="indeterminate" class="table-progressbar"></mat-progress-bar>
+                </div>
+                <p class="mat-cell text-center pt-3" *ngIf="!(dataSource.loading$ | async)">{{ 'shared.no_records' |
+                    translate }}
+                </p>
+            </div>
+        </mat-table>
+
+        <mat-paginator [length]="dataSource.totalCount$ | async" [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizes"></mat-paginator>
+    </div>
+
 </app-layout>

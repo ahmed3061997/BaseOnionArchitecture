@@ -8680,7 +8680,12 @@
         border-right: 0;
     }
 
-    .input-group-merge .form-control:not(:last-child) and :last-child:not(.invalid-feedback) {
+    // .input-group-merge .form-control:not(:last-child) and :last-child:not(.invalid-feedback) {
+    //     padding-left: 0;
+    //     border-left: 0;
+    // }
+
+    .input-group-merge .form-control:not(:last-child) {
         padding-left: 0;
         border-left: 0;
     }

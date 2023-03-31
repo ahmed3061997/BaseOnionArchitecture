@@ -18,6 +18,8 @@ using Application.Interfaces.System;
 using Infrastructure.Features.System;
 using Application.Interfaces.Validation;
 using Infrastructure.Features.Validation;
+using Application.Interfaces.FileManager;
+using Infrastructure.Features.FileManager;
 
 namespace Infrastructure
 {
@@ -48,6 +50,7 @@ namespace Infrastructure
             services.AddScoped<IPageService, PageService>();
             services.AddScoped<IOperationService, OperationService>();
             services.AddScoped<IClaimProvider, ClaimProvider>();
+            services.AddScoped<IFileManager, FileManager>();
         }
 
         private static void AddJwt(IServiceCollection services, IConfiguration configuration)
