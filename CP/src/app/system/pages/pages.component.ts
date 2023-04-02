@@ -1,15 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
+import { Helper } from 'src/app/core/helpers/helper';
 import { LoadingOverlayHelper } from 'src/app/core/helpers/loading-overlay/loading-overlay';
 import { CultureService } from 'src/app/core/services/culture/culture.service';
 import { DialogService } from 'src/app/core/services/dialogs/dialog.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { AlertDialogComponent } from 'src/app/shared/alert-dialog/alert-dialog.component';
+import { ImportDialogComponent } from 'src/app/shared/import-dialog/import-dialog.component';
 import { MultiLanguageInputComponent } from 'src/app/shared/multi-language-input/multi-language-input.component';
 
 @Component({
@@ -89,6 +91,34 @@ export class PagesComponent {
         },
         error: () => {
           this.loading = false
+        }
+      })
+  }
+
+  export() {
+    LoadingOverlayHelper.showLoading()
+    this.httpClient.get('/api/pages/get-all')
+      .subscribe(result => {
+        LoadingOverlayHelper.hideLoading()
+        Helper.saveAsFile('pages.json', JSON.stringify(result))
+      })
+  }
+
+  openImport() {
+    this.dialogRef = this.dialog.open(ImportDialogComponent,
+      {
+        data: {
+          importFunc: (file: File) => {
+            LoadingOverlayHelper.showLoading()
+            var formData = new FormData()
+            formData.append('jsonFile', file, file.name)
+            this.httpClient.post('/api/modules/import', formData)
+              .subscribe(() => {
+                LoadingOverlayHelper.hideLoading()
+                this.notification.success()
+                this.refreshTable()
+              })
+          }
         }
       })
   }

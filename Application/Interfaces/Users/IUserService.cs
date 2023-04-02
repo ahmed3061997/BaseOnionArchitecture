@@ -10,6 +10,7 @@ namespace Application.Interfaces.Users
         Task<PageResultDto<UserDto>> GetAll(PageQueryDto query);
         Task<AuthResult> Create(UserDto user, string password);
         Task AssignToRoles(string userId, IEnumerable<string> roles);
+        Task<IEnumerable<string>> GetClaims(string userId);
         Task<IEnumerable<string>> GetRoles(string userId);
     }
 }

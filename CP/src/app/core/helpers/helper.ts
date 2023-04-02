@@ -6,4 +6,15 @@ export class Helper {
             return rv;
         }, {});
     };
+
+    public static saveAsFile(fileName: string, content: any, type: string = 'application/json') {
+        // Create a blob from the file content
+        const blob = new Blob([content], { type });
+    
+        // Create a link to the blob
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = fileName;
+        link.click();
+    }
 }

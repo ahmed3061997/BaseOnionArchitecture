@@ -20,6 +20,25 @@ namespace Infrastructure.Features.System
             this.mapper = mapper;
         }
 
+        public async Task Import(IEnumerable<ModuleDto> modules)
+        {
+            foreach (var dto in modules)
+            {
+                var module = await context.Modules
+                    .Include(x => x.Names)
+                    .FirstOrDefaultAsync(x => x.Code == dto.Code);
+
+                if (module == null)
+                {
+                    module = new Module();
+                    context.Modules.Add(module);
+                }
+
+                mapper.Map(dto, module);
+            }
+            await context.SaveChangesAsync();
+        }
+
         public async Task Create(ModuleDto module)
         {
             CheckCode(module.Code);

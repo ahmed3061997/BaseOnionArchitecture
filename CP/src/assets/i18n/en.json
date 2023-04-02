@@ -49,7 +49,10 @@
         "session_expired": "Session expired!",
         "phone_number": "Phone Number",
         "upload": "Upload",
-        "select": "Select"
+        "select": "Select",
+        "export": "Export",
+        "import": "Import",
+        "upload_file": "Upload file"
     },
     "users": {
         "add_user": "Add User",

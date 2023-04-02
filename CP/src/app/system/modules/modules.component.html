@@ -5,8 +5,16 @@
 
     <div class="card">
         <h5 class="card-header">{{ 'side_menu.modules' | translate }}</h5>
-        <div class="d-flex justify-content-end mx-4 mb-3">
-            <button type="button" class="btn btn-success" id="addBtn" (click)="add()">
+        <div class="d-flex justify-content-end gap-2 mx-4 mb-3">
+            <button type="button" class="btn btn-outline-primary" (click)="openImport()">
+                <i class="fas fa-cloud-upload-alt"></i>
+                {{ 'shared.import' | translate }}
+            </button>
+            <button type="button" class="btn btn-outline-primary" (click)="export()">
+                <i class="fas fa-cloud-download-alt"></i>
+                {{ 'shared.export' | translate }}
+            </button>
+            <button type="button" class="btn btn-success" (click)="add()">
                 <i class="fa fa-plus"></i>
                 {{ 'shared.add' | translate }}
             </button>
@@ -43,8 +51,13 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-            <div *matNoDataRow>
-                <p class="text-center pt-3">{{ 'shared.no_records' | translate }}</p>
+
+            <div class="mat-row" *matNoDataRow>
+                <div *ngIf="loading==true" class="mat-cell-load">
+                    <mat-progress-bar mode="indeterminate" class="table-progressbar"></mat-progress-bar>
+                </div>
+                <p class="mat-cell text-center pt-3" *ngIf="loading==false">{{ 'shared.no_records' | translate }}
+                </p>
             </div>
         </mat-table>
     </div>

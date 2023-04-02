@@ -20,6 +20,25 @@ namespace Infrastructure.Features.System
             this.mapper = mapper;
         }
 
+        public async Task Import(IEnumerable<PageDto> pages)
+        {
+            foreach (var dto in pages)
+            {
+                var page = await context.Pages
+                    .Include(x => x.Names)
+                    .FirstOrDefaultAsync(x => x.Code == dto.Code);
+
+                if (page == null)
+                {
+                    page = new Page();
+                    context.Pages.Add(page);
+                }
+
+                mapper.Map(dto, page);
+            }
+            await context.SaveChangesAsync();
+        }
+
         public async Task Create(PageDto page)
         {
             CheckCode(page.Code);
@@ -52,7 +71,9 @@ namespace Infrastructure.Features.System
             return await context.Pages
                    .Include(x => x.Names)
                    .AsNoTracking()
-                   .Select(x => mapper.Map<PageDto>(x)).ToListAsync();
+                   .OrderBy(x => x.Code)
+                   .Select(x => mapper.Map<PageDto>(x))
+                   .ToListAsync();
         }
 
         public async Task<PageDto> Get(Guid id)

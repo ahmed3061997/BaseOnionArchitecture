@@ -14,5 +14,6 @@ namespace Domain.Entities.Users
         public bool IsActive { get; set; }
         public IList<ApplicationRoleName> Names { get; set; }
         public virtual ICollection<ApplicationRoleClaim> Claims { get; set; }
+        public virtual ICollection<ApplicationUserRole> Users { get; set; }
     }
 }

@@ -1,10 +1,20 @@
 ﻿using Application.Common.Constants;
 using Application.Common.Helpers;
+using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Application.Common.Extensions
 {
     public static class QueryableExtensions
     {
+        public static IQueryable<T> IncludeIf<T, TProperty>(this IQueryable<T> source, bool condition,
+        Expression<Func<T, TProperty>> navigationPropertyPath) where T : class
+        {
+            if (!condition) return source;
+            return source.Include(navigationPropertyPath);
+        }
+
         public static IQueryable<T> Where<T>(this IQueryable<T> source, IEnumerable<string> propertyNames, string? value)
         {
             if (value == null) return source;

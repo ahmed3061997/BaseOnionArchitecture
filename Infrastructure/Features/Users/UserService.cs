@@ -1,6 +1,7 @@
 ﻿using Application.Common.Extensions;
 using Application.Interfaces.Culture;
 using Application.Interfaces.FileManager;
+using Application.Interfaces.Persistence;
 using Application.Interfaces.Users;
 using Application.Models.Common;
 using Application.Models.Users;
@@ -15,18 +16,20 @@ namespace Infrastructure.Features.Users
     public class UserService : IUserService
     {
         private readonly IEnumerable<string> SeachColumns = new string[] { "Id", "FirstName", "LastName", "UserName", "Email", "PhoneNumber" };
-
+        private readonly IApplicationDbContext context;
         private UserManager<ApplicationUser> userManager;
         private readonly ITokenService tokenService;
         private readonly IFileManager fileManager;
         private readonly IMapper mapper;
 
         public UserService(
+            IApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             ITokenService tokenService,
             IFileManager fileManager,
             IMapper mapper)
         {
+            this.context = context;
             this.userManager = userManager;
             this.tokenService = tokenService;
             this.fileManager = fileManager;
@@ -69,6 +72,17 @@ namespace Infrastructure.Features.Users
         public async Task<IEnumerable<string>> GetRoles(string userId)
         {
             return await userManager.GetRolesAsync(await userManager.FindByIdAsync(userId));
+        }
+
+        public async Task<IEnumerable<string>> GetClaims(string userId)
+        {
+            var userClaims = context.Set<ApplicationUserClaim>()
+                                    .Where(x => x.UserId == userId)
+                                    .Select(x => x.ClaimValue);
+            var roleClaims = context.Set<ApplicationRoleClaim>()
+                                    .Where(x => x.Role.Users.Any(y => y.UserId == userId))
+                                    .Select(x => x.ClaimValue);
+            return await userClaims.Union(roleClaims).ToListAsync();
         }
 
         public async Task<IEnumerable<UserDto>> GetDrop()

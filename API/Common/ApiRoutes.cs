@@ -16,9 +16,12 @@
         public const string SendResetPassword = "send-reset-password";
         public const string Authenticate = "authenticate";
         public const string GetCurrentUser = "get-current-user";
+        public const string GetClaims = "get-claims";
 
         // General
-        public const string GetClaims = "get-claims";
+        public const string Import = "import";
+        public const string Export = "export";
+        public const string MigrateData = "migrate-data";
         public const string GetCodes = "get-codes";
         public const string Get = "get";
         public const string GetDrop = "get-drop";

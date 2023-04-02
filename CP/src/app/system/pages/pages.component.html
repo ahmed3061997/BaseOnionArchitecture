@@ -5,8 +5,16 @@
 
     <div class="card">
         <h5 class="card-header">{{ 'side_menu.pages' | translate }}</h5>
-        <div class="d-flex justify-content-end mx-4 mb-3">
-            <button type="button" class="btn btn-success" id="addBtn" (click)="add()">
+        <div class="d-flex justify-content-end gap-2 mx-4 mb-3">
+            <button type="button" class="btn btn-outline-primary" (click)="openImport()">
+                <i class="fas fa-cloud-upload-alt"></i>
+                {{ 'shared.import' | translate }}
+            </button>
+            <button type="button" class="btn btn-outline-primary" (click)="export()">
+                <i class="fas fa-cloud-download-alt"></i>
+                {{ 'shared.export' | translate }}
+            </button>
+            <button type="button" class="btn btn-success" (click)="add()">
                 <i class="fa fa-plus"></i>
                 {{ 'shared.add' | translate }}
             </button>

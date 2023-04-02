@@ -23,6 +23,7 @@ import { PermissionGridComponent } from './permission-grid/permission-grid.compo
 import { AgGridModule } from 'ag-grid-angular';
 import { OperationCheckboxRenderer } from './permission-grid/operation-checkbox.renderer';
 import { OperationHeaderRenderer } from './permission-grid/operation-header.renderer';
+import { ImportDialogComponent } from './import-dialog/import-dialog.component';
 
 
 
@@ -43,7 +44,8 @@ import { OperationHeaderRenderer } from './permission-grid/operation-header.rend
     AlertDialogComponent,
     PermissionGridComponent,
     OperationCheckboxRenderer,
-    OperationHeaderRenderer
+    OperationHeaderRenderer,
+    ImportDialogComponent
   ],
   imports: [
     SharedRoutingModule,
@@ -63,6 +65,7 @@ import { OperationHeaderRenderer } from './permission-grid/operation-header.rend
     LayoutComponent,
     AuthLayoutComponent,
     AlertDialogComponent,
+    ImportDialogComponent,
     CustomToastrComponent,
     LanguageSelectorComponent,
     MultiLanguageInputComponent,

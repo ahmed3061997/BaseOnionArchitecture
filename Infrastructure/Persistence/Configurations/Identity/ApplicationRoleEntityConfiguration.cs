@@ -8,8 +8,12 @@ namespace Infrastructure.Persistence.Configurations.Identity
     {
         public void Configure(EntityTypeBuilder<ApplicationRole> builder)
         {
-            // Each Role can have many associated RoleClaims
             builder.HasMany(e => e.Claims)
+                .WithOne(e => e.Role)
+                .HasForeignKey(rc => rc.RoleId)
+                .IsRequired();
+
+            builder.HasMany(e => e.Users)
                 .WithOne(e => e.Role)
                 .HasForeignKey(rc => rc.RoleId)
                 .IsRequired();

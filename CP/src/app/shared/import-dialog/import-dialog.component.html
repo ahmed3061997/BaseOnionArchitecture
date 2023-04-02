@@ -1,0 +1,16 @@
+<div mat-dialog-title>
+    <h5>{{ 'shared.import' | translate }}</h5>
+</div>
+
+<form mat-dialog-content>
+    <div>
+        <label class="form-label">{{ 'shared.upload_file' | translate }}</label>
+        <input class="form-control" type="file" id="formFile" accept="application/JSON" #importFile>
+    </div>
+</form>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="import()" mat-dialog-close>{{ 'shared.import' | translate
+        }}</button>
+    <button type="button" class="btn btn-outline-secondary" mat-dialog-close>{{ 'shared.cancel' | translate
+        }}</button>
+</div>

@@ -19,6 +19,7 @@ namespace Domain.Entities.Users
         public bool IsOnline => IsLoggedIn && RefreshTokens.Any(t => t.IsActive);
 
         public virtual IList<ApplicationUserClaim> Claims { get; set; }
+        public virtual IList<ApplicationUserRole> Roles { get; set; }
         public virtual List<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }

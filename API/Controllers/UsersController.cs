@@ -26,6 +26,12 @@ namespace API.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet(ApiRoutes.GetClaims)]
+        public async Task<IEnumerable<string>> GetClaims(string id)
+        {
+            return await userService.GetClaims(id);
+        }
+
         [HttpPost(ApiRoutes.GetAll)]
         [PermissionAuthorize(Modules.ManageUsers, Pages.Users, Operations.View)]
         public async Task<PageResultDto<UserDto>> GetAll(PageQueryDto query)

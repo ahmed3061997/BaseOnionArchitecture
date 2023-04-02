@@ -33,7 +33,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Modules");
+                    b.ToTable("Modules", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.System.ModuleName", b =>
@@ -57,7 +57,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ModuleId");
 
-                    b.ToTable("ModuleName");
+                    b.ToTable("ModuleName", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.System.Operation", b =>
@@ -71,7 +71,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Operations");
+                    b.ToTable("Operations", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.System.OperationName", b =>
@@ -95,7 +95,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("OperationId");
 
-                    b.ToTable("OperationName");
+                    b.ToTable("OperationName", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.System.Page", b =>
@@ -118,7 +118,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ModuleId");
 
-                    b.ToTable("Pages");
+                    b.ToTable("Pages", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.System.PageName", b =>
@@ -142,7 +142,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("PageId");
 
-                    b.ToTable("PageName");
+                    b.ToTable("PageName", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.System.PageOperation", b =>
@@ -163,7 +163,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("PageId");
 
-                    b.ToTable("PageOperations");
+                    b.ToTable("PageOperations", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.ApplicationRole", b =>
@@ -243,7 +243,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("ApplicationRoleName");
+                    b.ToTable("ApplicationRoleName", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.ApplicationUser", b =>
@@ -486,7 +486,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.Users.ApplicationUser", b =>
                 {
-                    b.OwnsMany("Domain.Entities.Users.RefreshToken", "RefreshTokens", b1 =>
+                    b.OwnsMany("Domain.Entities.Users.ApplicationUser.RefreshTokens#Domain.Entities.Users.RefreshToken", "RefreshTokens", b1 =>
                         {
                             b1.Property<string>("ApplicationUserId")
                                 .HasColumnType("nvarchar(450)");
@@ -510,7 +510,7 @@ namespace Infrastructure.Migrations
 
                             b1.HasKey("ApplicationUserId", "Id");
 
-                            b1.ToTable("RefreshToken");
+                            b1.ToTable("RefreshToken", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ApplicationUserId");

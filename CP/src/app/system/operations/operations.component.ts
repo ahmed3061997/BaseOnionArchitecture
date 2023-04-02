@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
+import { Helper } from 'src/app/core/helpers/helper';
 import { LoadingOverlayHelper } from 'src/app/core/helpers/loading-overlay/loading-overlay';
 import { DialogService } from 'src/app/core/services/dialogs/dialog.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
 import { AlertDialogComponent } from 'src/app/shared/alert-dialog/alert-dialog.component';
+import { ImportDialogComponent } from 'src/app/shared/import-dialog/import-dialog.component';
 import { MultiLanguageInputComponent } from 'src/app/shared/multi-language-input/multi-language-input.component';
 
 @Component({
@@ -23,9 +25,10 @@ export class OperationsComponent {
   private dialogRef: MatDialogRef<any, any>
   operationCodes: Observable<any>
   submitted: boolean = false
+  loading: boolean = false
   currentId: string | null = null
   displayedColumns: string[] = ['code', 'name', 'actions'];
-  data: []
+  data: [] = []
 
   form = new FormGroup({
     code: new FormControl<number>(0,
@@ -62,11 +65,44 @@ export class OperationsComponent {
   }
 
   refreshTable() {
-    LoadingOverlayHelper.showLoading()
+    this.loading = true;
     this.httpClient.get<[]>('/api/operations/get-all')
+    .subscribe({
+      next: result => {
+        this.loading = false
+        this.data = result
+      },
+      error: () => {
+        this.loading = false
+      }
+    })
+  }
+
+  export() {
+    LoadingOverlayHelper.showLoading()
+    this.httpClient.get('/api/operations/get-all')
       .subscribe(result => {
         LoadingOverlayHelper.hideLoading()
-        this.data = result;
+        Helper.saveAsFile('operations.json', JSON.stringify(result))
+      })
+  }
+
+  openImport() {
+    this.dialogRef = this.dialog.open(ImportDialogComponent,
+      {
+        data: {
+          importFunc: (file: File) => {
+            LoadingOverlayHelper.showLoading()
+            var formData = new FormData()
+            formData.append('jsonFile', file, file.name)
+            this.httpClient.post('/api/modules/import', formData)
+              .subscribe(() => {
+                LoadingOverlayHelper.hideLoading()
+                this.notification.success()
+                this.refreshTable()
+              })
+          }
+        }
       })
   }
 

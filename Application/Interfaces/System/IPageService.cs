@@ -6,6 +6,7 @@ namespace Application.Interfaces.System
     {
         Task<PageDto> Get(Guid id);
         Task<IEnumerable<PageDto>> GetAll();
+        Task Import(IEnumerable<PageDto> pages);
         Task Create(PageDto page);
         Task Edit(PageDto page);
         Task Delete(Guid id);

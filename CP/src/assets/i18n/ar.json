@@ -49,7 +49,10 @@
         "session_expired": "انتهت مدة الجلسة!",
         "phone_number": "رقم الهاتف",
         "upload": "رفع",
-        "select": "إختار"
+        "select": "إختار",
+        "export": "تصدير",
+        "import": "إستيراد",
+        "upload_file": "إرفع ملف"
     },
     "users": {
         "add_user": "أضافة مستخدم",

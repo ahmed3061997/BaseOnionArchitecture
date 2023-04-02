@@ -20,6 +20,25 @@ namespace Infrastructure.Features.System
             this.mapper = mapper;
         }
 
+        public async Task Import(IEnumerable<OperationDto> operations)
+        {
+            foreach (var dto in operations)
+            {
+                var operation = await context.Operations
+                    .Include(x => x.Names)
+                    .FirstOrDefaultAsync(x => x.Code == dto.Code);
+
+                if (operation == null)
+                {
+                    operation = new Operation();
+                    context.Operations.Add(operation);
+                }
+
+                mapper.Map(dto, operation);
+            }
+            await context.SaveChangesAsync();
+        }
+
         public async Task Create(OperationDto operation)
         {
             CheckCode(operation.Code);
@@ -51,15 +70,17 @@ namespace Infrastructure.Features.System
             return await context.Operations
                     .Include(x => x.Names)
                     .AsNoTracking()
-                    .Select(x => mapper.Map<OperationDto>(x)).ToListAsync();
+                    .OrderBy(x => x.Code)
+                    .Select(x => mapper.Map<OperationDto>(x))
+                    .ToListAsync();
         }
 
         public async Task<IEnumerable<OperationDto>> GetDrop()
         {
-            return await context.Operations
-                 .Include(x => x.Names)
-                 .AsNoTracking()
-                 .Select(x => mapper.Map<OperationDto>(x)).ToListAsync();
+            return await context.Operations.Include(x => x.Names)
+                .AsNoTracking()
+                .Select(x => mapper.Map<OperationDto>(x))
+                .ToListAsync();
         }
 
         public async Task<OperationDto> Get(Guid id)

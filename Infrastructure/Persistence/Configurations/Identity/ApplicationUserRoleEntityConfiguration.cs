@@ -4,16 +4,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations.Identity
 {
-    public class ApplicationUserEntityConfiguration : IEntityTypeConfiguration<ApplicationUser>
+    public class ApplicationUserRoleEntityConfiguration : IEntityTypeConfiguration<ApplicationUserRole>
     {
-        public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+        public void Configure(EntityTypeBuilder<ApplicationUserRole> builder)
         {
             builder.HasMany(e => e.Claims)
-                .WithOne()
-                .HasForeignKey(rc => rc.UserId)
-                .IsRequired();
-
-            builder.HasMany(e => e.Roles)
                 .WithOne()
                 .HasForeignKey(rc => rc.UserId)
                 .IsRequired();
