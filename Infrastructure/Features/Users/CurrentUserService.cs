@@ -26,8 +26,14 @@ namespace Infrastructure.Features.Users
             return dto;
         }
 
+        public bool IsAuthenticated()
+        {
+            return httpContextAccessor.HttpContext.User.Identity!.IsAuthenticated;
+        }
+
         public string GetCurrentUserId()
         {
+            if (!IsAuthenticated()) return null;
             return httpContextAccessor.HttpContext.User.FindFirst(Claims.UserId).Value;
         }
     }

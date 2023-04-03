@@ -42,6 +42,7 @@ namespace Infrastructure.Features.Users
         public async Task Logout()
         {
             var user = await userManager.FindByIdAsync(currentUserService.GetCurrentUserId());
+            if (user == null) return;
             await SetUserStatus(user, false);
             await tokenService.RevokeTokens(currentUserService.GetCurrentUserId());
             await signInManager.SignOutAsync();

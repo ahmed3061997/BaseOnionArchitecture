@@ -26,6 +26,12 @@ namespace API.Controllers
             this.mapper = mapper;
         }
 
+        [HttpGet(ApiRoutes.GetRoles)]
+        public async Task<IEnumerable<string>> GetRoles(string id)
+        {
+            return await userService.GetRoles(id);
+        }
+
         [HttpGet(ApiRoutes.GetClaims)]
         public async Task<IEnumerable<string>> GetClaims(string id)
         {

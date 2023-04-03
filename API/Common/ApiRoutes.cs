@@ -17,6 +17,7 @@
         public const string Authenticate = "authenticate";
         public const string GetCurrentUser = "get-current-user";
         public const string GetClaims = "get-claims";
+        public const string GetRoles = "get-roles";
 
         // General
         public const string Import = "import";
