@@ -89,7 +89,7 @@ namespace Infrastructure.Features.Users
         private async Task<ApplicationUser> GetUser(string username, bool includeRoles = false)
         {
             var query = userManager.Users.Where(x => x.UserName.ToLower() == username.ToLower() || x.Email.ToLower() == username.ToLower());
-            if (includeRoles) query = query.Include(u => u.Roles).ThenInclude(r => r.Role);
+            if (includeRoles) query =  query.Include(u => u.Roles).ThenInclude(r => r.Role);
 
             var user = await query.FirstOrDefaultAsync() ?? throw new UserNotFoundException();
             if (!user.IsActive)

@@ -4,6 +4,7 @@ import { Observable, mergeMap, tap } from 'rxjs';
 import { AuthResult } from '../../models/auth-result';
 import { JwtToken } from '../../models/jwt-token';
 import { User } from '../../models/user';
+import { UserRole } from '../../models/user-role';
 
 const TOKEN_KEY = 'access-token';
 const REFRESHTOKEN_KEY = 'refresh-token';
@@ -57,7 +58,7 @@ export class AuthService {
 
   isInRole(role: string): boolean {
     var user = this.getUser();
-    return user.roles?.includes(role) ?? false;
+    return user.roles?.findIndex(x => x.name == role) != -1 ?? false;
   }
 
   saveToken(token: string): void {
@@ -90,7 +91,7 @@ export class AuthService {
 
   saveRoles(claims: string[]) {
     var user = this.getUser();
-    user.roles = claims;
+    user.roles = claims.map(x => ({ name: x })) as UserRole[];
     this.saveUser(user);
   }
 

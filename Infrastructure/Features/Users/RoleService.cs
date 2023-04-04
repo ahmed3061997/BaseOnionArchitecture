@@ -43,6 +43,22 @@ namespace Infrastructure.Features.Users
             result.ThrowIfFailed();
         }
 
+        public async Task Activate(string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+            role.IsActive = true;
+            var result = await roleManager.UpdateAsync(role);
+            result.ThrowIfFailed();
+        }
+
+        public async Task Stop(string id)
+        {
+            var role = await roleManager.FindByIdAsync(id);
+            role.IsActive = false;
+            var result = await roleManager.UpdateAsync(role);
+            result.ThrowIfFailed();
+        }
+
         public async Task<RoleDto> Get(string id)
         {
             return mapper.Map<RoleDto>(await roleManager.Roles

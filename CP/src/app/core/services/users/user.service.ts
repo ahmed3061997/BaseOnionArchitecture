@@ -1,15 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { IServerSideSource } from '../../common/server-side-source';
 import { LoadingOverlayHelper } from '../../helpers/loading-overlay/loading-overlay';
-import { ApiResponse } from '../../models/api-response';
 import { AuthResult } from '../../models/auth-result';
 import { PageQuery } from '../../models/page-query';
 import { PageResult } from '../../models/page-result';
 import { User } from '../../models/user';
 import { AuthService } from '../auth/auth.service';
 import { NotificationService } from '../notification/notification.service';
+import { SendResetPassword } from '../../models/send-reset-password';
+import { SendEmailConfirmation } from '../../models/send-email-confirmation';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +76,54 @@ export class UserService implements IServerSideSource<User> {
     LoadingOverlayHelper.showLoading()
     return this.httpClient
       .post<any>(`/api/users/delete?id=${id}`, null)
+      .pipe(
+        tap(() => {
+          LoadingOverlayHelper.hideLoading()
+          this.notification.success()
+        })
+      )
+  }
+
+  activate(id: string) {
+    LoadingOverlayHelper.showLoading()
+    return this.httpClient
+      .post<any>(`/api/users/activate?id=${id}`, null)
+      .pipe(
+        tap(() => {
+          LoadingOverlayHelper.hideLoading()
+          this.notification.success()
+        })
+      )
+  }
+
+  stop(id: string) {
+    LoadingOverlayHelper.showLoading()
+    return this.httpClient
+      .post<any>(`/api/users/stop?id=${id}`, null)
+      .pipe(
+        tap(() => {
+          LoadingOverlayHelper.hideLoading()
+          this.notification.success()
+        })
+      )
+  }
+
+  sendResetPassword(dto: SendResetPassword) {
+    LoadingOverlayHelper.showLoading()
+    return this.httpClient
+      .post<any>(`/api/auth/send-reset-password`, dto)
+      .pipe(
+        tap(() => {
+          LoadingOverlayHelper.hideLoading()
+          this.notification.success()
+        })
+      )
+  }
+
+  sendEmailConfirmation(dto: SendEmailConfirmation) {
+    LoadingOverlayHelper.showLoading()
+    return this.httpClient
+      .post<any>(`/api/auth/send-email-confirmation`, dto)
       .pipe(
         tap(() => {
           LoadingOverlayHelper.hideLoading()

@@ -24,7 +24,7 @@
                     }}</mat-header-cell>
                 <mat-cell *matCellDef="let role">
                     <div class="form-check form-switch mb-2">
-                        <input class="form-check-input" type="checkbox" [checked]="role.isActive">
+                        <input class="form-check-input" type="checkbox" [checked]="role.isActive" (change)="toggleActive(role.id, $event.target)">
                     </div>
                 </mat-cell>
             </ng-container>
@@ -34,14 +34,15 @@
                 <mat-cell *matCellDef="let role">
                     <div class="d-flex">
                         <a class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.view' | translate"
-                            [routerLink]="['/roles/view', { id :role.id }]">
+                            [routerLink]="['/roles/view', { id: role.id }]">
                             <i class="far fa-eye me-1"></i>
                         </a>
                         <a class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.edit' | translate"
-                            [routerLink]="['/roles/edit', { id :role.id }]">
+                            [routerLink]="['/roles/edit', { id: role.id }]">
                             <i class="bx bx-edit-alt me-1"></i>
                         </a>
-                        <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.delete' | translate">
+                        <button class="btn btn-link p-2" data-toggle="tooltip" [title]="'shared.delete' | translate"
+                            (click)="confirmDelete(role.id)">
                             <i class="bx bx-trash me-1"></i>
                         </button>
                     </div>

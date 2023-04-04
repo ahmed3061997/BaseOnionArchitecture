@@ -85,7 +85,8 @@
         "enter_first_name": "Enter first name",
         "last_name": "Last Name",
         "enter_last_name": "Enter last name",
-        "roles": "Roles"
+        "roles": "Roles",
+        "send_reset_password": "Send Reset Password Email"
     },
     "modules": {
         "add_edit_module": "Add / Edit Module",

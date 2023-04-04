@@ -12,9 +12,10 @@ export class HttpRequestLanguageInterceptor implements HttpInterceptor {
         if (req.url.endsWith('/api/system/get-cultures'))
             return next.handle(req)
 
-        const htmlTag = document.getElementsByTagName("html")[0] as HTMLHtmlElement
+        // const htmlTag = document.getElementsByTagName("html")[0] as HTMLHtmlElement
+        const culture = localStorage.getItem('culture') || 'en'
         req = req.clone({
-            headers: req.headers.set('accept-language', htmlTag.lang)
+            headers: req.headers.set('accept-language', culture)
         })
 
         return next.handle(req)

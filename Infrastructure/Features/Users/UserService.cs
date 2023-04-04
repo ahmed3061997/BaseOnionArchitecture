@@ -1,4 +1,5 @@
-﻿using Application.Common.Extensions;
+﻿using Application.Common.Exceptions;
+using Application.Common.Extensions;
 using Application.Interfaces.Culture;
 using Application.Interfaces.FileManager;
 using Application.Interfaces.Persistence;
@@ -8,6 +9,7 @@ using Application.Models.Users;
 using AutoMapper;
 using Domain.Entities.Users;
 using Infrastructure.Features.Culture;
+using Infrastructure.Features.FileManager;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,48 +20,73 @@ namespace Infrastructure.Features.Users
         private readonly IEnumerable<string> SeachColumns = new string[] { "Id", "FirstName", "LastName", "UserName", "Email", "PhoneNumber" };
         private readonly IApplicationDbContext context;
         private UserManager<ApplicationUser> userManager;
-        private readonly ITokenService tokenService;
         private readonly IFileManager fileManager;
         private readonly IMapper mapper;
 
         public UserService(
             IApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            ITokenService tokenService,
             IFileManager fileManager,
             IMapper mapper)
         {
             this.context = context;
             this.userManager = userManager;
-            this.tokenService = tokenService;
             this.fileManager = fileManager;
             this.mapper = mapper;
         }
 
         public async Task<UserDto> Get(string userId)
         {
-            var user = await userManager.FindByIdAsync(userId);
+            var user = await userManager.Users
+                .Include(x => x.Roles)
+                .ThenInclude(x => x.Role)
+                .ThenInclude(x => x.Names)
+                .FirstOrDefaultAsync(x => x.Id == userId);
             return mapper.Map<UserDto>(user);
         }
 
-        public async Task<AuthResult> Create(UserDto user, string password)
+        public async Task Create(UserDto user, string password)
         {
             if (user.ProfileImageFile != null) user.ProfileImage = await fileManager.SaveFile(user.ProfileImageFile, "users");
             var dbUser = mapper.Map<ApplicationUser>(user);
             var result = await userManager.CreateAsync(dbUser, password);
             result.ThrowIfFailed();
-            return new AuthResult() { User = mapper.Map<UserDto>(dbUser), Jwt = await tokenService.GenerateToken(dbUser) };
         }
 
         public async Task Edit(UserDto user)
         {
             if (user.ProfileImageFile != null) user.ProfileImage = await fileManager.SaveFile(user.ProfileImageFile, "users");
             var dbUser = await userManager
-                  .Users
-                  .Include(x => x.Claims)
-                  .FirstOrDefaultAsync(x => x.Id == user.Id);
+                .Users
+                .Include(x => x.Roles)
+                .Include(x => x.Claims)
+                .FirstOrDefaultAsync(x => x.Id == user.Id) ?? throw new UserNotFoundException();
             if (dbUser.ProfileImage != user.ProfileImage) fileManager.DeleteFile(dbUser.ProfileImage);
-            var result = await userManager.UpdateAsync(mapper.Map(user, dbUser));
+            mapper.Map(user, dbUser);
+            var result = await userManager.UpdateAsync(dbUser);
+            result.ThrowIfFailed();
+        }
+
+        public async Task Delete(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            var result = await userManager.DeleteAsync(user);
+            result.ThrowIfFailed();
+        }
+
+        public async Task Activate(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            user.IsActive = true;
+            var result = await userManager.UpdateAsync(user);
+            result.ThrowIfFailed();
+        }
+
+        public async Task Stop(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            user.IsActive = false;
+            var result = await userManager.UpdateAsync(user);
             result.ThrowIfFailed();
         }
 

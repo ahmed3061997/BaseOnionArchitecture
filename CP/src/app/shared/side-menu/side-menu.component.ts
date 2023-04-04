@@ -13,7 +13,6 @@ export class SideMenuComponent {
 
   constructor(private authService: AuthService) {
     this.userClaims = authService.getUser().claims || []
-    console.log(this.userClaims)
   }
 
   isInRole(role: string): boolean {

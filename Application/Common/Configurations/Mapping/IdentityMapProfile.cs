@@ -14,9 +14,23 @@ namespace Application.Common.Configurations.Mapping
         public IdentityMapProfile()
         {
             CreateMap<ApplicationUser, UserDto>()
-                .ForMember(x => x.Roles, op => op.MapFrom(x => x.Roles!.Select(y => y.Role.Name)))
+                .ForMember(x => x.Claims, op => op.MapFrom(x => x.Claims!.Select(y => y.ClaimValue)))
                 .ReverseMap()
-                .ForMember(x => x.Id, op => op.MapFrom(x => x.Id ?? Guid.NewGuid().ToString()));
+                .ForMember(x => x.Id, op => op.MapFrom(x => x.Id ?? Guid.NewGuid().ToString()))
+                .ForMember(x => x.Roles, op => op.MapFrom(x => x.Roles.Select(r => new ApplicationUserRole()
+                {
+                    UserId = x.Id,
+                    RoleId = r.Id
+                })))
+                .ForMember(x => x.Claims, op => op.MapFrom(x => x.Claims.Select(x => new ApplicationUserClaim()
+                {
+                    ClaimType = Claims.Permission,
+                    ClaimValue = x
+                })));
+
+            CreateMap<ApplicationUserRole, UserRoleDto>()
+                .ForMember(x => x.Id, op => op.MapFrom(x => x.RoleId))
+                .ForMember(x => x.Name, op => op.MapFrom<UserRoleNameResolver>());
 
             CreateMap<ApplicationRole, RoleDto>()
                 .ForMember(x => x.Claims, op => op.MapFrom(x => x.Claims.Select(c => c.ClaimValue)))

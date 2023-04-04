@@ -63,5 +63,19 @@ namespace API.Controllers
         {
             await roleService.Delete(id);
         }
+
+        [HttpPost(ApiRoutes.Activate)]
+        [PermissionAuthorize(Modules.ManageUsers, Pages.Roles, Operations.ToggleActive)]
+        public async Task Activate(string id)
+        {
+            await roleService.Activate(id);
+        }
+
+        [HttpPost(ApiRoutes.Stop)]
+        [PermissionAuthorize(Modules.ManageUsers, Pages.Roles, Operations.ToggleActive)]
+        public async Task Stop(string id)
+        {
+            await roleService.Stop(id);
+        }
     }
 }

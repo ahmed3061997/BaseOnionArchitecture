@@ -20,4 +20,20 @@ namespace Application.Common.Configurations.Mapping.Resolvers
             return source.Names?.Where(x => x.Culture == culture).Select(x => x.Name).FirstOrDefault();
         }
     }
+
+    public class UserRoleNameResolver : IValueResolver<ApplicationUserRole, UserRoleDto, string>
+    {
+        private readonly ICurrentCultureService currentCultureService;
+
+        public UserRoleNameResolver(ICurrentCultureService currentCultureService)
+        {
+            this.currentCultureService = currentCultureService;
+        }
+
+        public string Resolve(ApplicationUserRole source, UserRoleDto destination, string destMember, ResolutionContext context)
+        {
+            var culture = currentCultureService.GetCurrentUICulture();
+            return source.Role.Names?.Where(x => x.Culture == culture).Select(x => x.Name).FirstOrDefault();
+        }
+    }
 }

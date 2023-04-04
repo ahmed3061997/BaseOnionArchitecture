@@ -1,1 +1,105 @@
-<p>edit-user works!</p>
+<app-layout>
+    <h4 class="fw-bold mb-4">
+        <span class="text-muted fw-light">{{ 'side_menu.manage_users' | translate }} /</span>
+        {{ 'side_menu.users' | translate }}
+    </h4>
+
+    <div class="card">
+
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ 'users.edit_user' | translate }}</h5>
+            <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" [checked]="isActive" [(ngModel)]="isActive">
+                <label class="form-check-label" for="IsActive">{{ 'shared.is_active' | translate }}</label>
+            </div>
+        </div>
+        <form class="card-body" [formGroup]="form" (ngSubmit)="save()">
+
+            <div class="row mb-3">
+                <div class="col-9">
+                    <div class="mb-3">
+                        <label class="form-label">{{ 'shared.name' | translate }}</label>
+                        <input type="text" class="form-control" formControlName="fullName" autocomplete="off"
+                            [ngClass]="{ 'is-invalid': submitted && f.fullName.errors }" />
+                        <div *ngIf="submitted && f.fullName.errors" class="invalid-feedback">
+                            <div class="animate__animated animate__headShake animate__fast"
+                                *ngIf="f.fullName.errors['required']">{{
+                                'shared.required' | translate }}</div>
+                            <div class="animate__animated animate__headShake animate__fast"
+                                *ngIf="f.fullName.errors['maxlength']">{{ 'shared.max_length' | translate: { max:
+                                f.fullName.errors['maxlength'].requiredLength } }}</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label">{{ 'users.email' | translate }}</label>
+                            <input type="text" class="form-control" formControlName="email" autocomplete="off"
+                                [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                <div class="animate__animated animate__headShake animate__fast"
+                                    *ngIf="f.email.errors['required']">{{ 'shared.required' | translate }}</div>
+                                <div class="animate__animated animate__headShake animate__fast"
+                                    *ngIf="f.email.errors['email']">
+                                    {{ 'shared.invalid_email' | translate }}</div>
+                                <div class="animate__animated animate__headShake animate__fast"
+                                    *ngIf="f.email.errors['maxlength']">{{ 'shared.max_length' | translate: { max:
+                                    f.email.errors['maxlength'].requiredLength } }}</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">{{ 'shared.phone_number' | translate }}</label>
+                            <input type="text" class="form-control" formControlName="phoneNumber" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label">{{ 'users.username' | translate }}</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                formControlName="username" placeholder="{{ 'users.enter_username' | translate }}"
+                                [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+                            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                <div class="animate__animated animate__headShake animate__fast"
+                                    *ngIf="f.username.errors['required']">{{ 'shared.required' | translate }}</div>
+                                <div class="animate__animated animate__headShake animate__fast"
+                                    *ngIf="f.username.errors['maxlength']">{{ 'shared.max_length' | translate: { max:
+                                    f.username.errors['maxlength'].requiredLength } }}</div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">{{ 'users.password' | translate }}</label>
+                            <button class="btn btn-primary form-control" (click)="sendResetPassword()">
+                                <i class="far fa-envelope me-1"></i>
+                                {{ 'users.send_reset_password' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">{{ 'users.roles' | translate }}</label>
+                        <select2 class="form-select" [data]="roles"
+                            [placeholder]="('shared.select' | translate) + '...'" [multiple]="true"></select2>
+                    </div>
+                </div>
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                    <img class="mb-4" src="./assets/img/avatars/avatar.svg" width="70%" />
+                    <input type="file" accept="image/*" hidden (change)="onImageSelected($event)" />
+                    <button type="button" class="btn btn-primary" onclick="this.previousSibling.click()">
+                        <i class="fa fa-upload"></i>
+                        {{ 'shared.upload' | translate }}
+                    </button>
+                </div>
+            </div>
+            <div class="mb-3">
+                <!-- <div class="d-flex justify-content-end mb-2">
+                    <app-copy-from-user (userLoaded)="onRoleLoaded($event)"></app-copy-from-user>
+                </div> -->
+                <app-permission-grid></app-permission-grid>
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary">{{ 'shared.save_changes' | translate
+                        }}</button>
+                    <a [routerLink]="['/users']" class="btn btn-outline-secondary">{{ 'shared.cancel' | translate
+                        }}</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</app-layout>

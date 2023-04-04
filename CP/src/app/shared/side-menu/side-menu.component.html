@@ -57,15 +57,15 @@
 
             <ul class="menu-sub">
                 <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
-                    false}" *ngIf="hasClaim(claims.users.view)">
-                    <a [routerLink]="['/users']" class="menu-link">
-                        <div i18n>{{ 'side_menu.users' | translate }}</div>
-                    </a>
-                </li>
-                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
                     false}" *ngIf="hasClaim(claims.roles.view)">
                     <a [routerLink]="['/roles']" class="menu-link">
                         <div i18n>{{ 'side_menu.roles' | translate }}</div>
+                    </a>
+                </li>
+                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                    false}" *ngIf="hasClaim(claims.users.view)">
+                    <a [routerLink]="['/users']" class="menu-link">
+                        <div i18n>{{ 'side_menu.users' | translate }}</div>
                     </a>
                 </li>
             </ul>

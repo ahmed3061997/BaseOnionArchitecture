@@ -26,7 +26,7 @@ export class OperationCheckboxRenderer implements ICellRendererAngularComp {
   }
 
   getValue() {
-    var operation = this.params.data.operations.filter((x: any) => x.operationName == this.params.colDef!.field)[0]
+    var operation = this.params.data.operations.filter((x: any) => x.value.indexOf(this.params.colDef!.field))[0]
     return operation?.value
   }
 

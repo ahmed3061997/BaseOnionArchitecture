@@ -30,5 +30,7 @@
         public const string Create = "create";
         public const string Edit = "edit";
         public const string Delete = "delete";
+        public const string Activate = "activate";
+        public const string Stop = "stop";
     }
 }

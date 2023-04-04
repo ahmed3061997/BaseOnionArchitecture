@@ -85,7 +85,8 @@
         "enter_first_name": "أدخل الاسم الأول",
         "last_name": "اسم العائلة",
         "enter_last_name": "أدخل اسم العائلة",
-        "roles": "الأدوار"
+        "roles": "الأدوار",
+        "send_reset_password": "إرسال بريد إلكتروني لإعادة تعيين كلمة المرور"
     },
     "modules": {
         "add_edit_module": "أضافة / تعديل وحدة",

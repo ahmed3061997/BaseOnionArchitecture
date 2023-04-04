@@ -8,7 +8,11 @@ namespace Application.Interfaces.Users
         Task<UserDto> Get(string userId);
         Task<IEnumerable<UserDto>> GetDrop();
         Task<PageResultDto<UserDto>> GetAll(PageQueryDto query);
-        Task<AuthResult> Create(UserDto user, string password);
+        Task Create(UserDto user, string password);
+        Task Edit(UserDto user);
+        Task Delete(string id);
+        Task Activate(string id);
+        Task Stop(string id);
         Task AssignToRoles(string userId, IEnumerable<string> roles);
         Task<IEnumerable<string>> GetClaims(string userId);
         Task<IEnumerable<string>> GetRoles(string userId);

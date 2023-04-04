@@ -16,6 +16,7 @@ namespace Infrastructure.Features.FileManager
 
         public void DeleteFile(string path)
         {
+            if (string.IsNullOrEmpty(path)) return;
             var fullPath = $"{env.WebRootPath}{uploadFolder}/{path}";
             if (File.Exists(fullPath))
                 File.Delete(fullPath);

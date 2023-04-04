@@ -1,3 +1,5 @@
+import { UserRole } from "./user-role";
+
 export class User {
 
     public id?: string;
@@ -8,7 +10,9 @@ export class User {
     public profileImage?: string;
     public isOnline: boolean;
     public isActive: boolean;
-    public roles?: string[];
+    public emailConfirmed: boolean;
+    public roles?: UserRole[];
     public claims?: string[];
+    public password: string;
     public profileImageFile: File;
 }

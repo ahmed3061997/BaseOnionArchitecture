@@ -21,9 +21,7 @@ namespace Infrastructure.Features.Users
 
         public async Task<UserDto> GetCurrentUser()
         {
-            var dto = mapper.Map<UserDto>(await userService.Get(GetCurrentUserId()));
-            dto.Roles = httpContextAccessor.HttpContext.User.FindAll(Claims.Role).Select(x => x.Value);
-            return dto;
+            return mapper.Map<UserDto>(await userService.Get(GetCurrentUserId()));
         }
 
         public bool IsAuthenticated()

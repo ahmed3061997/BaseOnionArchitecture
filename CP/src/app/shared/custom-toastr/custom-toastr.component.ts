@@ -74,8 +74,4 @@ export class CustomToastrComponent extends Toast {
         break;
     }
   }
-
-  ngOnInit() {
-    console.log(this)
-  }
 }

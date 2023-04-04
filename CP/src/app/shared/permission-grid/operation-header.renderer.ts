@@ -27,7 +27,8 @@ export class OperationHeaderRenderer implements IHeaderAngularComp {
     }
 
     selectAll() {
-        var checkboxes = document.querySelectorAll<HTMLElement>('input.operation:not(:checked)')
+        var field = this.params.column.getColDef().field;
+        var checkboxes = document.querySelectorAll<HTMLElement>(`div[col-id="${field}"] input.operation:not(:checked)`)
         checkboxes.forEach(x => x.click())
     }
 }

@@ -1,1 +1,73 @@
-<p>view-user works!</p>
+<app-layout>
+    <h4 class="fw-bold mb-4">
+        <span class="text-muted fw-light">{{ 'side_menu.manage_users' | translate }} /</span>
+        {{ 'side_menu.users' | translate }}
+    </h4>
+
+    <div class="card">
+
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">{{ 'users.view_user' | translate }}</h5>
+            <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" [checked]="user?.isActive" disabled>
+                <label class="form-check-label" for="IsActive">{{ 'shared.is_active' | translate }}</label>
+            </div>
+        </div>
+        <div class="card-body">
+
+            <div class="row mb-3">
+                <div class="col-9">
+                    <div class="mb-3">
+                        <label class="form-label">{{ 'shared.name' | translate }}</label>
+                        <input type="text" class="form-control" [value]="user?.fullName" disabled />
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label">{{ 'users.email' | translate }}</label>
+                            <input type="text" class="form-control" [value]="user?.email" disabled />
+                        </div>
+                        <div class="col">
+                            <label class="form-label">{{ 'shared.phone_number' | translate }}</label>
+                            <input type="text" class="form-control" [value]="user?.phoneNumber" disabled />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label">{{ 'users.username' | translate }}</label>
+                            <input type="text" class="form-control" [value]="user?.username" disabled />
+                        </div>
+                        <div class="col">
+                            <label class="form-label">{{ 'users.password' | translate }}</label>
+                            <button class="btn btn-primary form-control" (click)="sendResetPassword()">
+                                <i class="far fa-envelope me-1"></i>
+                                {{ 'users.send_reset_password' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">{{ 'users.roles' | translate }}</label>
+                        <input type="text" class="form-control" [value]="roles" disabled />
+                    </div>
+                </div>
+                <div class="col-3 d-flex flex-column justify-content-center align-items-center">
+                    <a [href]="user?.profileImage" target="_blank" *ngIf="user?.profileImage != null else noImage">
+                        <img class="mb-4" [src]="user?.profileImage" width="70%" />
+                    </a>
+                    <ng-template #noImage>
+                        <img class="mb-4" src="./assets/img/avatars/avatar.svg" width="70%" />
+                    </ng-template>
+                </div>
+            </div>
+            <div class="mb-3">
+                <app-permission-grid [disabled]="true"></app-permission-grid>
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <a [routerLink]="['/users/edit', { id: user?.id }]" class="btn btn-warning">{{ 'shared.edit' |
+                        translate
+                        }}</a>
+                    <a [routerLink]="['/users']" class="btn btn-outline-secondary">{{ 'shared.exit' | translate
+                        }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-layout>

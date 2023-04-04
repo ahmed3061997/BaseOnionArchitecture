@@ -3,11 +3,13 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
-import { first, tap } from 'rxjs';
+import { Subscription, first, tap } from 'rxjs';
 import { Helper } from 'src/app/core/helpers/helper';
 import { OperationCheckboxRenderer } from './operation-checkbox.renderer';
 import { OperationHeaderRenderer } from './operation-header.renderer';
+import { AutoUnsubscribe } from 'src/app/core/decorators/auto-unsubscribe.decorator';
 
+@AutoUnsubscribe()
 @Component({
   selector: 'app-permission-grid',
   templateUrl: './permission-grid.component.html',
@@ -21,6 +23,7 @@ export class PermissionGridComponent {
   rowData: any[] = []
   colDefs: ColDef[] = []
   enableRtl: boolean
+  onLangChange$: Subscription;
 
   constructor(
     private httpClient: HttpClient,
@@ -42,7 +45,7 @@ export class PermissionGridComponent {
   }
 
   ngAfterViewInit() {
-    this.translate.onLangChange.subscribe(result => {
+    this.onLangChange$ = this.translate.onLangChange.subscribe(result => {
       this.loadClaims().subscribe(() => {
         this.enableRtl = result.lang == 'ar'
       })
@@ -62,9 +65,14 @@ export class PermissionGridComponent {
   }
 
   private initAgGrid(result: any[]) {
+    var operations = result
+      .map(x => ({ id: x.value.split('.')[2], name: x.operationName }))
+      .reduce((acc: any[], curr: any) => {
+        if (!acc.find(x => x.id == curr.id))
+          acc.push(curr)
+        return acc;
+      }, [])
 
-    var operations = result.map(x => x.operationName);
-    operations = operations.filter((x, i) => operations.indexOf(x) == i);
 
     var pages = Helper.groupBy(result, 'pageName');
     this.rowData = Object.keys(pages).map(x => ({
@@ -88,8 +96,9 @@ export class PermissionGridComponent {
         tooltipField: this.translate.instant('roles.page_name'),
       },
       ...operations.map(x => ({
-        field: x,
-        tooltipField: x,
+        field: x.id,
+        headerName: x.name,
+        tooltipField: x.name,
         cellRenderer: OperationCheckboxRenderer,
         headerComponent: OperationHeaderRenderer
       })),

@@ -76,4 +76,28 @@ export class RoleService implements IServerSideSource<Role> {
         })
       )
   }
+
+  activate(id: string) {
+    LoadingOverlayHelper.showLoading()
+    return this.httpClient
+      .post<any>(`/api/roles/activate?id=${id}`, null)
+      .pipe(
+        tap(() => {
+          LoadingOverlayHelper.hideLoading()
+          this.notification.success()
+        })
+      )
+  }
+
+  stop(id: string) {
+    LoadingOverlayHelper.showLoading()
+    return this.httpClient
+      .post<any>(`/api/roles/stop?id=${id}`, null)
+      .pipe(
+        tap(() => {
+          LoadingOverlayHelper.hideLoading()
+          this.notification.success()
+        })
+      )
+  }
 }

@@ -1,45 +1,27 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import "jquery";
-import { MultiLanguageInputComponent } from 'src/app/shared/multi-language-input/multi-language-input.component';
 import { User } from 'src/app/core/models/user';
 import { UserService } from 'src/app/core/services/users/user.service';
 import { Router } from '@angular/router';
 import { PermissionGridComponent } from 'src/app/shared/permission-grid/permission-grid.component';
-import { Select2Data } from 'ng-select2-component';
+import { Select2, Select2Data, Select2Option, Select2Value } from 'ng-select2-component';
 import { MatchPasswordValidator } from 'src/app/core/validators/match-password.validator';
+import { first, tap } from 'rxjs';
+import { RoleService } from 'src/app/core/services/roles/role.service';
+import { Role } from 'src/app/core/models/role';
+import { TranslateService } from '@ngx-translate/core';
+import { AutoUnsubscribe } from 'src/app/core/decorators/auto-unsubscribe.decorator';
+import { UserRole } from 'src/app/core/models/user-role';
 
+@AutoUnsubscribe()
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.scss']
 })
 export class CreateUserComponent {
-
-  @ViewChild(PermissionGridComponent) permissionGrid: PermissionGridComponent;
-
-  roles: Select2Data = [
-    {
-      value: '1',
-      label: 'Admin'
-    },
-    {
-      value: '2',
-      label: 'Developer'
-    },
-    {
-      value: '3',
-      label: 'Employee'
-    },
-    {
-      value: '4',
-      label: 'Operator'
-    },
-    {
-      value: '5',
-      label: 'Director'
-    },
-  ]
+  @ViewChild(Select2) rolesElement: Select2
+  @ViewChild(PermissionGridComponent) permissionGrid: PermissionGridComponent
 
   form = new FormGroup({
     fullName: new FormControl<string>('',
@@ -74,19 +56,41 @@ export class CreateUserComponent {
       ]
     ),
     phoneNumber: new FormControl<string>(''),
-    isActive: new FormControl<boolean>(true),
   })
   submitted: boolean = false
   profileImage: File
+  isActive: boolean = true
+  selectedRoles: Select2Value
+  roles: Select2Data = []
+  onLangChange$: any;
 
   constructor(
     private router: Router,
-    private userService: UserService) { }
+    private userService: UserService,
+    private roleService: RoleService,
+    private translateService: TranslateService) { }
 
   get f() {
     return this.form.controls
   }
 
+  ngOnInit() {
+    this.load()
+  }
+
+  ngAfterViewInit() {
+    this.onLangChange$ = this.translateService.onLangChange.subscribe(() => this.load())
+  }
+
+  load() {
+    if (this.rolesElement != null) this.rolesElement.value = []
+    this.roleService.getDrop().pipe(
+      first(),
+      tap(roles => {
+        this.roles = roles.map((x: Role) => ({ label: x.name, value: x.id })) as Select2Option[]
+      })
+    ).subscribe()
+  }
   onImageSelected(event: any) {
     console.log(event)
     this.profileImage = event.target.files[0]
@@ -102,10 +106,13 @@ export class CreateUserComponent {
     if (this.form.invalid) return
 
     var user = this.form.value as User
+    user.isActive = this.isActive
+    user.emailConfirmed = true
     user.profileImageFile = this.profileImage
+    user.roles = (this.rolesElement.value as string[]).map(x => ({ id: x })) as UserRole[]
     user.claims = this.permissionGrid.getSelectedClaims()
-    console.log(user)
-    // this.userService.create(user)
-    //   .subscribe(() => this.router.navigate(['/users']))
+
+    this.userService.create(user)
+      .subscribe(() => this.router.navigate(['/users']))
   }
 }

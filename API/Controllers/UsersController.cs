@@ -57,5 +57,42 @@ namespace API.Controllers
         {
             return await userService.Get(id);
         }
+
+        [HttpPost(ApiRoutes.Create)]
+        [PermissionAuthorize(Modules.ManageUsers, Pages.Users, Operations.View)]
+        public async Task Create(UserDto user)
+        {
+            await validationService.ThrowIfInvalid(user);
+            await userService.Create(mapper.Map<UserDto>(user), user.Password);
+        }
+
+        [HttpPost(ApiRoutes.Edit)]
+        [PermissionAuthorize(Modules.ManageUsers, Pages.Users, Operations.Update)]
+        public async Task Edit(UserDto user)
+        {
+            await validationService.ThrowIfInvalid(user);
+            await userService.Edit(mapper.Map<UserDto>(user));
+        }
+
+        [HttpPost(ApiRoutes.Delete)]
+        [PermissionAuthorize(Modules.ManageUsers, Pages.Users, Operations.Delete)]
+        public async Task Delete(string id)
+        {
+            await userService.Delete(id);
+        }
+
+        [HttpPost(ApiRoutes.Activate)]
+        [PermissionAuthorize(Modules.ManageUsers, Pages.Users, Operations.ToggleActive)]
+        public async Task Activate(string id)
+        {
+            await userService.Activate(id);
+        }
+
+        [HttpPost(ApiRoutes.Stop)]
+        [PermissionAuthorize(Modules.ManageUsers, Pages.Users, Operations.ToggleActive)]
+        public async Task Stop(string id)
+        {
+            await userService.Stop(id);
+        }
     }
 }

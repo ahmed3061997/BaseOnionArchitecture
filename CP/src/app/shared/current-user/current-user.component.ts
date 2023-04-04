@@ -11,9 +11,11 @@ import { AuthService } from 'src/app/core/services/auth/auth.service';
 })
 export class CurrentUserComponent {
   user: User = new User()
+  roles: string
 
   constructor(private router: Router, private authService: AuthService) {
     this.user = authService.getUser()
+    this.roles = this.user.roles?.map(x=>x.name).join(', ') ?? ''
   }
 
   logout() {

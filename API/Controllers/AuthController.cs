@@ -17,30 +17,17 @@ namespace API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService authService;
-        private readonly IUserService userService;
         private readonly ITokenService tokenService;
-        private readonly IMapper mapper;
         private readonly IValidationService validationService;
 
         public AuthController(
             IAuthService authService,
-            IUserService userService,
             ITokenService tokenService,
-            IMapper mapper,
             IValidationService validationService)
         {
             this.authService = authService;
-            this.userService = userService;
             this.tokenService = tokenService;
-            this.mapper = mapper;
             this.validationService = validationService;
-        }
-
-        [HttpPost(ApiRoutes.Register)]
-        public async Task<AuthResult> Register(CreateUserDto dto)
-        {
-            await validationService.ThrowIfInvalid(dto);
-            return await userService.Create(mapper.Map<UserDto>(dto), dto.Password);
         }
 
         [HttpPost(ApiRoutes.Login)]
@@ -55,7 +42,7 @@ namespace API.Controllers
         {
             await validationService.ThrowIfInvalid(dto);
             var result = await authService.GenerateResetPasswordToken(dto.Username);
-            emailSender.Send(result, dto.ResetUrl);
+            await emailSender.Send(result, dto.ResetUrl);
             return true;
         }
 
@@ -74,7 +61,7 @@ namespace API.Controllers
         {
             await validationService.ThrowIfInvalid(dto);
             var result = await authService.GenerateResetPasswordToken(dto.Username);
-            emailSender.Send(result, dto.ConfirmUrl);
+            await emailSender.Send(result, dto.ConfirmUrl);
             return true;
         }
 
