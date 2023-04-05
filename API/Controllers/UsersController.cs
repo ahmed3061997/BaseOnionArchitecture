@@ -7,7 +7,6 @@ using Application.Interfaces.Validation;
 using AutoMapper;
 using Application.Models.Common;
 using Domain.Enums;
-using Infrastructure.Features.Users;
 
 namespace API.Controllers
 {

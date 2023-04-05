@@ -1,5 +1,4 @@
-﻿using Application.Common.Constants;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 

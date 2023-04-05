@@ -10,31 +10,31 @@
     <Compile Remove="Behaviors\**" />
     <Compile Remove="Common\EventHandlers\**" />
     <Compile Remove="Common\Responses\**" />
-    <Compile Remove="Features\**" />
     <Compile Remove="Helpers\**" />
     <EmbeddedResource Remove="Behaviors\**" />
     <EmbeddedResource Remove="Common\EventHandlers\**" />
     <EmbeddedResource Remove="Common\Responses\**" />
-    <EmbeddedResource Remove="Features\**" />
     <EmbeddedResource Remove="Helpers\**" />
     <None Remove="Behaviors\**" />
     <None Remove="Common\EventHandlers\**" />
     <None Remove="Common\Responses\**" />
-    <None Remove="Features\**" />
     <None Remove="Helpers\**" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
     <PackageReference Include="MimeKit" Version="3.4.3" />
+    <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Localization\Localization.csproj" />
   </ItemGroup>
 
 </Project>

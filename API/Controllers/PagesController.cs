@@ -6,7 +6,6 @@ using Application.Interfaces.System;
 using Application.Interfaces.Validation;
 using Application.Models.System;
 using Domain.Enums;
-using Infrastructure.Features.System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
