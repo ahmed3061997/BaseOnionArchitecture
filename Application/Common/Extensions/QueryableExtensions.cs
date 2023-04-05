@@ -2,7 +2,6 @@
 using Application.Common.Helpers;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace Application.Common.Extensions
 {

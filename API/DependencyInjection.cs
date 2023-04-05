@@ -9,7 +9,7 @@ namespace API
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApiServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddApi(this IServiceCollection services, IConfiguration configuration)
         {
             Configure(services);
             AddServices(services);

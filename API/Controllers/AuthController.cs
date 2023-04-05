@@ -6,8 +6,6 @@ using Application.Interfaces.Users;
 using Application.Interfaces.Validation;
 using Application.Interfaces.Emails;
 using System.Web;
-using AutoMapper;
-using Infrastructure.Features.Users;
 
 namespace API.Controllers
 {

@@ -1,14 +1,13 @@
 using API;
 using API.Middlewares;
 using Application;
-using Infrastructure;
-using Infrastructure.Persistence;
+using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddInfrastructureServices(builder.Configuration);
-builder.Services.AddApiServices(builder.Configuration);
+builder.Services.AddApplication(builder.Configuration);
+builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddApi(builder.Configuration);
 
 var app = builder.Build();
 

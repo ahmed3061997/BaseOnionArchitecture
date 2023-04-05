@@ -3,8 +3,6 @@ using Application.Models.Users;
 using Domain.Entities.Users;
 using Application.Common.Constants;
 using Application.Models.Common;
-using Application.Models.System;
-using Domain.Entities.System;
 using Application.Common.Configurations.Mapping.Resolvers;
 
 namespace Application.Common.Configurations.Mapping

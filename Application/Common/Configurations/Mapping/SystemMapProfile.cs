@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using Application.Models.Users;
-using Domain.Entities.Users;
-using Application.Common.Constants;
 using Application.Models.Common;
 using Application.Models.System;
 using Domain.Entities.System;
