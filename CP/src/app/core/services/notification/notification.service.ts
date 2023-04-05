@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { ActiveToast, ToastrService } from 'ngx-toastr';
 import { CultureService } from '../culture/culture.service';
 
@@ -10,20 +9,19 @@ export class NotificationService {
 
   constructor(
     private cultureService: CultureService,
-    private translateService: TranslateService,
     private toastService: ToastrService) { }
 
-  success(message: string = this.translateService.instant('shared.success_message')): ActiveToast<any> {
+  success(message: string = this.cultureService.translate('shared.success_message')): ActiveToast<any> {
     return this.toastService.success(message,
-      this.translateService.instant('shared.success'),
+      this.cultureService.translate('shared.success'),
       {
         positionClass: this.cultureService.isRtl() ? 'toast-top-left' : 'toast-top-right'
       })
   }
 
-  error(message: string = this.translateService.instant('shared.undefined_error')): ActiveToast<any> {
+  error(message: string = this.cultureService.translate('shared.undefined_error')): ActiveToast<any> {
     return this.toastService.error(message,
-      this.translateService.instant('shared.error'),
+      this.cultureService.translate('shared.error'),
       {
         positionClass: this.cultureService.isRtl() ? 'toast-top-left' : 'toast-top-right'
       })
@@ -31,7 +29,7 @@ export class NotificationService {
 
   info(message: string): ActiveToast<any> {
     return this.toastService.info(message,
-      this.translateService.instant('shared.info'),
+      this.cultureService.translate('shared.info'),
       {
         positionClass: this.cultureService.isRtl() ? 'toast-top-left' : 'toast-top-right'
       })
@@ -39,7 +37,7 @@ export class NotificationService {
 
   warn(message: string): ActiveToast<any> {
     return this.toastService.warning(message,
-      this.translateService.instant('shared.warning'),
+      this.cultureService.translate('shared.warning'),
       {
         positionClass: this.cultureService.isRtl() ? 'toast-top-left' : 'toast-top-right'
       })

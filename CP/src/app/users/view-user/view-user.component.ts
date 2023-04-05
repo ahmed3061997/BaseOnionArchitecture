@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { AutoUnsubscribe } from 'src/app/core/decorators/auto-unsubscribe.decorator';
 import { User } from 'src/app/core/models/user';
+import { CultureService } from 'src/app/core/services/culture/culture.service';
 import { UserService } from 'src/app/core/services/users/user.service';
 import { PermissionGridComponent } from 'src/app/shared/permission-grid/permission-grid.component';
 import { environment } from 'src/environments/environment';
@@ -24,14 +24,14 @@ export class ViewUserComponent {
   constructor(
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
-    private translateService: TranslateService) { }
+    private cultureService: CultureService) { }
 
   ngOnInit() {
     this.load()
   }
 
   ngAfterViewInit() {
-    this.onLangChange$ = this.translateService.onLangChange.subscribe(() => this.load())
+    this.onLangChange$ = this.cultureService.onCultureChange.subscribe(() => this.load())
   }
 
   load() {

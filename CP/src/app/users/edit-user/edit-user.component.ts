@@ -5,14 +5,13 @@ import { UserService } from 'src/app/core/services/users/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PermissionGridComponent } from 'src/app/shared/permission-grid/permission-grid.component';
 import { Select2, Select2Data, Select2Option, Select2Value } from 'ng-select2-component';
-import { MatchPasswordValidator } from 'src/app/core/validators/match-password.validator';
 import { Subscription, tap } from 'rxjs';
 import { RoleService } from 'src/app/core/services/roles/role.service';
 import { Role } from 'src/app/core/models/role';
 import { UserRole } from 'src/app/core/models/user-role';
 import { environment } from 'src/environments/environment';
-import { TranslateService } from '@ngx-translate/core';
 import { AutoUnsubscribe } from 'src/app/core/decorators/auto-unsubscribe.decorator';
+import { CultureService } from 'src/app/core/services/culture/culture.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -59,7 +58,7 @@ export class EditUserComponent {
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private roleService: RoleService,
-    private translateService: TranslateService) { }
+    private cultureService: CultureService) { }
 
   get f() {
     return this.form.controls
@@ -70,7 +69,7 @@ export class EditUserComponent {
   }
 
   ngAfterViewInit() {
-    this.onLangChange = this.translateService.onLangChange.subscribe(() => this.load())
+    this.onLangChange = this.cultureService.onCultureChange.subscribe(() => this.load())
   }
 
   load() {

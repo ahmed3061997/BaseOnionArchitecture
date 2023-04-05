@@ -4,7 +4,7 @@ import { BehaviorSubject, catchError, filter, from, Observable, of, switchMap, t
 import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../services/notification/notification.service';
-import { TranslateService } from '@ngx-translate/core';
+import { CultureService } from '../services/culture/culture.service';
 
 const TOKEN_HEADER_KEY = 'Authorization';  // for Spring Boot, .Net back-end
 // const TOKEN_HEADER_KEY = 'x-access-token';    // for Node.js Express back-end
@@ -16,7 +16,7 @@ export class HttpRequestAuthInterceptor implements HttpInterceptor {
     constructor(
         private router: Router,
         private authService: AuthService,
-        private translateService: TranslateService,
+        private cultureService: CultureService,
         private notification: NotificationService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<Object>> {
@@ -58,7 +58,7 @@ export class HttpRequestAuthInterceptor implements HttpInterceptor {
                     catchError((err) => {
                         this.isRefreshing = false;
                         this.authService.clearSession();
-                        this.notification.error(this.translateService.instant('shared.session_expired'))
+                        this.notification.error(this.cultureService.translate('shared.session_expired'))
                         return from(this.router.navigate(['/users/login']))
                     })
                 );

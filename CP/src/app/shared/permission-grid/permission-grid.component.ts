@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
 import { Subscription, first, tap } from 'rxjs';
@@ -8,6 +7,7 @@ import { Helper } from 'src/app/core/helpers/helper';
 import { OperationCheckboxRenderer } from './operation-checkbox.renderer';
 import { OperationHeaderRenderer } from './operation-header.renderer';
 import { AutoUnsubscribe } from 'src/app/core/decorators/auto-unsubscribe.decorator';
+import { CultureService } from 'src/app/core/services/culture/culture.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -27,7 +27,7 @@ export class PermissionGridComponent {
 
   constructor(
     private httpClient: HttpClient,
-    private translate: TranslateService) { }
+    private cultureService: CultureService) { }
 
   getSelectedClaims() {
     return this.context.claims
@@ -39,15 +39,15 @@ export class PermissionGridComponent {
   }
 
   ngOnInit() {
-    this.enableRtl = this.translate.currentLang == 'ar'
+    this.enableRtl = this.cultureService.getCurrentCultureCode() == 'ar'
     this.context = { claims: [], disabled: this.disabled }
     this.loadClaims().subscribe()
   }
 
   ngAfterViewInit() {
-    this.onLangChange$ = this.translate.onLangChange.subscribe(result => {
+    this.onLangChange$ = this.cultureService.onCultureChange.subscribe(result => {
       this.loadClaims().subscribe(() => {
-        this.enableRtl = result.lang == 'ar'
+        this.enableRtl = result.code == 'ar'
       })
     })
   }
@@ -87,13 +87,13 @@ export class PermissionGridComponent {
     this.colDefs = [
       {
         field: 'moduleName',
-        headerName: this.translate.instant('roles.module_name'),
-        tooltipField: this.translate.instant('roles.module_name'),
+        headerName: this.cultureService.translate('roles.module_name'),
+        tooltipField: this.cultureService.translate('roles.module_name'),
       },
       {
         field: 'pageName',
-        headerName: this.translate.instant('roles.page_name'),
-        tooltipField: this.translate.instant('roles.page_name'),
+        headerName: this.cultureService.translate('roles.page_name'),
+        tooltipField: this.cultureService.translate('roles.page_name'),
       },
       ...operations.map(x => ({
         field: x.id,

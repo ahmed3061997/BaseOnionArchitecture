@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, catchError, of, shareReplay, tap } from 'rxjs';
 import { Culture } from '../../models/culture';
@@ -15,8 +15,10 @@ export class CultureService {
   private cultures: Observable<Culture[]>;
   private currentCulture$: BehaviorSubject<Culture> = new BehaviorSubject(new Culture());
 
-  constructor(private httpClient: HttpClient, private translate: TranslateService) {
-    translate.setDefaultLang(this.fallbackCultures.filter(x => x.isDefault)[0].code)
+  onCultureChange: EventEmitter<Culture> = new EventEmitter<Culture>();
+
+  constructor(private httpClient: HttpClient, private translateService: TranslateService) {
+    translateService.setDefaultLang(this.fallbackCultures.filter(x => x.isDefault)[0].code)
     this.cultures = this.httpClient.get<Culture[]>('/api/system/get-cultures')
       .pipe(
         catchError(() => {
@@ -24,9 +26,9 @@ export class CultureService {
         }),
         // configure nx-translate & set current or default
         tap(result => {
-          translate.addLangs(result.map(x => x.code))
+          translateService.addLangs(result.map(x => x.code))
           var culture = result.filter(x => x.code == localStorage.getItem('culture') || x.isDefault)[0]
-          this.changeCulture(culture)
+          this.changeCulture(culture, false)
         }),
         shareReplay(1),
       )
@@ -36,15 +38,29 @@ export class CultureService {
     return this.cultures
   }
 
+  getCurrentCultureCode(): string {
+    return localStorage.getItem('culture') ?? 'en'
+  }
+
   getCurrentCulture(): Observable<Culture> {
     return this.currentCulture$
   }
 
-  changeCulture(culture: Culture) {
+  translate(key: string | Array<string>, interpolateParams?: Object): string | any {
+    return this.translateService.instant(key, interpolateParams)
+  }
+
+  get(key: string | Array<string>, interpolateParams?: Object): Observable<string | any> {
+    return this.translateService.get(key, interpolateParams)
+  }
+
+  changeCulture(culture: Culture, fireChange: boolean = true) {
     localStorage.setItem('culture', culture.code)
     this.updateDocument(culture.code)
-    this.translate.use(culture.code)
+    this.translateService.use(culture.code)
     this.currentCulture$.next(culture)
+    if (fireChange)
+      this.onCultureChange.emit(culture)
   }
 
   isRtl() {

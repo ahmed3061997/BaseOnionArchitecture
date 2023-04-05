@@ -1,17 +1,17 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
-import { TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
+import { CultureService } from '../services/culture/culture.service';
 
 @Injectable()
 export class CustomMatPaginatorIntl extends MatPaginatorIntl implements OnDestroy {
     unsubscribe: Subject<void> = new Subject<void>();
     of_label = 'of';
 
-    constructor(private translate: TranslateService) {
+    constructor(private cultureService: CultureService) {
         super();
 
-        this.translate.onLangChange
+        this.cultureService.onCultureChange
             .pipe(
                 takeUntil(this.unsubscribe)
             )
@@ -28,7 +28,7 @@ export class CustomMatPaginatorIntl extends MatPaginatorIntl implements OnDestro
     }
 
     getAndInitTranslations() {
-        this.translate
+        this.cultureService
             .get([
                 'paginator.items_per_page',
                 'paginator.next_page',

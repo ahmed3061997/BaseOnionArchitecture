@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, of, throwError } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
 import { LoadingOverlayHelper } from '../helpers/loading-overlay/loading-overlay';
 import { NotificationService } from '../services/notification/notification.service';
 

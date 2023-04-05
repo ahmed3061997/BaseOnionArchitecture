@@ -9,9 +9,9 @@ import { MatchPasswordValidator } from 'src/app/core/validators/match-password.v
 import { first, tap } from 'rxjs';
 import { RoleService } from 'src/app/core/services/roles/role.service';
 import { Role } from 'src/app/core/models/role';
-import { TranslateService } from '@ngx-translate/core';
 import { AutoUnsubscribe } from 'src/app/core/decorators/auto-unsubscribe.decorator';
 import { UserRole } from 'src/app/core/models/user-role';
+import { CultureService } from 'src/app/core/services/culture/culture.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -68,7 +68,7 @@ export class CreateUserComponent {
     private router: Router,
     private userService: UserService,
     private roleService: RoleService,
-    private translateService: TranslateService) { }
+    private cultureService: CultureService) { }
 
   get f() {
     return this.form.controls
@@ -79,7 +79,7 @@ export class CreateUserComponent {
   }
 
   ngAfterViewInit() {
-    this.onLangChange$ = this.translateService.onLangChange.subscribe(() => this.load())
+    this.onLangChange$ = this.cultureService.onCultureChange.subscribe(() => this.load())
   }
 
   load() {
@@ -91,6 +91,7 @@ export class CreateUserComponent {
       })
     ).subscribe()
   }
+
   onImageSelected(event: any) {
     console.log(event)
     this.profileImage = event.target.files[0]

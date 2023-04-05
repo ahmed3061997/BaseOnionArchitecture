@@ -1,8 +1,6 @@
-
 import { Component, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { TranslateService } from '@ngx-translate/core';
 import { Subscription, merge, tap } from 'rxjs';
 import { ServerSideDataSource } from 'src/app/core/common/server-side-data-source';
 import { PageQuery, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from 'src/app/core/models/page-query';
@@ -11,7 +9,7 @@ import { UserService } from 'src/app/core/services/users/user.service';
 import { SearchService } from 'src/app/core/services/search/search.service';
 import { AutoUnsubscribe } from 'src/app/core/decorators/auto-unsubscribe.decorator';
 import { DialogService } from 'src/app/core/services/dialogs/dialog.service';
-import { AlertDialogComponent } from 'src/app/shared/alert-dialog/alert-dialog.component';
+import { CultureService } from 'src/app/core/services/culture/culture.service';
 
 @AutoUnsubscribe()
 @Component({
@@ -34,7 +32,7 @@ export class HomeComponent {
     private userService: UserService,
     private searchService: SearchService,
     private dialog: DialogService,
-    private translateService: TranslateService) { }
+    private cultureService: CultureService) { }
 
   ngOnInit() {
     this.dataSource = new ServerSideDataSource<User>(this.userService)
@@ -42,7 +40,7 @@ export class HomeComponent {
   }
 
   ngAfterViewInit() {
-    this.subscription = merge(this.paginator.page, this.sort.sortChange, this.searchService.searchChanged, this.translateService.onLangChange)
+    this.subscription = merge(this.paginator.page, this.sort.sortChange, this.searchService.searchChanged, this.cultureService.onCultureChange)
       .pipe(
         tap(() => this.refreshTable())
       )
@@ -64,21 +62,9 @@ export class HomeComponent {
   }
 
   confirmDelete(id: string) {
-    this.dialog.open(AlertDialogComponent,
-      {
-        panelClass: 'dialog-sm',
-        data: {
-          title: this.translateService.instant('shared.confirm'),
-          message: this.translateService.instant('shared.confirm_delete_msg'),
-          confirmBtnText: this.translateService.instant('shared.confirm'),
-          cancelBtnText: this.translateService.instant('shared.cancel'),
-          iconClass: 'bx bx-x-circle text-danger',
-          btnClass: 'danger',
-          confirmFunc: () => {
-            this.delete(id)
-          }
-        }
-      })
+    this.dialog.confirmDelete(() => {
+      this.delete(id)
+    })
   }
 
   private delete(id: string) {

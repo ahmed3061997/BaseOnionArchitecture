@@ -2,16 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
-import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
 import { Helper } from 'src/app/core/helpers/helper';
 import { LoadingOverlayHelper } from 'src/app/core/helpers/loading-overlay/loading-overlay';
 import { CultureService } from 'src/app/core/services/culture/culture.service';
 import { DialogService } from 'src/app/core/services/dialogs/dialog.service';
 import { NotificationService } from 'src/app/core/services/notification/notification.service';
-import { AlertDialogComponent } from 'src/app/shared/alert-dialog/alert-dialog.component';
-import { ImportDialogComponent } from 'src/app/shared/import-dialog/import-dialog.component';
 import { MultiLanguageInputComponent } from 'src/app/shared/multi-language-input/multi-language-input.component';
 
 @Component({
@@ -53,10 +49,11 @@ export class PagesComponent {
   })
 
   constructor(
-    private translateService: TranslateService,
     private dialog: DialogService,
     private httpClient: HttpClient,
-    private notification: NotificationService) {
+    private notification: NotificationService,
+    private cultureService: CultureService
+  ) {
 
     this.pageCodes = httpClient.get<any>('/api/pages/get-codes')
     this.modules = httpClient.get<any>('/api/modules/get-all')
@@ -68,8 +65,8 @@ export class PagesComponent {
   }
 
   ngOnInit() {
-    this.subscriptions.push(this.translateService
-      .onLangChange
+    this.subscriptions.push(this.cultureService
+      .onCultureChange
       .subscribe(() => this.refreshTable())
     )
     this.refreshTable()
@@ -105,22 +102,17 @@ export class PagesComponent {
   }
 
   openImport() {
-    this.dialogRef = this.dialog.open(ImportDialogComponent,
-      {
-        data: {
-          importFunc: (file: File) => {
-            LoadingOverlayHelper.showLoading()
-            var formData = new FormData()
-            formData.append('jsonFile', file, file.name)
-            this.httpClient.post('/api/modules/import', formData)
-              .subscribe(() => {
-                LoadingOverlayHelper.hideLoading()
-                this.notification.success()
-                this.refreshTable()
-              })
-          }
-        }
-      })
+    this.dialog.import((file: File) => {
+      LoadingOverlayHelper.showLoading()
+      var formData = new FormData()
+      formData.append('jsonFile', file, file.name)
+      this.httpClient.post('/api/modules/import', formData)
+        .subscribe(() => {
+          LoadingOverlayHelper.hideLoading()
+          this.notification.success()
+          this.refreshTable()
+        })
+    })
   }
 
   add() {
@@ -139,21 +131,9 @@ export class PagesComponent {
   }
 
   confirmDelete(id: string) {
-    this.dialog.open(AlertDialogComponent,
-      {
-        panelClass: 'dialog-sm',
-        data: {
-          title: this.translateService.instant('shared.confirm'),
-          message: this.translateService.instant('shared.confirm_delete_msg'),
-          confirmBtnText: this.translateService.instant('shared.confirm'),
-          cancelBtnText: this.translateService.instant('shared.cancel'),
-          iconClass: 'bx bx-x-circle text-danger',
-          btnClass: 'danger',
-          confirmFunc: () => {
-            this.delete(id)
-          }
-        }
-      })
+    this.dialog.confirmDelete(() => {
+      this.delete(id)
+    })
   }
 
   private delete(id: string) {
