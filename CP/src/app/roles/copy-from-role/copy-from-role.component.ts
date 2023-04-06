@@ -2,7 +2,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { Component, ElementRef, EventEmitter, Output, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { Role } from 'src/app/core/models/role';
+import { Role } from 'src/app/core/models/users/role';
 import { DialogService } from 'src/app/core/services/dialogs/dialog.service';
 import { RoleService } from 'src/app/core/services/roles/role.service';
 

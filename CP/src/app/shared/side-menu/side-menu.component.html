@@ -12,63 +12,64 @@
     </div>
     <div class="menu-inner-shadow"></div>
 
-    <ul class="menu-inner py-1">
-        <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
-            true}">
-            <a [routerLink]="['/']" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div i18n>{{ 'side_menu.dashboard' | translate }}</div>
-            </a>
-        </li>
+        <ul class="menu-inner py-1">
+            <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                true}">
+                <a [routerLink]="['/']" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                    <div i18n>{{ 'side_menu.dashboard' | translate }}</div>
+                </a>
+            </li>
 
-        <li class="menu-item" [routerLinkActive]="['active', 'open']" *ngIf="isInRole(claims.developer)">
-            <a href="#" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-terminal"></i>
-                <div i18n>{{ 'side_menu.system' | translate }}</div>
-            </a>
+            <li class="menu-item" [routerLinkActive]="['active', 'open']" *ngIf="system">
+                <a href="#" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bx-terminal"></i>
+                    <div i18n>{{ 'side_menu.system' | translate }}</div>
+                </a>
 
-            <ul class="menu-sub">
-                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
-                    true}">
-                    <a [routerLink]="['/system/modules']" class="menu-link">
-                        <div i18n>{{ 'side_menu.modules' | translate }}</div>
-                    </a>
-                </li>
-                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
-                    true}">
-                    <a [routerLink]="['/system/operations']" class="menu-link">
-                        <div i18n>{{ 'side_menu.operations' | translate }}</div>
-                    </a>
-                </li>
-                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
-                    true}">
-                    <a [routerLink]="['/system/pages']" class="menu-link">
-                        <div i18n>{{ 'side_menu.pages' | translate }}</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
+                <ul class="menu-sub">
+                    <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                        true}">
+                        <a [routerLink]="['/system/modules']" class="menu-link">
+                            <div i18n>{{ 'side_menu.modules' | translate }}</div>
+                        </a>
+                    </li>
+                    <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                        true}">
+                        <a [routerLink]="['/system/operations']" class="menu-link">
+                            <div i18n>{{ 'side_menu.operations' | translate }}</div>
+                        </a>
+                    </li>
+                    <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                        true}">
+                        <a [routerLink]="['/system/pages']" class="menu-link">
+                            <div i18n>{{ 'side_menu.pages' | translate }}</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
 
-        <li class="menu-item" [routerLinkActive]="['active', 'open']" *ngIf="hasClaimContains(claims.manageUsers)">
-            <a href="#" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-user"></i>
-                <div i18n>{{ 'side_menu.manage_users' | translate }}</div>
-            </a>
+            <li class="menu-item" [routerLinkActive]="['active', 'open']" *ngIf="manageUsers">
+                <a href="#" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bx-user"></i>
+                    <div i18n>{{ 'side_menu.manage_users' | translate }}</div>
+                </a>
 
-            <ul class="menu-sub">
-                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
-                    false}" *ngIf="hasClaim(claims.roles.view)">
-                    <a [routerLink]="['/roles']" class="menu-link">
-                        <div i18n>{{ 'side_menu.roles' | translate }}</div>
-                    </a>
-                </li>
-                <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
-                    false}" *ngIf="hasClaim(claims.users.view)">
-                    <a [routerLink]="['/users']" class="menu-link">
-                        <div i18n>{{ 'side_menu.users' | translate }}</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+                <ul class="menu-sub">
+                    <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                        false}" *ngIf="roles">
+                        <a [routerLink]="['/roles']" class="menu-link">
+                            <div i18n>{{ 'side_menu.roles' | translate }}</div>
+                        </a>
+                    </li>
+                    <li class="menu-item" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:
+                        false}" *ngIf="users">
+                        <a [routerLink]="['/users']" class="menu-link">
+                            <div i18n>{{ 'side_menu.users' | translate }}</div>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
 </aside>

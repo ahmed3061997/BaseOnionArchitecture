@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
 import { IServerSideSource } from '../../common/server-side-source';
 import { LoadingOverlayHelper } from '../../helpers/loading-overlay/loading-overlay';
-import { PageQuery } from '../../models/page-query';
-import { PageResult } from '../../models/page-result';
-import { Role } from '../../models/role';
+import { PageQuery } from '../../models/common/page-query';
+import { PageResult } from '../../models/common/page-result';
+import { Role } from '../../models/users/role';
 import { NotificationService } from '../notification/notification.service';
 
 @Injectable({

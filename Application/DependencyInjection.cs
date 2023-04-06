@@ -18,6 +18,10 @@ using Application.Interfaces.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Application.Interfaces.Notifications;
+using Application.Features.Notifications;
+using Microsoft.AspNetCore.SignalR;
+using Application.Hubs;
 
 namespace Application
 {
@@ -36,6 +40,8 @@ namespace Application
             // Fluent Validation
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
+            services.AddSignalR();
+
             AddJwt(services, configuration);
             AddServices(services);
 
@@ -49,11 +55,11 @@ namespace Application
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-                .AddJwtBearer(o =>
+                .AddJwtBearer(op =>
                 {
-                    o.RequireHttpsMetadata = false;
-                    o.SaveToken = false;
-                    o.TokenValidationParameters = new TokenValidationParameters
+                    op.RequireHttpsMetadata = false;
+                    op.SaveToken = false;
+                    op.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
                         ValidateIssuer = true,
@@ -64,12 +70,31 @@ namespace Application
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"])),
                         ClockSkew = TimeSpan.Zero
                     };
+                    op.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+
+                            // If the request is for our hub...
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                (path.StartsWithSegments("/api/hubs")))
+                            {
+                                // Read the token out of the query string
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
         }
 
         private static void AddServices(IServiceCollection services)
         {
+            services.AddSingleton<IUserIdProvider, UserIdProvider>();
             services.AddSingleton<IValidationService, ValidationService>();
+
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleService, RoleService>();
@@ -84,6 +109,7 @@ namespace Application
             services.AddScoped<IOperationService, OperationService>();
             services.AddScoped<IClaimProvider, ClaimProvider>();
             services.AddScoped<IFileManager, FileManager>();
+            services.AddScoped<INotificationService, NotificationService>();
         }
     }
 }

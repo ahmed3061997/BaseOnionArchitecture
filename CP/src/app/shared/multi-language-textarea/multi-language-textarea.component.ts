@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Culture } from 'src/app/core/models/culture';
+import { Culture } from 'src/app/core/models/common/culture';
 import { CultureService } from 'src/app/core/services/culture/culture.service';
 
 @Component({

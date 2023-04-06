@@ -5,7 +5,7 @@ using Domain.Entities.Users;
 
 namespace Application.Common.Configurations.Mapping.Resolvers
 {
-    public class RoleNameResolver : IValueResolver<ApplicationRole, RoleDto, string>
+    public class RoleNameResolver : IValueResolver<ApplicationRole, RoleDto, string>, IValueResolver<ApplicationRole, UserRoleDto, string>, IValueResolver<ApplicationUserRole, UserRoleDto, string>
     {
         private readonly ICurrentCultureService currentCultureService;
 
@@ -14,26 +14,22 @@ namespace Application.Common.Configurations.Mapping.Resolvers
             this.currentCultureService = currentCultureService;
         }
 
-        public string Resolve(ApplicationRole source, RoleDto destination, string destMember, ResolutionContext context)
+        string IValueResolver<ApplicationRole, RoleDto, string>.Resolve(ApplicationRole source, RoleDto destination, string destMember, ResolutionContext context)
         {
             var culture = currentCultureService.GetCurrentUICulture();
             return source.Names?.Where(x => x.Culture == culture).Select(x => x.Name).FirstOrDefault();
         }
-    }
 
-    public class UserRoleNameResolver : IValueResolver<ApplicationUserRole, UserRoleDto, string>
-    {
-        private readonly ICurrentCultureService currentCultureService;
-
-        public UserRoleNameResolver(ICurrentCultureService currentCultureService)
-        {
-            this.currentCultureService = currentCultureService;
-        }
-
-        public string Resolve(ApplicationUserRole source, UserRoleDto destination, string destMember, ResolutionContext context)
+        string IValueResolver<ApplicationRole, UserRoleDto, string>.Resolve(ApplicationRole source, UserRoleDto destination, string destMember, ResolutionContext context)
         {
             var culture = currentCultureService.GetCurrentUICulture();
-            return source.Role.Names?.Where(x => x.Culture == culture).Select(x => x.Name).FirstOrDefault();
+            return source.Names?.Where(x => x.Culture == culture).Select(x => x.Name).FirstOrDefault();
+        }
+
+        string IValueResolver<ApplicationUserRole, UserRoleDto, string>.Resolve(ApplicationUserRole source, UserRoleDto destination, string destMember, ResolutionContext context)
+        {
+            var culture = currentCultureService.GetCurrentUICulture();
+            return source.Role?.Names?.Where(x => x.Culture == culture).Select(x => x.Name).FirstOrDefault();
         }
     }
 }

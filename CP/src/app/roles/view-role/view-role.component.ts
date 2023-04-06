@@ -3,11 +3,11 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import "jquery";
 import { MultiLanguageInputComponent } from 'src/app/shared/multi-language-input/multi-language-input.component';
-import { Role } from 'src/app/core/models/role';
+import { Role } from 'src/app/core/models/users/role';
 import { RoleService } from 'src/app/core/services/roles/role.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PermissionGridComponent } from 'src/app/shared/permission-grid/permission-grid.component';
-import { CultureLookup } from 'src/app/core/models/culture-lookup';
+import { CultureLookup } from 'src/app/core/models/common/culture-lookup';
 
 @Component({
   selector: 'app-view-role',

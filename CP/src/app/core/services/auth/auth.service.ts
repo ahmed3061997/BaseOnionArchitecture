@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, mergeMap, tap } from 'rxjs';
-import { AuthResult } from '../../models/auth-result';
-import { JwtToken } from '../../models/jwt-token';
-import { User } from '../../models/user';
-import { UserRole } from '../../models/user-role';
+import { AuthResult } from '../../models/auth/auth-result';
+import { JwtToken } from '../../models/auth/jwt-token';
+import { User } from '../../models/users/user';
+import { UserRole } from '../../models/users/user-role';
+import { LoadingOverlayHelper } from '../../helpers/loading-overlay/loading-overlay';
 
 const TOKEN_KEY = 'access-token';
 const REFRESHTOKEN_KEY = 'refresh-token';
@@ -26,7 +27,7 @@ export class AuthService {
           this.saveRefreshToken(result.jwt.refreshToken);
         }),
         mergeMap(result => {
-          return this.httpClient.get<string[]>(`/api/users/get-roles?id=${result.user.id}`)
+          return this.httpClient.get<UserRole[]>(`/api/users/get-roles?id=${result.user.id}`)
             .pipe(
               tap(result => this.saveRoles(result)),
               mergeMap(() => this.httpClient.get<string[]>(`/api/users/get-claims?id=${result.user.id}`)),
@@ -36,13 +37,41 @@ export class AuthService {
       )
   }
 
+  refreshClaims() {
+    var user = this.getUser();
+    LoadingOverlayHelper.showLoading();
+    return this.httpClient.get<string[]>(`/api/users/get-claims?id=${user.id}`)
+      .pipe(
+        tap(result => {
+          LoadingOverlayHelper.hideLoading();
+          this.saveClaims(result);
+        })
+      );
+  }
+
+  refreshRoles() {
+    var user = this.getUser();
+    LoadingOverlayHelper.showLoading();
+    return this.httpClient.get<UserRole[]>(`/api/users/get-roles?id=${user.id}`)
+      .pipe(
+        tap(result => {
+          LoadingOverlayHelper.hideLoading();
+          this.saveRoles(result);
+        })
+      );
+  }
+
   refreshToken(token: string): Observable<JwtToken> {
     return this.httpClient.post<JwtToken>('/api/auth/refresh-token', { refreshToken: token });
   }
 
   logout(): Observable<boolean> {
+    LoadingOverlayHelper.showLoading()
     return this.httpClient.get<boolean>('/api/auth/logout').pipe(
-      tap(this.clearSession)
+      tap(() => {
+        this.clearSession();
+        LoadingOverlayHelper.hideLoading();
+      })
     );
   }
 
@@ -58,7 +87,17 @@ export class AuthService {
 
   isInRole(role: string): boolean {
     var user = this.getUser();
-    return user.roles?.findIndex(x => x.name == role) != -1 ?? false;
+    return user.roles?.findIndex(x => x.id == role || x.code == role) != -1 ?? false;
+  }
+
+  hasClaim(claim: string): boolean {
+    var claims = this.getUser().claims || [];
+    return claims.filter(x => x == claim).length != 0;
+  }
+
+  hasClaimContains(claim: string): boolean {
+    var claims = this.getUser().claims || [];
+    return claims.filter(x => x.indexOf(claim) != -1).length != 0;
   }
 
   saveToken(token: string): void {
@@ -89,9 +128,9 @@ export class AuthService {
     return new User();
   }
 
-  saveRoles(claims: string[]) {
+  saveRoles(roles: UserRole[]) {
     var user = this.getUser();
-    user.roles = claims.map(x => ({ name: x })) as UserRole[];
+    user.roles = roles;
     this.saveUser(user);
   }
 

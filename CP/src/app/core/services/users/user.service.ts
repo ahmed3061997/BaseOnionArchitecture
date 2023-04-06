@@ -3,14 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { IServerSideSource } from '../../common/server-side-source';
 import { LoadingOverlayHelper } from '../../helpers/loading-overlay/loading-overlay';
-import { AuthResult } from '../../models/auth-result';
-import { PageQuery } from '../../models/page-query';
-import { PageResult } from '../../models/page-result';
-import { User } from '../../models/user';
+import { AuthResult } from '../../models/auth/auth-result';
+import { PageQuery } from '../../models/common/page-query';
+import { PageResult } from '../../models/common/page-result';
+import { User } from '../../models/users/user';
 import { AuthService } from '../auth/auth.service';
 import { NotificationService } from '../notification/notification.service';
-import { SendResetPassword } from '../../models/send-reset-password';
-import { SendEmailConfirmation } from '../../models/send-email-confirmation';
+import { SendResetPassword } from '../../models/users/send-reset-password';
+import { SendEmailConfirmation } from '../../models/users/send-email-confirmation';
 
 @Injectable({
   providedIn: 'root'

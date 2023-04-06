@@ -1,10 +1,10 @@
 export class Claims {
-    public developer: string = 'Developer'
-    public manageUsers: string = 'ManageUsers'
-    public users: { view: string } = {
+    public static developer: string = 'Developer'
+    public static manageUsers: string = 'ManageUsers'
+    public static users: { view: string } = {
         view: 'ManageUsers.Users.View'
     }
-    public roles: { view: string } = {
+    public static roles: { view: string } = {
         view: 'ManageUsers.Roles.View'
     }
 }

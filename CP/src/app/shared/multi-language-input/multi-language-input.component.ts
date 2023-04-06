@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { Culture } from 'src/app/core/models/culture';
-import { CultureLookup } from 'src/app/core/models/culture-lookup';
+import { Culture } from 'src/app/core/models/common/culture';
+import { CultureLookup } from 'src/app/core/models/common/culture-lookup';
 import { CultureService } from 'src/app/core/services/culture/culture.service';
 
 @Component({

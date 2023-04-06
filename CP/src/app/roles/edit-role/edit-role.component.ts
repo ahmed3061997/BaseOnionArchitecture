@@ -2,7 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import "jquery";
 import { MultiLanguageInputComponent } from 'src/app/shared/multi-language-input/multi-language-input.component';
-import { Role } from 'src/app/core/models/role';
+import { Role } from 'src/app/core/models/users/role';
 import { RoleService } from 'src/app/core/services/roles/role.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PermissionGridComponent } from 'src/app/shared/permission-grid/permission-grid.component';
@@ -49,7 +49,7 @@ export class EditRoleComponent {
     this.role.names = this.nameInput.getValue()
     this.role.claims = this.permissionGrid.getSelectedClaims()
 
-    this.roleService.create(this.role)
+    this.roleService.edit(this.role)
       .subscribe(() => this.router.navigate(['/roles']))
   }
 }

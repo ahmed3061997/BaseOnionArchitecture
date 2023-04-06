@@ -86,7 +86,8 @@
         "last_name": "Last Name",
         "enter_last_name": "Enter last name",
         "roles": "Roles",
-        "send_reset_password": "Send Reset Password Email"
+        "send_reset_password": "Send Reset Password Email",
+        "account_locked": "Your account has been locked"
     },
     "modules": {
         "add_edit_module": "Add / Edit Module",

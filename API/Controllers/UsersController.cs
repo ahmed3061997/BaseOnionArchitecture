@@ -26,7 +26,7 @@ namespace API.Controllers
         }
 
         [HttpGet(ApiRoutes.GetRoles)]
-        public async Task<IEnumerable<string>> GetRoles(string id)
+        public async Task<IEnumerable<UserRoleDto>> GetRoles(string id)
         {
             return await userService.GetRoles(id);
         }

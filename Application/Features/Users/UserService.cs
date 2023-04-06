@@ -1,14 +1,17 @@
 ﻿using Application.Common.Exceptions;
 using Application.Common.Extensions;
 using Application.Interfaces.FileManager;
+using Application.Interfaces.Notifications;
 using Application.Interfaces.Persistence;
 using Application.Interfaces.Users;
 using Application.Models.Common;
+using Application.Models.Notifications.Users;
 using Application.Models.Users;
 using AutoMapper;
 using Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MimeKit.Encodings;
 
 namespace Application.Features.Users
 {
@@ -18,17 +21,20 @@ namespace Application.Features.Users
         private readonly IApplicationDbContext context;
         private UserManager<ApplicationUser> userManager;
         private readonly IFileManager fileManager;
+        private readonly INotificationService notificationService;
         private readonly IMapper mapper;
 
         public UserService(
             IApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             IFileManager fileManager,
+            INotificationService notificationService,
             IMapper mapper)
         {
             this.context = context;
             this.userManager = userManager;
             this.fileManager = fileManager;
+            this.notificationService = notificationService;
             this.mapper = mapper;
         }
 
@@ -57,11 +63,12 @@ namespace Application.Features.Users
                 .Users
                 .Include(x => x.Roles)
                 .Include(x => x.Claims)
-                .FirstOrDefaultAsync(x => x.Id == user.Id) ?? throw new UserNotFoundException();
+                .FirstOrDefaultAsync(x => x.Id == user.Id) ?? throw new NotFoundException();
             if (dbUser.ProfileImage != user.ProfileImage) fileManager.DeleteFile(dbUser.ProfileImage);
             mapper.Map(user, dbUser);
             var result = await userManager.UpdateAsync(dbUser);
             result.ThrowIfFailed();
+            await notificationService.Push(new UserUpdatedNotification(new[] { user.Id }));
         }
 
         public async Task Delete(string id)
@@ -85,6 +92,7 @@ namespace Application.Features.Users
             user.IsActive = false;
             var result = await userManager.UpdateAsync(user);
             result.ThrowIfFailed();
+            await notificationService.Push(new UserBlockedNotification(new[] { user.Id }));
         }
 
         public async Task AssignToRoles(string userId, IEnumerable<string> roles)
@@ -93,9 +101,13 @@ namespace Application.Features.Users
             await userManager.AddToRolesAsync(user, roles);
         }
 
-        public async Task<IEnumerable<string>> GetRoles(string userId)
+        public async Task<IEnumerable<UserRoleDto>> GetRoles(string userId)
         {
-            return await userManager.GetRolesAsync(await userManager.FindByIdAsync(userId));
+            return await context.Set<ApplicationRole>()
+                .Include(x => x.Names)
+                .Where(x => x.Users.Any(u => u.UserId == userId) && x.IsActive)
+                .Select(x => mapper.Map<UserRoleDto>(x))
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<string>> GetClaims(string userId)
@@ -104,7 +116,7 @@ namespace Application.Features.Users
                                     .Where(x => x.UserId == userId)
                                     .Select(x => x.ClaimValue);
             var roleClaims = context.Set<ApplicationRoleClaim>()
-                                    .Where(x => x.Role.Users.Any(y => y.UserId == userId))
+                                    .Where(x => x.Role.IsActive && x.Role.Users.Any(y => y.UserId == userId))
                                     .Select(x => x.ClaimValue);
             return await userClaims.Union(roleClaims).ToListAsync();
         }

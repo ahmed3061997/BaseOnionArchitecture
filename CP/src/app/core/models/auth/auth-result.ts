@@ -1,5 +1,5 @@
 import { JwtToken } from "./jwt-token";
-import { User } from "./user";
+import { User } from "../users/user";
 
 export class AuthResult {
     public jwt: JwtToken;

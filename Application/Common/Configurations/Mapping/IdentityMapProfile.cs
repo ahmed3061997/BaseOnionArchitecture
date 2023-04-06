@@ -4,6 +4,7 @@ using Domain.Entities.Users;
 using Application.Common.Constants;
 using Application.Models.Common;
 using Application.Common.Configurations.Mapping.Resolvers;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace Application.Common.Configurations.Mapping
 {
@@ -28,11 +29,18 @@ namespace Application.Common.Configurations.Mapping
 
             CreateMap<ApplicationUserRole, UserRoleDto>()
                 .ForMember(x => x.Id, op => op.MapFrom(x => x.RoleId))
-                .ForMember(x => x.Name, op => op.MapFrom<UserRoleNameResolver>());
+                .ForMember(x => x.Code, op => op.MapFrom(x => x.Role.Name))
+                .ForMember(x => x.Name, op => op.MapFrom<RoleNameResolver>());
+
+            CreateMap<ApplicationRole, UserRoleDto>()
+                .ForMember(x => x.Id, op => op.MapFrom(x => x.Id))
+                .ForMember(x => x.Code, op => op.MapFrom(x => x.Name))
+                .ForMember(x => x.Name, op => op.MapFrom<RoleNameResolver>());
 
             CreateMap<ApplicationRole, RoleDto>()
-                .ForMember(x => x.Claims, op => op.MapFrom(x => x.Claims.Select(c => c.ClaimValue)))
+                .ForMember(x => x.Code, op => op.MapFrom(x => x.Name))
                 .ForMember(x => x.Name, op => op.MapFrom<RoleNameResolver>())
+                .ForMember(x => x.Claims, op => op.MapFrom(x => x.Claims.Select(c => c.ClaimValue)))
                 .ReverseMap()
                 .ForMember(x => x.Id, op => op.MapFrom(x => x.Id ?? Guid.NewGuid().ToString()))
                 .ForMember(x => x.Name, op => op.MapFrom<NormalizedRoleNameResolver>())

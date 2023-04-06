@@ -1,11 +1,16 @@
-﻿using Application.Common.Extensions;
+﻿using Application.Common.Exceptions;
+using Application.Common.Extensions;
 using Application.Interfaces.Culture;
+using Application.Interfaces.Notifications;
+using Application.Interfaces.Persistence;
 using Application.Interfaces.Users;
 using Application.Models.Common;
+using Application.Models.Notifications.Roles;
 using Application.Models.Users;
 using AutoMapper;
 using Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Features.Users
@@ -13,13 +18,22 @@ namespace Application.Features.Users
     public class RoleService : IRoleService
     {
         private readonly IEnumerable<string> SeachColumns = new string[] { "Id", "IsActive", "Names.Name" };
+        private readonly INotificationService notificationService;
         private readonly RoleManager<ApplicationRole> roleManager;
+        private readonly IApplicationDbContext context;
         private readonly ICurrentCultureService currentCultureService;
         private readonly IMapper mapper;
 
-        public RoleService(RoleManager<ApplicationRole> roleManager, ICurrentCultureService currentCultureService, IMapper mapper)
+        public RoleService(
+            INotificationService notificationService,
+            RoleManager<ApplicationRole> roleManager,
+            IApplicationDbContext context,
+            ICurrentCultureService currentCultureService,
+            IMapper mapper)
         {
+            this.notificationService = notificationService;
             this.roleManager = roleManager;
+            this.context = context;
             this.currentCultureService = currentCultureService;
             this.mapper = mapper;
         }
@@ -32,8 +46,13 @@ namespace Application.Features.Users
 
         public async Task Edit(RoleDto role)
         {
-            var result = await roleManager.UpdateAsync(mapper.Map<ApplicationRole>(role));
+            var dbRole = await roleManager.Roles
+                .Include(x => x.Names)
+                .Include(x => x.Claims)
+                .FirstOrDefaultAsync(x => x.Id == role.Id) ?? throw new NotFoundException();
+            var result = await roleManager.UpdateAsync(mapper.Map(role, dbRole));
             result.ThrowIfFailed();
+            await notificationService.Push(new RoleUpdatedNotification(await GetUsers(role.Id), role.Id));
         }
 
         public async Task Delete(string id)
@@ -57,6 +76,7 @@ namespace Application.Features.Users
             role.IsActive = false;
             var result = await roleManager.UpdateAsync(role);
             result.ThrowIfFailed();
+            await notificationService.Push(new RoleBlockedNotification(await GetUsers(role.Id), id));
         }
 
         public async Task<RoleDto> Get(string id)
@@ -97,6 +117,14 @@ namespace Application.Features.Users
                 .Include(x => x.Names)
                 .AsNoTracking()
                 .Select(x => mapper.Map<RoleDto>(x)).ToListAsync();
+        }
+
+        private async Task<IEnumerable<string>> GetUsers(string id)
+        {
+            return await context.Set<ApplicationUserRole>()
+                .Where(x => x.RoleId == id)
+                .Select(x => x.UserId)
+                .ToListAsync();
         }
     }
 }

@@ -1,7 +1,6 @@
 import { CollectionViewer, DataSource } from "@angular/cdk/collections";
 import { BehaviorSubject, catchError, finalize, Observable, of } from "rxjs";
-import { PageQuery } from "../models/page-query";
-import { PageResult } from "../models/page-result";
+import { PageQuery } from "../models/common/page-query";
 import { IServerSideSource } from "./server-side-source";
 
 export class ServerSideDataSource<T> implements DataSource<T> {

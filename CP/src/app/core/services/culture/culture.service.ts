@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Observable, catchError, of, shareReplay, tap } from 'rxjs';
-import { Culture } from '../../models/culture';
+import { Culture } from '../../models/common/culture';
 
 @Injectable({
   providedIn: 'root'

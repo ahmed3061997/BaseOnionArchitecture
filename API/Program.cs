@@ -1,6 +1,7 @@
 using API;
 using API.Middlewares;
 using Application;
+using Application.Hubs;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,5 +38,6 @@ app.UseAuthorization();
 app.UseExceptionHandlingMiddleware();
 
 app.MapControllers();
+app.MapHub<NotificationHub>("/api/hubs/notifications");
 
 app.Run();

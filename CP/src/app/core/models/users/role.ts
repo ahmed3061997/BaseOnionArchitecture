@@ -1,4 +1,4 @@
-import { CultureLookup } from "./culture-lookup";
+import { CultureLookup } from "../common/culture-lookup";
 
 export class Role {
     public id?: string;

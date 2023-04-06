@@ -86,13 +86,13 @@ namespace Application.Features.Users
             return new AuthResult() { User = mapper.Map<UserDto>(user), Jwt = await tokenService.GenerateToken(user) };
         }
 
-        private async Task<ApplicationUser> GetUser(string username, bool includeRoles = false)
+        private async Task<ApplicationUser> GetUser(string username)
         {
-            var query = userManager.Users.Where(x => x.UserName.ToLower() == username.ToLower() || x.Email.ToLower() == username.ToLower());
-            if (includeRoles) query = query.Include(u => u.Roles).ThenInclude(r => r.Role);
-
-            var user = await query.FirstOrDefaultAsync() ?? throw new UserNotFoundException();
-            if (!user.IsActive)
+            var query = userManager.Users
+                .Include(x => x.Roles.Where(x => x.Role.IsActive))
+                .Where(x => x.UserName!.ToLower() == username.ToLower() || x.Email!.ToLower() == username.ToLower());
+            var user = await query.FirstOrDefaultAsync() ?? throw new NotFoundException();
+            if (!user.IsActive || user.Roles.Count == 0)
                 throw new UserBlockedException();
             return user;
         }

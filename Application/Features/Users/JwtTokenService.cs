@@ -41,7 +41,7 @@ namespace Application.Features.Users
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(Claims.UserId, user.Id)
+                new Claim(Claims.UserId, user.Id),
             }
             .Union(userClaims)
             .Union(roleClaims)

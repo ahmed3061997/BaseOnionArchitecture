@@ -6,6 +6,7 @@ namespace Application.Interfaces.Persistence
 {
     public interface IApplicationDbContext
     {
+        //DbSet<HubConnection> HubConnections { get; }
         DbSet<Module> Modules { get; }
         DbSet<Operation> Operations { get; }
         DbSet<Page> Pages { get; }

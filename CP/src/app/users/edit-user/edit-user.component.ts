@@ -1,14 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { User } from 'src/app/core/models/user';
+import { User } from 'src/app/core/models/users/user';
 import { UserService } from 'src/app/core/services/users/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PermissionGridComponent } from 'src/app/shared/permission-grid/permission-grid.component';
 import { Select2, Select2Data, Select2Option, Select2Value } from 'ng-select2-component';
 import { Subscription, tap } from 'rxjs';
 import { RoleService } from 'src/app/core/services/roles/role.service';
-import { Role } from 'src/app/core/models/role';
-import { UserRole } from 'src/app/core/models/user-role';
+import { Role } from 'src/app/core/models/users/role';
+import { UserRole } from 'src/app/core/models/users/user-role';
 import { environment } from 'src/environments/environment';
 import { AutoUnsubscribe } from 'src/app/core/decorators/auto-unsubscribe.decorator';
 import { CultureService } from 'src/app/core/services/culture/culture.service';

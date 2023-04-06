@@ -15,6 +15,6 @@ namespace Application.Interfaces.Users
         Task Stop(string id);
         Task AssignToRoles(string userId, IEnumerable<string> roles);
         Task<IEnumerable<string>> GetClaims(string userId);
-        Task<IEnumerable<string>> GetRoles(string userId);
+        Task<IEnumerable<UserRoleDto>> GetRoles(string userId);
     }
 }
