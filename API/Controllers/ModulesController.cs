@@ -2,8 +2,8 @@
 using Application.Common.Constants;
 using Application.Common.Exceptions;
 using Application.Common.Extensions;
+using Application.Contracts.Validation;
 using Application.Interfaces.System;
-using Application.Interfaces.Validation;
 using Application.Models.System;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -17,13 +17,13 @@ namespace API.Controllers
     [Authorize(Roles = Roles.Developer)]
     public class ModulesController : ControllerBase
     {
-        private readonly IModuleService moduleService;
-        private readonly IValidationService validationService;
+        private readonly IModuleService _moduleService;
+        private readonly IValidationService _validationService;
 
         public ModulesController(IModuleService moduleService, IValidationService validationService)
         {
-            this.moduleService = moduleService;
-            this.validationService = validationService;
+            _moduleService = moduleService;
+            _validationService = validationService;
         }
 
         [HttpGet(ApiRoutes.GetCodes)]
@@ -35,7 +35,7 @@ namespace API.Controllers
         [HttpGet(ApiRoutes.GetAll)]
         public async Task<IEnumerable<ModuleDto>> GetAll()
         {
-            return await moduleService.GetAll();
+            return await _moduleService.GetAll();
         }
 
         [HttpPost(ApiRoutes.Import)]
@@ -46,7 +46,7 @@ namespace API.Controllers
                 using var stream = new StreamReader(jsonFile.OpenReadStream());
                 var json = await stream.ReadToEndAsync();
                 var list = JsonConvert.DeserializeObject<IEnumerable<ModuleDto>>(json);
-                await moduleService.Import(list);
+                await _moduleService.Import(list);
             }
             catch (Exception)
             {
@@ -55,31 +55,31 @@ namespace API.Controllers
         }
 
         [HttpGet(ApiRoutes.Get)]
-        public async Task<ModuleDto> Get(Guid id)
+        public async Task<ModuleDto> Get(int id)
         {
-            return await moduleService.Get(id);
+            return await _moduleService.Get(id);
         }
 
         [HttpPost(ApiRoutes.Create)]
         public async Task<bool> Create(ModuleDto dto)
         {
-            await validationService.ThrowIfInvalid(dto);
-            await moduleService.Create(dto);
+            await _validationService.ThrowIfInvalid(dto);
+            await _moduleService.Create(dto);
             return true;
         }
 
         [HttpPost(ApiRoutes.Edit)]
         public async Task<bool> Edit(ModuleDto dto)
         {
-            await validationService.ThrowIfInvalid(dto);
-            await moduleService.Edit(dto);
+            await _validationService.ThrowIfInvalid(dto);
+            await _moduleService.Edit(dto);
             return true;
         }
 
         [HttpPost(ApiRoutes.Delete)]
-        public async Task<bool> Delete(Guid id)
+        public async Task<bool> Delete(int id)
         {
-            await moduleService.Delete(id);
+            await _moduleService.Delete(id);
             return true;
         }
     }

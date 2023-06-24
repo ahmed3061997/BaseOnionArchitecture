@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using API.Common;
-using Microsoft.AspNetCore.Authorization;
+﻿using API.Common;
+using Application.Contracts.Emails;
+using Application.Contracts.Identity;
+using Application.Contracts.Validation;
 using Application.Models.Users;
-using Application.Interfaces.Users;
-using Application.Interfaces.Validation;
-using Application.Interfaces.Emails;
+using Infrastructure.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Web;
 
 namespace API.Controllers
@@ -14,32 +15,32 @@ namespace API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService authService;
-        private readonly ITokenService tokenService;
-        private readonly IValidationService validationService;
+        private readonly IAuthService _authService;
+        private readonly ITokenService _tokenService;
+        private readonly IValidationService _validationService;
 
         public AuthController(
             IAuthService authService,
             ITokenService tokenService,
             IValidationService validationService)
         {
-            this.authService = authService;
-            this.tokenService = tokenService;
-            this.validationService = validationService;
+            _authService = authService;
+            _tokenService = tokenService;
+            _validationService = validationService;
         }
 
         [HttpPost(ApiRoutes.Login)]
         public async Task<AuthResult> Login(LoginDto login)
         {
-            await validationService.ThrowIfInvalid(login);
-            return await authService.Login(login.Username, login.Password);
+            await _validationService.ThrowIfInvalid(login);
+            return await _authService.Login(login.Username, login.Password);
         }
 
         [HttpPost(ApiRoutes.SendResetPassword)]
         public async Task<bool> SendResetPassword(SendResetPasswordDto dto, [FromServices] IResetPasswordEmailSender emailSender)
         {
-            await validationService.ThrowIfInvalid(dto);
-            var result = await authService.GenerateResetPasswordToken(dto.Username);
+            await _validationService.ThrowIfInvalid(dto);
+            var result = await _authService.GenerateResetPasswordToken(dto.Username);
             await emailSender.Send(result, dto.ResetUrl);
             return true;
         }
@@ -47,8 +48,8 @@ namespace API.Controllers
         [HttpPost(ApiRoutes.ResetPassword)]
         public async Task<AuthResult> ResetPassword(ResetPassowrdDto dto)
         {
-            await validationService.ThrowIfInvalid(dto);
-            return await authService.ResetPassword(
+            await _validationService.ThrowIfInvalid(dto);
+            return await _authService.ResetPassword(
                       dto.Username,
                       HttpUtility.HtmlDecode(dto.Token),
                       dto.NewPassword);
@@ -57,8 +58,8 @@ namespace API.Controllers
         [HttpPost(ApiRoutes.SendEmailConfirmation)]
         public async Task<bool> SendEmailConfirmation(SendConfirmationEmailDto dto, [FromServices] IConfirmationEmailSender emailSender)
         {
-            await validationService.ThrowIfInvalid(dto);
-            var result = await authService.GenerateResetPasswordToken(dto.Username);
+            await _validationService.ThrowIfInvalid(dto);
+            var result = await _authService.GenerateResetPasswordToken(dto.Username);
             await emailSender.Send(result, dto.ConfirmUrl);
             return true;
         }
@@ -66,22 +67,22 @@ namespace API.Controllers
         [HttpPost(ApiRoutes.ConfirmEmail)]
         public async Task<AuthResult> ConfirmEmail(ConfirmEmailDto dto)
         {
-            await validationService.ThrowIfInvalid(dto);
-            return await authService.ConfirmEmail(dto.Username, HttpUtility.HtmlDecode(dto.Token));
+            await _validationService.ThrowIfInvalid(dto);
+            return await _authService.ConfirmEmail(dto.Username, HttpUtility.HtmlDecode(dto.Token));
         }
 
         [Authorize]
         [HttpGet(ApiRoutes.Logout)]
         public async Task<bool> Logout()
         {
-            await authService.Logout();
+            await _authService.Logout();
             return true;
         }
 
         [HttpPost(ApiRoutes.RefreshToken)]
         public async Task<JwtToken> RefreshToken(JwtToken token)
         {
-            return await tokenService.RefreshToken(token.RefreshToken);
+            return await _tokenService.RefreshToken(token.RefreshToken);
         }
     }
 }

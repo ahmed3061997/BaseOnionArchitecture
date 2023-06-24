@@ -1,10 +1,8 @@
-﻿using Domain.Common;
-
-namespace Domain.Entities.System
+﻿namespace Domain.Entities.System
 {
-    public class PageName : BaseEntity
+    public class PageName
     {
-        public Guid PageId { get; set; }
+        public int PageId { get; set; }
         public string Culture { get; set; }
         public string Name { get; set; }
     }

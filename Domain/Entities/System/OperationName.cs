@@ -1,10 +1,8 @@
-﻿using Domain.Common;
-
-namespace Domain.Entities.System
+﻿namespace Domain.Entities.System
 {
-    public class OperationName : BaseEntity
+    public class OperationName
     {
-        public Guid OperationId { get; set; }
+        public int OperationId { get; set; }
         public string Culture { get; set; }
         public string Name { get; set; }
     }

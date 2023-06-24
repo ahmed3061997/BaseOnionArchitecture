@@ -1,6 +1,6 @@
 ﻿using API.Common;
-using Application.Interfaces.Users;
-using Application.Interfaces.Validation;
+using Application.Contracts.Identity;
+using Application.Contracts.Validation;
 using Application.Models.Common;
 using Application.Models.Users;
 using Domain.Enums;

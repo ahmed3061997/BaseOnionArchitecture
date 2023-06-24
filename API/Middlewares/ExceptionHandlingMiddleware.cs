@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.Localization;
+﻿using Infrastructure.Common.Extensions;
+using Infrastructure.Localization;
+using Microsoft.Extensions.Localization;
 using System.Net;
 using System.Text.Json;
-using Localization;
-using Application.Common.Extensions;
 
 namespace API.Middlewares
 {
@@ -17,11 +17,11 @@ namespace API.Middlewares
 
     public class ExceptionHandlingMiddleware : IMiddleware
     {
-        private readonly IStringLocalizer<ExceptionResource> localizer;
+        private readonly IStringLocalizer<ExceptionResource> _localizer;
 
         public ExceptionHandlingMiddleware(IStringLocalizer<ExceptionResource> localizer)
         {
-            this.localizer = localizer;
+         _localizer = localizer;
         }
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -58,7 +58,7 @@ namespace API.Middlewares
 
         private IEnumerable<string> LocalizeErrors(IEnumerable<string> errors)
         {
-            return errors.Select(x => localizer[x].ToString());
+            return errors.Select(x => _localizer[x].ToString());
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Application.Models.System
 {
     public class OperationDto
     {
-        public Guid? Id { get; set; }
+        public int? Id { get; set; }
         public Operations Code { get; set; }
         public string Name { get; set; }
         public IEnumerable<CultureLookupDto> Names { get; set; }

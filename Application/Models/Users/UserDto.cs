@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Text.Json.Serialization;
-
-namespace Application.Models.Users
+﻿namespace Application.Models.Users
 {
     public class UserDto
     {
@@ -18,8 +15,5 @@ namespace Application.Models.Users
         public IEnumerable<string> Claims { get; set; }
 
         public string Password { get; set; }
-
-        [JsonIgnore]
-        public IFormFile? ProfileImageFile { get; set; }
     }
 }

@@ -1,12 +1,12 @@
 using API;
 using API.Middlewares;
 using Application;
-using Application.Hubs;
-using Persistence;
+using Infrastructure;
+using Infrastructure.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddApi(builder.Configuration);
 
@@ -16,13 +16,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-
-    using (var scope = app.Services.CreateScope())
-    {
-        var initialiser = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
-        await initialiser.InitialiseAsync();
-        //await initialiser.SeedAsync();
-    }
 }
 
 app.UseHttpsRedirection();

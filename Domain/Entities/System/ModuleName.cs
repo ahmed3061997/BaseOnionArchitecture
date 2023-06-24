@@ -1,10 +1,8 @@
-﻿using Domain.Common;
-
-namespace Domain.Entities.System
+﻿namespace Domain.Entities.System
 {
-    public class ModuleName : BaseEntity
+    public class ModuleName
     {
-        public Guid ModuleId { get; set; }
+        public int ModuleId { get; set; }
         public string Culture { get; set; }
         public string Name { get; set; }
     }

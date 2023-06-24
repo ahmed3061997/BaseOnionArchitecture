@@ -1,42 +1,33 @@
 ﻿using Application.Common.Constants;
 using Application.Common.Helpers;
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
 
 namespace Application.Common.Extensions
 {
     public static class QueryableExtensions
     {
-        public static IQueryable<T> IncludeIf<T, TProperty>(this IQueryable<T> source, bool condition,
-        Expression<Func<T, TProperty>> navigationPropertyPath) where T : class
-        {
-            if (!condition) return source;
-            return source.Include(navigationPropertyPath);
-        }
-
         public static IQueryable<T> Where<T>(this IQueryable<T> source, IEnumerable<string> propertyNames, string? value)
         {
             if (value == null) return source;
-            return source.Where(ExpressionUtils.BuildPredicate<T>(propertyNames, "Contains", value));
+            return source.Where(ExpressionHelper.BuildPredicate<T>(propertyNames, "Contains", value));
         }
 
         public static IQueryable<T> Where<T>(this IQueryable<T> source, string? propertyName, string? value)
         {
             if (propertyName == null || value == null) return source;
-            return source.Where(ExpressionUtils.BuildPredicate<T>(propertyName, "Contains", value));
+            return source.Where(ExpressionHelper.BuildPredicate<T>(propertyName, "Contains", value));
         }
 
         public static IQueryable<T> Where<T>(this IQueryable<T> source, string? propertyName, string comparison, string? value)
         {
             if (propertyName == null || value == null) return source;
-            return source.Where(ExpressionUtils.BuildPredicate<T>(propertyName, comparison, value));
+            return source.Where(ExpressionHelper.BuildPredicate<T>(propertyName, comparison, value));
         }
 
         public static IQueryable<T> OrderBy<T>(this IQueryable<T> source, string? propertyName, SortDirection direction)
         {
             if (propertyName == null || direction == SortDirection.None) return source;
 
-            var expression = ExpressionUtils.BuildSortExpression<T>(propertyName);
+            var expression = ExpressionHelper.BuildSortExpression<T>(propertyName);
             if (direction == SortDirection.Ascending)
                 return source.OrderBy(expression);
             else
@@ -47,7 +38,7 @@ namespace Application.Common.Extensions
         {
             if (orderPropertyName == null || direction == SortDirection.None) return source;
 
-            var expression = ExpressionUtils.BuildPredicatedSortExpression<T>(orderPropertyName, predicatePropertyName, "==", value);
+            var expression = ExpressionHelper.BuildPredicatedSortExpression<T>(orderPropertyName, predicatePropertyName, "==", value);
             if (direction == SortDirection.Ascending)
                 return source.OrderBy(expression);
             else

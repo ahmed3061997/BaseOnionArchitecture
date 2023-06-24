@@ -1,42 +1,45 @@
-﻿using Application.Interfaces.Persistence;
-using Domain.Entities.Users;
-using Microsoft.AspNetCore.Identity;
+﻿using Domain.Repository;
+using Domain.Repository.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Persistence.Context;
+using Persistence.Repository;
+using Persistence.Repository.Base;
 
 namespace Persistence
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
+        public static void AddPersistence(this IServiceCollection services, IConfiguration configuration)
         {
-            AddDbContext(services, configuration);
-            AddIdentity(services);
-            return services;
+            services.AddDbContext(configuration);
+            services.AddRepositories();
         }
 
-        private static void AddDbContext(IServiceCollection services, IConfiguration configuration)
+        #region DbContext
+
+        private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                                builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-
-            services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
-            services.AddScoped<ApplicationDbContextInitializer>();
+                            options.UseSqlServer(
+                                configuration.GetConnectionString("DefaultConnection"),
+                                b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
         }
 
-        private static void AddIdentity(IServiceCollection services)
+        #endregion
+
+        #region Repositories
+
+        private static void AddRepositories(this IServiceCollection services)
         {
-            services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
-            {
-                opt.Password.RequiredLength = 7;
-                opt.Password.RequireDigit = false;
-                opt.Password.RequireUppercase = false;
-                opt.User.RequireUniqueEmail = true;
-            })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddScoped<IModuleRepository, ModuleRepository>();
+            services.AddScoped<IPageRepository, PageRepository>();
+            services.AddScoped<IOperationRepository, OperationRepository>();
+            services.AddScoped<IPageOperationRepository, PageOperationRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
+
+        #endregion
     }
 }

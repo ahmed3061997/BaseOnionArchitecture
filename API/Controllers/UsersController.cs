@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using API.Common;
-using Application.Models.Users;
-using Application.Interfaces.Users;
-using Application.Interfaces.Validation;
-using AutoMapper;
+﻿using API.Common;
+using Application.Contracts.Identity;
+using Application.Contracts.Validation;
 using Application.Models.Common;
+using Application.Models.Users;
+using AutoMapper;
 using Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {

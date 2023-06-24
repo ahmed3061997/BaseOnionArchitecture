@@ -2,8 +2,8 @@
 using Application.Common.Constants;
 using Application.Common.Exceptions;
 using Application.Common.Extensions;
+using Application.Contracts.Validation;
 using Application.Interfaces.System;
-using Application.Interfaces.Validation;
 using Application.Models.System;
 using Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
@@ -55,7 +55,7 @@ namespace API.Controllers
         }
 
         [HttpGet(ApiRoutes.Get)]
-        public async Task<PageDto> Get(Guid id)
+        public async Task<PageDto> Get(int id)
         {
             return await pageService.Get(id);
         }
@@ -77,7 +77,7 @@ namespace API.Controllers
         }
 
         [HttpPost(ApiRoutes.Delete)]
-        public async Task<bool> Delete(Guid id)
+        public async Task<bool> Delete(int id)
         {
             await pageService.Delete(id);
             return true;

@@ -22,7 +22,6 @@
         // General
         public const string Import = "import";
         public const string Export = "export";
-        public const string MigrateData = "migrate-data";
         public const string GetCodes = "get-codes";
         public const string Get = "get";
         public const string GetDrop = "get-drop";

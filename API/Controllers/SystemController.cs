@@ -4,7 +4,6 @@ using Application.Interfaces.System;
 using Application.Models.System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Persistence;
 
 namespace API.Controllers
 {
@@ -13,13 +12,11 @@ namespace API.Controllers
     [ApiController]
     public class SystemController : ControllerBase
     {
-        private readonly IClaimProvider claimProvider;
-        private readonly ApplicationDbContextInitializer initializer;
+        private readonly IClaimProvider _claimProvider;
 
-        public SystemController(IClaimProvider claimProvider, ApplicationDbContextInitializer initializer)
+        public SystemController(IClaimProvider claimProvider)
         {
-            this.claimProvider = claimProvider;
-            this.initializer = initializer;
+            _claimProvider = claimProvider;
         }
 
         [HttpGet(ApiRoutes.GetCultures)]
@@ -31,13 +28,7 @@ namespace API.Controllers
         [HttpGet(ApiRoutes.GetClaims)]
         public async Task<IEnumerable<PageClaimDto>> GetClaims()
         {
-            return await claimProvider.GetPageClaims();
-        }
-
-        [HttpPost(ApiRoutes.MigrateData)]
-        public async Task MigrateData()
-        {
-            await initializer.SeedAsync();
+            return await _claimProvider.GetPageClaims();
         }
     }
 }
