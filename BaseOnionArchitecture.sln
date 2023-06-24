@@ -7,23 +7,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7C4F2CD7-BEA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FA62A668-D7CD-4016-9FA1-8D942FAB50FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{835FCF61-4B00-4160-B888-D8AA9EF81DEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Core\Domain\Domain.csproj", "{835FCF61-4B00-4160-B888-D8AA9EF81DEA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{5843BF53-4E21-496C-A628-4845C54527C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Core\Application\Application.csproj", "{5843BF53-4E21-496C-A628-4845C54527C0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Persistence\Persistence.csproj", "{8B34C58A-64D4-4D5B-9F19-375A84310AB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\Infrastructure\Persistence\Persistence.csproj", "{8B34C58A-64D4-4D5B-9F19-375A84310AB4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{85E96670-F404-401C-8B68-1FBD6AA51F04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "src\Presentation\API\API.csproj", "{85E96670-F404-401C-8B68-1FBD6AA51F04}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{135E26BE-275E-4562-A022-D49FD91906DF}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CP", "CP\CP.esproj", "{8A64CB09-3EB3-4CA7-9477-3F219DB971DA}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "CP", "src\Presentation\CP\CP.esproj", "{8A64CB09-3EB3-4CA7-9477-3F219DB971DA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{765A3520-A7A6-4F7D-A7A1-7431E00F3959}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{04768428-1050-464C-89BB-B60DF252E7E5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{BCB1B7ED-7031-4CD5-8EEC-AF304DDF76BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure\Infrastructure.csproj", "{BCB1B7ED-7031-4CD5-8EEC-AF304DDF76BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
